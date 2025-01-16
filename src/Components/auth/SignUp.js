@@ -1,0 +1,318 @@
+/* eslint-disable react/no-unescaped-entities */
+
+import React, { useEffect, useState } from 'react';
+import Footer from '../Widgets/Footer';
+import PageHeader from '../Widgets/PageHeader';
+import Header from '../Widgets/Header';
+
+import { Link, useNavigate } from "react-router-dom"
+import { dashboard, loginRoute } from '../constent/Routes';
+import toastr from 'toastr';
+import { LoginValid } from '../validations/LoginValid';
+import { register, isEmailExist } from '../services/Login';
+import { role } from "../constent/Enum"
+import { getWeb3AuthNearInstance } from './web3auth';
+
+const SignUp = () => {
+  
+
+  const navigate = useNavigate()
+  const [providerNear, setProviderNear] = useState(null);
+  const [provider, setProvider] = useState(null);
+  const [isVerified, setIsVerified] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+
+    const init = async () => {
+      try {
+        setProviderNear(getWeb3AuthNearInstance());
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    init();
+  }, []);
+
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    // phone: '',
+    password: ''
+  });
+
+  const [formDataErr, setFormDataErr] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    // phone: '',
+
+    password: ''
+  });
+
+
+
+  const handleChange = async (e) => {
+
+
+    const { name, value } = e.target;
+    if (name == "email") {
+      let data = { email: value }
+      const resp = await isEmailExist(data)
+      if (resp.success) {
+        if (resp.isEmailExists) {
+          setIsVerified(true)
+          return false
+        } else {
+          setIsVerified(false)
+        }
+
+      }
+    }
+    if (!isVerified) {
+      setFormData(prevData => ({
+        ...prevData,
+        [name]: value
+      }));
+      let checkRegister = LoginValid(name, value);
+      setFormDataErr({ ...formDataErr, [name]: checkRegister });
+    }
+
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { firstName,
+      lastName,
+      email,
+      password } = formData
+
+    for (let key in formData) {
+      let checkRegister = LoginValid(key, formData[key]);
+      setFormDataErr({ ...formDataErr, [key]: checkRegister });
+      if (checkRegister !== "") {
+        return false;
+      }
+    }
+    const data = {
+      firstName, lastName, email, password, role: role.User
+    }
+
+    await login()
+
+    const result = await register(data)
+
+
+    if (result.success) {
+      toastr.success(result.message);
+      setTimeout(() => {
+        navigate(loginRoute)
+      }, 1000)
+    } else {
+      toastr.error(result.message);
+    }
+
+
+  };
+
+  const login = async () => {
+
+    try {
+      if (!providerNear) {
+        console.log("Web3Auth not initilized");
+        return;
+      }
+      await providerNear.initModal();
+      const web3authProvider = await providerNear.connect();
+      const user = await providerNear.getUserInfo();
+      if (user?.verifierId !== formData.email) {
+
+        toastr.error("Connected id and you provided in register form does't match")
+      }
+      await providerNear.logout();
+
+      console.log(user);
+
+    } catch (ex) {
+      console.log(ex);
+    }
+
+  };
+  return (
+    <>
+      <Header />
+      <PageHeader title="Register" text="Register" />
+      <section className="account padding-top padding-bottom sec-bg-color2">
+        <div className="container">
+          <div
+            className="account__wrapper"
+            data-aos="fade-up"
+            data-aos-duration="800"
+          >
+            <div className="row g-4">
+              <div className="col-12">
+                <div className="account__content account__content--style1">
+                  <div className="account__header">
+                    <h2>Create Your Account</h2>
+                    <p>
+                      Join the community and start saving together.
+                    </p>
+                  </div>
+
+                  {/* <div className="account__social">
+                    <Link scroll={false} href="" className="account__social-btn">
+                      <span>
+                        <img
+                          src="/images/others/google.svg"
+                          alt="google icon"
+                        />
+                      </span>
+                      Continue with google
+                    </Link>
+                  </div> */}
+
+                  {/* <div className="account__divider account__divider--style1">
+                    <span>or</span>
+                  </div> */}
+
+                  <form
+
+                    className="account__form needs-validation"
+
+                    onSubmit={handleSubmit}
+                  >
+                    <div className="row g-4">
+                      <div className="col-12 col-md-6">
+                        <div>
+                          <label htmlFor="first-name" className="form-label">
+                            First name
+                          </label>
+                          <input
+                            className="form-control"
+                            type="text"
+                            id="first-name"
+                            placeholder="Ex. Jhon"
+                            name="firstName"
+                            value={formData.firstName}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        {formDataErr && <span className='' style={{ color: "red" }}>{formDataErr?.firstName}</span>}
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div>
+                          <label htmlFor="last-name" className="form-label">
+                            Last name
+                          </label>
+                          <input
+                            className="form-control"
+                            type="text"
+                            id="last-name"
+                            placeholder="Ex. Doe"
+                            name="lastName"
+                            value={formData.lastName}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        {formDataErr && <span className='' style={{ color: "red" }}>{formDataErr?.lastName}</span>}
+                      </div>
+                      <div className="col-12">
+                        <div>
+                          <label htmlFor="account-email" className="form-label">
+                            Email
+                          </label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            id="account-email"
+                            placeholder="Enter your email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                          />
+                          <span style={isVerified ? { color: "red" } : { color: "green" }}>{isVerified ? "Already exists" : "Active"}</span>
+                        </div>{formDataErr && <span className='' style={{ color: "red" }}>{formDataErr?.email}</span>}
+                      </div>
+                      <div className="col-12">
+                        <div className="form-pass">
+                          <label htmlFor="account-pass" className="form-label">
+                            Password
+                          </label>
+                          <input
+                            type="password"
+                            className="form-control showhide-pass"
+                            id="account-pass"
+                            placeholder="Password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+
+                          />
+
+                          <button
+                            type="button"
+                            id="btnToggle"
+                            className="form-pass__toggle"
+                          >
+                            <i id="eyeIcon1" className="fa fa-eye"></i>
+                          </button>
+                        </div>
+                        {formDataErr && <span className='' style={{ color: "red" }}>{formDataErr?.password}</span>}
+                      </div>
+                      <div className="col-12">
+                        <div className="form-pass">
+                          <label htmlFor="account-cpass" className="form-label">
+                            Confirm Password
+                          </label>
+                          <input
+                            type="password"
+                            className="form-control showhide-pass"
+                            id="account-cpass"
+                            placeholder="Re-type password"
+                          
+                          />
+
+                          <button
+                            type="button"
+                            id="btnCToggle"
+                            className="form-pass__toggle"
+                          >
+                            <i id="eyeIcon2" className="fa fa-eye"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="trk-btn trk-btn--border trk-btn--primary d-block mt-4"
+                    >
+                      Connect Wallet
+                    </button>
+                  </form>
+
+                  <div className="account__switch">
+                    <p>
+                      Don’t have an account yet? <Link to={loginRoute}>Login</Link>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="account__shape">
+          <span className="account__shape-item account__shape-item--1">
+            <img src="/images/contact/4.png" alt="shape-icon" />
+          </span>
+        </div>
+      </section>
+      <Footer />
+    </>
+  );
+};
+export default SignUp;
