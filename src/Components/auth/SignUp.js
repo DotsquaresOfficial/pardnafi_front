@@ -14,13 +14,38 @@ import { role } from "../constent/Enum"
 import { getWeb3AuthNearInstance } from './web3auth';
 
 const SignUp = () => {
-  
+
 
   const navigate = useNavigate()
   const [providerNear, setProviderNear] = useState(null);
   const [provider, setProvider] = useState(null);
   const [isVerified, setIsVerified] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+
+
+
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    // phone: '',
+    password: ''
+  });
+  const [passwordShow, setPasswordShow] = useState({
+    eye: "fa-eye-slash",
+    type: "password",
+  });
+
+  const [formDataErr, setFormDataErr] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    // phone: '',
+
+    password: ''
+  });
+
 
   useEffect(() => {
 
@@ -35,30 +60,30 @@ const SignUp = () => {
     init();
   }, []);
 
-
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    // phone: '',
-    password: ''
-  });
-
-  const [formDataErr, setFormDataErr] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    // phone: '',
-
-    password: ''
-  });
-
+  const showcurrentPassword = () => {
+    if (passwordShow.type === "password") {
+      setPasswordShow({ eye: "fa-eye", type: "text" });
+    } else {
+      setPasswordShow({ eye: "fa-eye-slash", type: "password" });
+    }
+  };
 
 
   const handleChange = async (e) => {
 
-
     const { name, value } = e.target;
+
+
+
+    // if (!isVerified) {
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+    let checkRegister = LoginValid(name, value);
+    setFormDataErr({ ...formDataErr, [name]: checkRegister });
+    // }
+
     if (name == "email") {
       let data = { email: value }
       const resp = await isEmailExist(data)
@@ -71,14 +96,6 @@ const SignUp = () => {
         }
 
       }
-    }
-    if (!isVerified) {
-      setFormData(prevData => ({
-        ...prevData,
-        [name]: value
-      }));
-      let checkRegister = LoginValid(name, value);
-      setFormDataErr({ ...formDataErr, [name]: checkRegister });
     }
 
   };
@@ -102,11 +119,13 @@ const SignUp = () => {
       firstName, lastName, email, password, role: role.User
     }
 
+
+
     await login()
 
     const result = await register(data)
 
-
+    return
     if (result.success) {
       toastr.success(result.message);
       setTimeout(() => {
@@ -135,7 +154,7 @@ const SignUp = () => {
       }
       await providerNear.logout();
 
-      console.log(user);
+
 
     } catch (ex) {
       console.log(ex);
@@ -163,42 +182,31 @@ const SignUp = () => {
                     </p>
                   </div>
 
-                  {/* <div className="account__social">
-                    <Link scroll={false} href="" className="account__social-btn">
-                      <span>
-                        <img
-                          src="/images/others/google.svg"
-                          alt="google icon"
-                        />
-                      </span>
-                      Continue with google
-                    </Link>
-                  </div> */}
 
-                  {/* <div className="account__divider account__divider--style1">
-                    <span>or</span>
-                  </div> */}
 
                   <form
-
-                    className="account__form needs-validation"
-
+                    // className="account__form needs-validation"
                     onSubmit={handleSubmit}
                   >
                     <div className="row g-4">
                       <div className="col-12 col-md-6">
                         <div>
-                          <label htmlFor="first-name" className="form-label">
+                          <label htmlFor="firstName" className="form-label">
                             First name
                           </label>
                           <input
                             className="form-control"
                             type="text"
-                            id="first-name"
                             placeholder="Ex. Jhon"
                             name="firstName"
                             value={formData.firstName}
                             onChange={handleChange}
+
+
+                            id="firstName"
+
+
+
                           />
                         </div>
                         {formDataErr && <span className='' style={{ color: "red" }}>{formDataErr?.firstName}</span>}
@@ -243,7 +251,7 @@ const SignUp = () => {
                             Password
                           </label>
                           <input
-                            type="password"
+                            type={passwordShow.type}
                             className="form-control showhide-pass"
                             id="account-pass"
                             placeholder="Password"
@@ -257,8 +265,10 @@ const SignUp = () => {
                             type="button"
                             id="btnToggle"
                             className="form-pass__toggle"
+                            onClick={showcurrentPassword}
+
                           >
-                            <i id="eyeIcon1" className="fa fa-eye"></i>
+                            <i id="eyeIcon" className={`fa ${passwordShow.eye}`}></i>
                           </button>
                         </div>
                         {formDataErr && <span className='' style={{ color: "red" }}>{formDataErr?.password}</span>}
@@ -273,7 +283,7 @@ const SignUp = () => {
                             className="form-control showhide-pass"
                             id="account-cpass"
                             placeholder="Re-type password"
-                          
+
                           />
 
                           <button
@@ -297,7 +307,7 @@ const SignUp = () => {
 
                   <div className="account__switch">
                     <p>
-                      Don’t have an account yet? <Link to={loginRoute}>Login</Link>
+                      Already have an account? <Link to={loginRoute}>Sign In</Link>
                     </p>
                   </div>
                 </div>

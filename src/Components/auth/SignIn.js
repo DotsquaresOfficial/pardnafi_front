@@ -207,7 +207,7 @@ const SignIn = () => {
 
                                     <div className="account__switch">
                                         <p>
-                                            Don't have an account? <Link to="/SignUp">Sign up</Link>
+                                            Don't have an account? <Link to={register}>Sign up</Link>
                                         </p>
                                     </div>
                                 </div>

@@ -44,11 +44,11 @@ const chainConfigEVM = {
 
 // IMP START - SDK Initialization
 const privateKeyProviderEVM = new EthereumPrivateKeyProvider({
-  config: { chainConfig:chainConfigEVM },
+  config: { chainConfig: chainConfigEVM },
 });
 
 const privateKeyProviderNear = new CommonPrivateKeyProvider({
-  config: { chainConfig:chainConfigNear },
+  config: { chainConfig: chainConfigNear },
 });
 
 const web3AuthOptionsEVM = {
@@ -67,25 +67,26 @@ const web3authNear = new Web3Auth(web3AuthOptionsNear);
 // IMP END - SDK Initialization
 
 // IMP START - Configuring External Wallets
-const adapters = await getDefaultExternalAdapters({ options: web3AuthOptionsEVM });
-      adapters.forEach((adapter) => {
-        web3authEVM.configureAdapter(adapter);
-      });
+const adapters = getDefaultExternalAdapters({ options: web3AuthOptionsEVM });
+adapters.forEach((adapter) => {
+  web3authEVM.configureAdapter(adapter);
+});
 
 // IMP END - Configuring External Wallets
 
 const walletServicesPlugin = new WalletServicesPlugin();
-web3authEVM.addPlugin(walletServicesPlugin); 
+web3authEVM.addPlugin(walletServicesPlugin);
 
 
-const getWeb3AuthEVMInstance=()=>{ debugger
-    return web3authEVM;
+const getWeb3AuthEVMInstance = () => {
+  debugger
+  return web3authEVM;
 }
-const getWeb3AuthNearInstance=()=>{
+const getWeb3AuthNearInstance = () => {
   return web3authNear;
 }
-const getWalletServicesPluginInstance=()=>{
+const getWalletServicesPluginInstance = () => {
   return walletServicesPlugin;
 }
 
-export {getWeb3AuthEVMInstance,getWeb3AuthNearInstance,getWalletServicesPluginInstance};
+export { getWeb3AuthEVMInstance, getWeb3AuthNearInstance, getWalletServicesPluginInstance };

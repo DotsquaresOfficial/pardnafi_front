@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 
 const PageHeader = ({ title, text }) => {
+  
   return (
     <>
     <section className="page-header bg--cover">

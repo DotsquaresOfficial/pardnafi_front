@@ -1,7 +1,7 @@
 
 export const home =  "/";
-export const loginRoute =  "/login";
-export const register =  "/register";
+export const loginRoute =  "/sign-in";
+export const register =  "/sign-up";
 export const forgot_password =  "/forgot-password";
 export const dashboard =  "/dashboard";
 export const contact_us =  "/contact-us";

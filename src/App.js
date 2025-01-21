@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useEffect,useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -13,7 +13,7 @@ import "./styles/css/swiper-bundle.min.css";
 import "./styles/sass/style.scss";
 
 
-import React, { useEffect } from "react";
+
 
 import SignIn from "./Components/auth/SignIn";
 import SignUp from "./Components/auth/SignUp";
@@ -22,7 +22,7 @@ import CreateGroup from "./Components/pages/Group/CreateGroup";
 import PollingPage from "./Components/pages/Group/PollingPage";
 import BrowseGroups from "./Components/pages/Group/BrowseGroups";
 import ContactUs from "./Components/pages/ContactUs";
-import { browse_groups, contact_us, create_group, polling_page } from "./Components/constent/Routes";
+import { browse_groups, contact_us, create_group, dashboard, loginRoute, polling_page, register } from "./Components/constent/Routes";
 
 function App() {
 
@@ -52,16 +52,17 @@ function App() {
     }
   }, []);
   config.autoAddCss = false;
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SignIn />}>
+        <Route path={loginRoute} element={<SignIn />}>
 
         </Route>
-        <Route path="/SignUp" element={<SignUp />}>
+        <Route path={register} element={<SignUp />}>
 
         </Route>
-        <Route path="/Dashboard" element={<Dashboard />}>
+        <Route path={dashboard} element={<Dashboard />}>
 
 
         </Route>

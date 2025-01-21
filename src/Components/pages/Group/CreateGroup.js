@@ -1,11 +1,71 @@
-import React from 'react'
+import React, { useState } from 'react';
 import Header from '../../Widgets/Header'
 import PageHeader from '../../Widgets/PageHeader?'
 import Footer from '../../Widgets/Footer'
 import { Link } from 'react-router-dom'
-
+import toastr from 'toastr';
+import { InputValid } from '../../validations/InputValid';
 
 const CreateGroup = () => {
+
+    const [groupData, setGroupData] = useState({
+        name: '',
+        groupSize: 5,
+        contribution: 100,
+        frequency: 'Monthly',
+        duration: 6,
+        daoDepositSupport: false
+    });
+    const [groupDataErr, setGroupDataErr] = useState({
+        name: '',
+        groupSize: '',
+        contribution: '',
+        duration: '',
+        daoDepositSupport: ''
+    });
+
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+
+        setGroupData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+
+
+        let error = InputValid(name, value);
+        setGroupDataErr((prevErr) => ({
+            ...prevErr,
+            [name]: error,
+        }));
+    };
+
+
+    const handleDaoSupportChange = () => {
+        setGroupData((prevData) => ({
+            ...prevData,
+            daoDepositSupport: !prevData.daoDepositSupport,
+        }));
+    };
+
+
+    const handleCreateGroup = (e) => {
+        e.preventDefault();
+
+        for (let key in groupData) {
+            let checkGroup = InputValid(key, groupData[key]);
+            setGroupDataErr({ ...groupDataErr, [key]: checkGroup });
+            if (checkGroup !== "") {
+                return false;
+            }
+        }
+
+
+        toastr.success('Group Created: ' + JSON.stringify(groupData))
+    };
+
     return (
         <>
             <Header />
@@ -44,9 +104,9 @@ const CreateGroup = () => {
                   </div> */}
 
                                     <form
-                                        action=""
+
                                         className="account__form needs-validation"
-                                        noValidate
+                                        onSubmit={handleCreateGroup}
                                     >
                                         <div className="row g-4">
                                             <div className="col-12 col-md-6">
@@ -59,8 +119,12 @@ const CreateGroup = () => {
                                                         type="text"
                                                         id="Group Name"
                                                         placeholder="Group Name"
+                                                        name="name"
+                                                        value={groupData.name}
+                                                        onChange={handleChange}
                                                     />
                                                 </div>
+                                                {groupDataErr.name && <span style={{ color: 'red' }}>{groupDataErr.name}</span>}
                                             </div>
                                             <div className="col-12 col-md-6">
                                                 <div>
@@ -70,11 +134,15 @@ const CreateGroup = () => {
                                                     <input
                                                         className="form-control"
                                                         type="text"
-                                                        id="Group Name"
+                                                        name="groupSize"
+                                                        value={groupData.groupSize}
+                                                        onChange={handleChange}
+                                                        min="5"
+                                                        max="20"
                                                         placeholder="Group Size (5 - 20 members)"
                                                     />
 
-                                                </div>
+                                                </div> {groupDataErr.groupSize && <span style={{ color: 'red' }}>{groupDataErr.groupSize}</span>}
                                             </div>
 
                                             <div className="col-12">
@@ -83,21 +151,30 @@ const CreateGroup = () => {
                                                         Contribution Amount per Cycle (£)
                                                     </label>
                                                     <input
-                                                        type="email"
+
                                                         className="form-control"
                                                         id="account-email"
                                                         placeholder="Contribution Amount per Cycle (£)"
-                                                        required
+                                                        type="text"
+                                                        name="contribution"
+                                                        value={groupData.contribution}
+                                                        onChange={handleChange}
                                                     />
                                                 </div>
+                                                {groupDataErr.contribution && <span style={{ color: 'red' }}>{groupDataErr.contribution}</span>}
                                             </div>
                                             <div className="col-12">
                                                 <div className="form-pass">
                                                     <label htmlFor="account-pass" className="form-label">
                                                         Payout Frequency
                                                     </label>
-                                                    <select className="form-select" aria-label="Default select example">
-                                                        <option selected>Open this select menu</option>
+
+                                                    <select
+                                                        className="form-select" aria-label="Default select example"
+                                                        name="frequency"
+                                                        value={groupData.frequency}
+                                                        onChange={handleChange}
+                                                    >
                                                         <option value="Weekly">Weekly</option>
                                                         <option value="Bi-weekly">Bi-weekly</option>
                                                         <option value="Monthly">Monthly</option>
@@ -115,41 +192,51 @@ const CreateGroup = () => {
                           <option value="Doe">Doe</option>
                           <option value="Smith">Smith</option>
                         </select> */}
-
-                                                    <select className="form-select" aria-label="Default select example">
-                                                        <option selected>Open this select menu</option>
+                                                    <select
+                                                        className="form-select" aria-label="Default select example"
+                                                        name="duration"
+                                                        value={groupData.duration}
+                                                        onChange={handleChange}
+                                                    >
                                                         <option value="3">3 Months</option>
                                                         <option value="6">6 Months</option>
                                                         <option value="12">12 Months</option>
                                                     </select>
 
+                                                    {groupDataErr.duration && <span style={{ color: 'red' }}>{groupDataErr.duration}</span>}
 
                                                 </div>
+
                                             </div>
                                             <div className="account__check">
-                                            <div className="account__check-remember">
-                                                <input
-                                                    type="checkbox"
-                                                    className="form-check-input"
-                                                    value=""
-                                                    id="terms-check"
-                                                />
-                                                <label htmlFor="terms-check" className="form-check-label">
-                                                Enable DAO Deposit Support
-                                                </label>
+                                                <div className="account__check-remember">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-check-input"
+                                                        value=""
+                                                        id="terms-check"
+
+                                                        checked={groupData.daoDepositSupport}
+                                                        onChange={handleDaoSupportChange}
+                                                    />
+                                                    <label htmlFor="terms-check" className="form-check-label">
+                                                        Enable DAO Deposit Support
+                                                    </label>
+                                                    {groupDataErr.daoDepositSupport && <span style={{ color: 'red' }}>{groupDataErr.daoDepositSupport}</span>}
+                                                </div>
+
                                             </div>
-                                            
-                                        </div>
                                         </div>
 
                                         <button
                                             type="submit"
                                             className="trk-btn trk-btn--border trk-btn--primary d-block mt-4"
+                                        // onClick={handleCreateGroup}
                                         >
                                             Create Group
                                         </button>
                                     </form>
-                                 
+
                                     {/* <div className="account__switch">
                     <p>
                       Don’t have an account yet? <Link to="/">Login</Link>
