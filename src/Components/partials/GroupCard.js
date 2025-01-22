@@ -6,10 +6,22 @@ const GroupCard = () => {
     <>
         <section className="pricing padding-top padding-bottom dash-sec">
         <div className="section-header section-header--max50">
-          <h2 className="mb-15 mt-minus-5">Browse Group</h2>
+        <h2 className="mb-15 mt-minus-5">Browse Group</h2>
           <p>We offer the best pricings around - from installations to repairs, maintenance, and more!</p>
+         
         </div>
         <div className="container">
+
+
+           
+          <div className='private-govermrnt'>
+          <select class="form-select form-select-lg mb-3" aria-label="Large select example">
+  <option selected>Select Group</option>
+  <option value="1">Public Group</option>
+  <option value="2">Private Group</option>
+</select>
+       
+          </div>
           <div className="pricing__wrapper">
             <div className="row g-4 align-items-center">
               <div className="col-md-6 col-lg-4">

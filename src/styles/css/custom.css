@@ -215,3 +215,171 @@ background: #28A745;
 .pooling-vote h2.mb-15.mt-minus-5 {
     color: #0c263a;
 }
+
+
+
+
+
+
+
+.user-dropdown .dropdown button img {
+    filter: inherit;
+    max-width: 68px;
+    border-radius: 100%;
+    border: solid 2px #ffffff;
+    margin-left: -2px;
+}
+
+.header .dropdown button span {
+    color: #fff;
+    font-size: 15px;
+    /* display: block; */
+    padding-left: 11px;
+}
+
+.user-dropdown .dropdown .dropdown-menu {
+    background: #fff;
+    border: 1px solid #D7E1FF;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 40px;
+    right: 22px;
+}
+
+.user-dropdown .dropdown .dropdown-menu:before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 16px;
+    background: #fff;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #D7E1FF;
+    border-bottom: none;
+    z-index: -4;
+}
+
+
+.user-dropdown .dropdown a.dropdown-item {
+    font-size: 13px;
+    font-weight: 500;
+    color: #0e2a4f;
+    line-height: 22px;
+    text-align: start;
+    padding: 5px 12px;
+}
+
+.user-dropdown .dropdown button span {
+    color: #0e2a4f;
+    font-size: 15px;
+    /* display: block; */
+    padding-left: 11px;
+    font-weight: 500;
+}
+
+.user-dropdown .dropdown-item:focus, .user-dropdown a.dropdown-item:hover{
+    background: #0e2a4f;
+    color: #fff;
+}
+
+.notification-data .dropdown .dropdown-menu {
+    background: #fff;
+    border: 1px solid #D7E1FF;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 40px;
+    right: 22px;
+    width: 440px;
+    padding: 0px 0px;
+}
+
+.notification-data .dropdown .dropdown-menu:before {
+    right: 0px;
+    left: inherit;
+}
+
+.notification-data a i {
+    color: #fff;
+    font-size: 21px;
+    position: relative;
+    background: linear-gradient(180deg, #00051A 0%, #000F38 100%);
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.notification-data a i:after {
+    position: absolute;
+    content: "2";
+    background: #ED4F9D;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    top: -7px;
+    left: 27px;
+    display: flex
+;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    border: solid 1px #fff;
+}
+
+.wallet-connect {
+    display: flex;
+    align-items: center;
+    column-gap: 11px;
+    margin-left: 55px;
+}
+
+.wallet-img img{
+    max-width: 27px;
+}
+
+.wallet-img h6{
+    color: #000000;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    margin-bottom: 0px;
+}
+
+.wallet-img h2{
+    color: #000000;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    margin-bottom: 0px;
+}
+.header-section .container-fluid {
+    padding: 0px 133px;
+}
+
+.private-govermrnt {
+    width: 20%;
+    margin: 3px 0px 29px;
+}
+
+.private-govermrnt .form-select{
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.private-govermrnt .form-select select{
+    font-size: 14px;
+}
+
+.private-govermrnt .form-select option{
+    font-size: 14px;
+}

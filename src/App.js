@@ -12,9 +12,6 @@ import "./styles/css/bootstrap.min.css";
 import "./styles/css/swiper-bundle.min.css";
 import "./styles/sass/style.scss";
 
-
-
-
 import SignIn from "./Components/auth/SignIn";
 import SignUp from "./Components/auth/SignUp";
 import Dashboard from "./Components/Widgets/Dashboard";
@@ -22,7 +19,9 @@ import CreateGroup from "./Components/pages/Group/CreateGroup";
 import PollingPage from "./Components/pages/Group/PollingPage";
 import BrowseGroups from "./Components/pages/Group/BrowseGroups";
 import ContactUs from "./Components/pages/ContactUs";
-import { browse_groups, contact_us, create_group, dashboard, loginRoute, polling_page, register } from "./Components/constent/Routes";
+import { browse_groups, change_password, contact_us, create_group, dashboard, forgot_password, loginRoute, polling_page, register } from "./Components/constent/Routes";
+import ForgotPassword from "./Components/auth/ForgotPassword";
+import ChangePassword from "./Components/auth/ChangePassword";
 
 function App() {
 
@@ -62,6 +61,13 @@ function App() {
         <Route path={register} element={<SignUp />}>
 
         </Route>
+
+        <Route path={forgot_password} element={<ForgotPassword />}>
+
+</Route>
+<Route path={change_password} element={<ChangePassword />}>
+
+</Route>
         <Route path={dashboard} element={<Dashboard />}>
 
 

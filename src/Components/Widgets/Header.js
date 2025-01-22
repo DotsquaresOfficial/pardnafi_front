@@ -135,7 +135,7 @@ function Header({ headerClass = null }) {
 
       <header className={`header-section ${headerClass ? headerClass : 'bg-color-3'}`} onScroll={isSticky}>
         <div className="header-bottom">
-          <div className="container">
+          <div className="container-fluid">
             <div className="header-wrapper">
               <div className="logo">
                 <Link to={register}>
@@ -163,6 +163,54 @@ function Header({ headerClass = null }) {
                   </li>
 
                 </ul>
+
+                <div className="wallet-connect">
+           <div className="wallet-img">
+           <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet"/>
+           </div>
+           <div className="wallet-img">
+            <h6>Wallet Balance:</h6>
+           <h2>02147655889...</h2>
+           </div>
+            </div>
+           
+      <div className="user-dropdown">
+  {/* <div className="dropdown">
+    <button className="btn" type="button" style={{background: 'none'}} data-bs-toggle="dropdown" aria-expanded="false">
+    <img alt="user" class="img-fluid" src="/images/header/user-img.svg"/><span>Nalsen Mendala</span>
+    </button>
+    <ul className="dropdown-menu">
+      <li><a className="dropdown-item" href="#" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">User Profile</a></li>
+      <li><a className="dropdown-item" href="#">Change Password</a></li>
+      <li><a className="dropdown-item" href="login.html">Logout</a></li>
+    </ul>
+  </div> */}
+  <div class="dropdown">
+  <button class="btn dropdown-toggle" type="button" style={{background: 'none',border:'none'}} data-bs-toggle="dropdown" aria-expanded="false">
+  <img alt="user" class="img-fluid" src="/images/header/user-img.svg"/>
+  </button>
+  <ul className="dropdown-menu">
+      <li><a className="dropdown-item" href="#"  >User Profile</a></li>
+      <li><a className="dropdown-item" href="#">Change Password</a></li>
+      <li><a className="dropdown-item" href="#">Logout</a></li>
+    </ul>
+</div>
+</div>
+
+
+<div class="user-dropdown notification-data">
+       <div class="dropdown">
+              <button class="btn" type="button" style={{background: 'none',border:'none'}}>
+                 <a class="nav-link" href="#contact"><i class="fa-regular fa-bell"></i></a>
+              </button>
+            </div>
+            </div>
+
+          
+
+
+
+
               </div>
               <div className="header-action">
                 <div className="menu-area">
