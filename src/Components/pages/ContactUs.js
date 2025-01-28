@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { InputValid } from '../validations/InputValid';
-import toastr from 'toastr';
+import { toast } from 'react-toastify';
 import { useSetContactUsMutation } from '../../redux/contactUsApi';
 import Footer from '../Widgets/Footer'
 import PageHeader from '../Widgets/PageHeader'
@@ -52,7 +52,7 @@ const ContactUs = () => {
         setContactUs(data).then((result) => {
             if (result.data.status) {
 
-                toastr.success(result.data.message);
+                toast.success(result.data.message);
                 setContactUsField({
                     firstName: '',
 
@@ -63,7 +63,7 @@ const ContactUs = () => {
 
             } else {
 
-                toastr.error(result.data.message);
+                toast.error(result.data.message);
             }
         });
 

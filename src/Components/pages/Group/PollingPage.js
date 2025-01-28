@@ -4,7 +4,7 @@ import Header from '../../Widgets/Header'
 import PageHeader from '../../Widgets/PageHeader?'
 import Footer from '../../Widgets/Footer'
 import { Link } from 'react-router-dom'
-
+import { toast } from 'react-toastify';
 
 const PollingPage = () => {
 

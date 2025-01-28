@@ -383,3 +383,238 @@ background: #28A745;
 .private-govermrnt .form-select option{
     font-size: 14px;
 }
+
+.userprofile-img {
+    background: #fff;
+    border-radius: 7px;
+    margin: 0px 0px 23px;
+    display: flex;
+    align-items: center;
+    column-gap: 17px;
+    padding: 17px 17px;
+    /* display: flex
+; */
+    justify-content: space-between;
+    width: 100%;
+}
+
+.img-user img {
+    width: 65px;
+    height: 65px;
+    border-radius: 100%;
+    border: solid 2px #0047ab;
+    object-fit: cover;
+}
+
+.username-heading h6{
+    color: #0047ab;
+    font-size: 23px;
+    margin-bottom: 3px;
+    line-height: 20px;
+}
+
+.username-heading p{
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 0px;
+    line-height: 20px;
+}
+
+.dropzone {
+    position: relative;
+    display: flex
+;
+    flex-direction: column;
+}
+
+.dz-message {
+    /* padding: 0px 50px; */
+    background-color: #0047ab;
+    border: 1px dashed #0047ab;
+    border-radius: 0.375rem;
+    text-align: center;
+    color: #8898aa;
+    transition: all 0.15s ease;
+    order: -1;
+    cursor: pointer;
+    z-index: 999;
+    position: relative;
+    height: 45px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+ 
+
+.image-doc img {
+    height: 27px;
+    filter: brightness(0) invert(1);
+}
+
+.email-address h6 {
+    margin-bottom: 0px;
+    color: rgb(19, 71, 129);
+    font-size: 14px;
+}
+
+.uservehicle-details .email-address input {
+    border-radius: 5px;
+    border: 1px solid rgba(56, 64, 205, 1);
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+
+.dropzone input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    filter: alpha(opacity = 0);
+    opacity: 0;
+}
+
+.image-upload i {
+    background: #134781;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-items: center;
+    margin: 0 auto;
+    border-radius: 100%;
+    font-size: 18px;
+    color: #fff;
+}
+
+.dark-subject {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    column-gap: 17px;
+}
+
+.viewmore-details{
+    padding: 0px 0px 23px;
+}
+
+.viewmore-details a {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(0 28 147 / 81%);
+}
+
+.service-details .service-box {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.service-details .service-box h4 {
+    font-size: 20px;
+    font-weight: 700;
+    border-bottom: 2px solid 
+color-mix(in srgb, var(--default-color), transparent 92%);
+    padding-bottom: 0px;
+    margin-bottom: 15px;
+}
+
+.service-details .services-list {
+    background-color: #fff;
+}
+
+.service-details .services-list a.active {
+    color: #fff;
+    background-color: #2c62db;
+}
+
+.service-details .services-list a {
+    color: 
+color-mix(in srgb, var(--default-color), transparent 20%);
+    background-color: #44444417;
+    display: flex
+;
+    align-items: center;
+    padding: 12px 15px;
+    margin-top: 15px;
+    transition: 0.3s;
+}
+
+.service-details .services-img {
+    margin-bottom: 20px;
+    border-radius: 10px 10px 0 0;
+}
+
+.service-details h3 {
+    color: #2c62db;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.service-details p {
+    font-size: 15px;
+}
+
+.service-details ul {
+    list-style: none;
+    padding: 0;
+    font-size: 15px;
+}
+
+.service-details ul li {
+    padding: 5px 0;
+    display: flex;
+    align-items: flex-start;
+}
+
+.service-details ul i {
+    font-size: 20px;
+    margin-right: 8px;
+    color: #2c62db;
+    line-height: 1.2;
+    border: solid 1px #2c62db;
+    border-radius: 100%;
+    width: 3%;
+    height: 23px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.service-details ul li p {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+}
+
+.service-details .services-list a.active i{
+    color: #fff;
+    border-color: #fff;
+}
+
+.service-details .services-list a i {
+    font-size: 14px;
+    margin-right: 8px;
+    color: #2c62db;
+    border: solid 1px #2c62db;
+    border-radius: 100%;
+    width: 25px;
+    height: 25px;
+    display: flex
+;
+    justify-content: center;
+    align-items: center;
+}

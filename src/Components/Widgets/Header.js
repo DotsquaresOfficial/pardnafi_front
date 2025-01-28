@@ -1,14 +1,20 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation } from 'react-router-dom';
 import Image from 'react-bootstrap/Image';
-import { register } from "../constent/Routes";
+import { change_password, register } from "../constent/Routes";
+import {useAuth} from "../../AuthContext";
+import { getAccounts, getBalance } from "../auth/web3RPC";
+import { getWeb3AuthEVMInstance } from "../auth/web3auth";
 
 function Header({ headerClass = null }) {
   const [menu, setMenu] = useState(false);
   const [show, setShow] = useState(false);
+  const [walletBalance,setWalletBalance] = useState(0);
+  const [walletAddress,setWalletAddress] = useState("");
   const location = useLocation(); // React Router hook to access location
   const [scrollTop, setScrollTop] = useState(0);
 
+  const { logout} = useAuth();
   const changeImage = useCallback((themeMode = 'light') => {
     const icon = document.querySelector('#btnSwitch img');
 
@@ -34,6 +40,48 @@ function Header({ headerClass = null }) {
       }
     }
   }, []);
+
+
+
+  // ==================contract ================
+
+  const getUserWalletBalance = async () =>{
+    await getWeb3AuthEVMInstance().initModal();
+    await getWeb3AuthEVMInstance().connect()
+    const provider = getWeb3AuthEVMInstance();
+    try{
+     const bal = await getBalance(provider);
+     console.log(bal,"balance")
+    
+     setWalletBalance(bal)
+    }catch(error){
+      console.log(error,"error")
+    }
+  } 
+  const getUserWalletAddress = async () =>{
+    await getWeb3AuthEVMInstance().initModal();
+    await getWeb3AuthEVMInstance().connect()
+    const provider=  getWeb3AuthEVMInstance();
+    try{
+     const address = await getAccounts(provider);
+    console.log(address,"address")
+     setWalletAddress(address)
+    }catch(error){
+      console.log(error,"error")
+    }
+  } 
+  
+  useEffect(() => {
+    getUserWalletBalance();
+    getUserWalletAddress()
+  }, []);
+
+  // ================contract ====================
+
+  const handleLogout = () => {
+    localStorage.clear();
+    logout();
+  }
 
   // const updateThemeColor = useCallback((themeMode = 'light') => {
   //   const colorSwitcher = document.getElementById('btnSwitch');
@@ -169,8 +217,8 @@ function Header({ headerClass = null }) {
            <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet"/>
            </div>
            <div className="wallet-img">
-            <h6>Wallet Balance:</h6>
-           <h2>02147655889...</h2>
+            <h6>Wallet Balance: {walletBalance?walletBalance:"0"}</h6>
+           <h2>{walletAddress?walletAddress:""}</h2>
            </div>
             </div>
            
@@ -190,9 +238,9 @@ function Header({ headerClass = null }) {
   <img alt="user" class="img-fluid" src="/images/header/user-img.svg"/>
   </button>
   <ul className="dropdown-menu">
-      <li><a className="dropdown-item" href="#"  >User Profile</a></li>
-      <li><a className="dropdown-item" href="#">Change Password</a></li>
-      <li><a className="dropdown-item" href="#">Logout</a></li>
+      <li><a className="dropdown-item" href="/user-profile"  >User Profile</a></li>
+      <li><a className="dropdown-item" href={change_password}>Change Password</a></li>
+      <li><a className="dropdown-item" href="#" onClick={handleLogout}>Logout</a></li>
     </ul>
 </div>
 </div>

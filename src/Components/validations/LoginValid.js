@@ -27,6 +27,16 @@ export const LoginValid = (name, value) => {
 
       return error
    }
+   if (name === "cPassword") {
+
+      if (value === "") {
+         error = "This field is required"
+         return error
+      }
+     
+
+      return error
+   }
 
    if (name === "firstName") {
 

@@ -1,10 +1,13 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import "react-toastify/dist/ReactToastify.css";
+
+import { ToastContainer } from 'react-toastify';
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import 'toastr/build/toastr.min.css';
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./styles/css/custom.css";
@@ -19,16 +22,27 @@ import CreateGroup from "./Components/pages/Group/CreateGroup";
 import PollingPage from "./Components/pages/Group/PollingPage";
 import BrowseGroups from "./Components/pages/Group/BrowseGroups";
 import ContactUs from "./Components/pages/ContactUs";
-import { browse_groups, change_password, contact_us, create_group, dashboard, forgot_password, loginRoute, polling_page, register } from "./Components/constent/Routes";
+import { browse_groups, change_password, contact_us, create_group, dashboard, forgot_password, group_details, loginRoute, onfidoKyc, polling_page, register, user_profile } from "./Components/constent/Routes";
 import ForgotPassword from "./Components/auth/ForgotPassword";
 import ChangePassword from "./Components/auth/ChangePassword";
-
+import Profile from "./Components/pages/User/Profile";
+import GroupDetails from "./Components/pages/Group/GroupDetails";
+import { useAuth } from "./AuthContext";
+import ProtectedRoute from "./ProtectedRoute";
+import OnfidoKyc from "./Components/pages/Kyc/OnfidoKyc";
 function App() {
-
+  const { login } = useAuth();
+  useEffect(() => {
+    const jwtToken = localStorage?.getItem("jwtToken");
+    if (jwtToken) {
+      login();
+    }
+  }, [login]);
   const [loading, setLoading] = useState(true);
 
 
   const [dark, setDark] = useState(false);
+
 
 
   //........... animation.....
@@ -53,31 +67,32 @@ function App() {
   config.autoAddCss = false;
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={loginRoute} element={<SignIn />}>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path={loginRoute} element={<SignIn />} />
+          <Route path={register} element={<SignUp />} />
+          <Route path={forgot_password} element={<ForgotPassword />} />
+          <Route path={contact_us} element={<ContactUs />} />
 
-        </Route>
-        <Route path={register} element={<SignUp />}>
+          {/*============== protect route========================== */}
+          <Route path={onfidoKyc} element={<ProtectedRoute component={<OnfidoKyc />} />} />
+          <Route path={change_password} element={<ProtectedRoute component={<ChangePassword />} />} />
+          <Route path={browse_groups} element={<ProtectedRoute component={<BrowseGroups />} />} />
 
-        </Route>
+          <Route path={dashboard} element={<ProtectedRoute component={<Dashboard />} />} />
 
-        <Route path={forgot_password} element={<ForgotPassword />}>
+          <Route path={user_profile} element={<ProtectedRoute component={<Profile />} />} />
+          <Route path={create_group} element={<ProtectedRoute component={<CreateGroup />} />} />
+          <Route path={group_details} element={<ProtectedRoute component={<GroupDetails />} />} />
 
-</Route>
-<Route path={change_password} element={<ChangePassword />}>
-
-</Route>
-        <Route path={dashboard} element={<Dashboard />}>
+          <Route path={polling_page} element={<ProtectedRoute component={<polling_page />} />} />
 
 
-        </Route>
-        <Route path={create_group} element={<CreateGroup />}></Route>
-        <Route path={polling_page} element={<PollingPage />}></Route>
-        <Route path={browse_groups} element={<BrowseGroups />}></Route>
-        <Route path={contact_us} element={<ContactUs />} />
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+
+      </BrowserRouter>
+      <ToastContainer /></>
   );
 }
 

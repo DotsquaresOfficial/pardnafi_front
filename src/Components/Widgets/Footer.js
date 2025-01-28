@@ -7,7 +7,7 @@ function Footer() {
     return (
         <>
 
-            <footer className ="footer brand-1">
+            <footer className="footer brand-1">
                 <div className="container">
                     <div className="footer__wrapper">
                         <div className="footer__top footer__top--style1">
@@ -109,8 +109,7 @@ function Footer() {
                         <div className="footer__bottom">
                             <div className="footer__end">
                                 <div className="footer__end-copyright">
-                                    <p className=" mb-0">© 2025 All Rights Reserved By <Link to="https://themeforest.net/user/thetork/portfolio"
-                                        target="_blank">Thetork</Link> </p>
+                                    <p className=" mb-0">© 2025 All Rights Reserved By Pardna Fi </p>
                                 </div>
                                 <div>
                                     <ul className="social">

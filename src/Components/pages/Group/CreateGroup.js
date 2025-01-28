@@ -3,8 +3,12 @@ import Header from '../../Widgets/Header'
 import PageHeader from '../../Widgets/PageHeader?'
 import Footer from '../../Widgets/Footer'
 import { Link } from 'react-router-dom'
-import toastr from 'toastr';
+
 import { InputValid } from '../../validations/InputValid';
+import { toast } from 'react-toastify';
+import { factoryContract, factoryContractAbi } from '../../constent';
+import Web3 from 'web3';
+import { getWeb3AuthEVMInstance } from '../../auth/web3auth';
 
 const CreateGroup = () => {
 
@@ -63,8 +67,27 @@ const CreateGroup = () => {
         }
 
 
-        toastr.success('Group Created: ' + JSON.stringify(groupData))
+        toast.success('Group Created: ' + JSON.stringify(groupData))
     };
+
+
+
+    // ================contract integration=====================
+
+
+    // address to send the token
+
+//     const createGroup = async () => {
+     
+//     const provider=getWeb3AuthEVMInstance();
+// const web3 = new Web3(provider.provider);
+//         const data = new web3.eth.Contract(factoryContractAbi, factoryContract);
+
+//         // const subscription = data.events.createGroup().send({_groupName,_paymentFrequency,_rules,_minimumContribution});
+
+//         // subscription.on('data', console.log);
+//     }
+
 
     return (
         <>
@@ -222,9 +245,10 @@ const CreateGroup = () => {
                                                     <label htmlFor="terms-check" className="form-check-label">
                                                         Enable DAO Deposit Support
                                                     </label>
-                                                    {groupDataErr.daoDepositSupport && <span style={{ color: 'red' }}>{groupDataErr.daoDepositSupport}</span>}
+
                                                 </div>
 
+                                                {groupDataErr.daoDepositSupport && <span style={{ color: 'red' }}>{groupDataErr.daoDepositSupport}</span>}
                                             </div>
                                         </div>
 

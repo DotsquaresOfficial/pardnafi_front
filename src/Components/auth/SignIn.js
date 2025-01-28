@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom"
 import { dashboard, register, forgot_password, home, kycUnderReview, kycRoute, onfidoKyc } from '../constent/Routes';
 import { LoginValid } from "../validations/LoginValid";
-import toastr from 'toastr';
+import { toast } from 'react-toastify';
 import { loginHandle } from "../services/Login";
 import { role } from "../constent/Enum"
 import PageHeader from "../Widgets/PageHeader";
 import Header from "../Widgets/Header";
 import Footer from "../Widgets/Footer";
+import { useAuth } from '../../AuthContext';
+import { getWeb3AuthEVMInstance } from './web3auth';
 
 const SignIn = () => {
+      const { authenticated, login } = useAuth();
     const navigate = useNavigate()
     const [loginField, setLoginField] = useState({ email: "", password: "" });
-
     const [loginFieldErr, setLoginFieldErr] = useState({
         email: "",
         password: "",
@@ -22,14 +24,14 @@ const SignIn = () => {
         type: "password",
     });
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //   if (authenticated) {
-    //     navigate(dashboard, { replace: true });
-    //   } else {
+      if (authenticated) {
+        navigate(dashboard, { replace: true });
+      } else {
 
-    //   }
-    // }, [authenticated, navigate]);
+      }
+    }, [authenticated, navigate]);
 
 
     const showcurrentPassword = () => {
@@ -50,6 +52,7 @@ const SignIn = () => {
     const onLogin = async (event) => {
         event.preventDefault();
 
+
         try {
             // Validate the fields
 
@@ -60,6 +63,41 @@ const SignIn = () => {
                     return false;
                 }
             }
+
+            //Verify That the Email belongs to the connected ID, call Provider initilizer
+            try {
+               console.log( getWeb3AuthEVMInstance,"getWeb3AuthEVMInstance==")
+                if (!getWeb3AuthEVMInstance()) {
+                  console.error("Web3Auth not initialized");
+                  toast.error("Web3Auth is not initialized. Please try again later.");
+                  return;
+                }
+                try{
+                    await getWeb3AuthEVMInstance().logout();
+                }catch(error){
+                  console.error("Web3Auth error:", error);
+                }
+                try{
+                  await getWeb3AuthEVMInstance().initModal();
+                }catch(error){
+                  console.error("Web3Auth error:", error);
+                }
+
+                const web3authProvider = await getWeb3AuthEVMInstance().connect();
+                const user = await getWeb3AuthEVMInstance().getUserInfo();
+               
+                if (user?.verifierId !== loginField.email) {
+                  toast.error("Connected ID and email in the registration form don't match.");
+                  await getWeb3AuthEVMInstance().logout();
+                  return false;
+                }
+          
+              } catch (error) {
+                console.error("Web3Auth error:", error);
+                toast.error("Failed to authenticate. Please try again.");
+                return false;
+              }
+
 
             let LoginData = {
                 email: loginField.email,
@@ -75,8 +113,8 @@ const SignIn = () => {
             if (result.success) {
                 localStorage.setItem("jwtToken", result?.data?.access_token);
 
-                //   login();
-                toastr.success(result?.message);
+                  login();
+                toast.success(result?.message);
 
                 if (result?.data?.kycStatus !== "NOT_SUBMITTED") {
                     setTimeout(function () {
@@ -84,21 +122,24 @@ const SignIn = () => {
                     }, 2000);
                 } else {
                     setTimeout(function () {
+                        // navigate(dashboard, { replace: true });
                         navigate(onfidoKyc, { replace: true });
                     }, 2000);
                 }
 
                 return false;
             } else {
-                toastr.error(result.message);
+                toast.error(result.message);
                 return;
             }
         } catch (error) {
             console.error("Login failed: ", error);
-            toastr.error("An error occurred during login. Please try again.");
+            toast.error("An error occurred during login. Please try again.");
         }
     };
 
+
+ 
 
     return (
         <>
@@ -193,7 +234,7 @@ const SignIn = () => {
                                                 </label>
                                             </div>
                                             <div className="account__check-forgot">
-                                                <Link to="/forgot-pass">Forgot Password?</Link>
+                                                <Link to={forgot_password}>Forgot Password?</Link>
                                             </div>
                                         </div>
 

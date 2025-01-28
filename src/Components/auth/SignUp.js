@@ -7,15 +7,15 @@ import Header from '../Widgets/Header';
 
 import { Link, useNavigate } from "react-router-dom"
 import { dashboard, loginRoute } from '../constent/Routes';
-import toastr from 'toastr';
+import { toast } from 'react-toastify';
 import { LoginValid } from '../validations/LoginValid';
 import { register, isEmailExist } from '../services/Login';
 import { role } from "../constent/Enum"
-import { getWeb3AuthNearInstance } from './web3auth';
-
+import { getWeb3AuthEVMInstance } from './web3auth';
+import { useAuth } from '../../AuthContext';
 const SignUp = () => {
 
-
+  const { authenticated, login } = useAuth();
   const navigate = useNavigate()
   const [providerNear, setProviderNear] = useState(null);
   const [provider, setProvider] = useState(null);
@@ -30,7 +30,7 @@ const SignUp = () => {
     lastName: '',
     email: '',
     // phone: '',
-    password: ''
+    password: '', cPassword: ''
   });
   const [passwordShow, setPasswordShow] = useState({
     eye: "fa-eye-slash",
@@ -43,15 +43,23 @@ const SignUp = () => {
     email: '',
     // phone: '',
 
-    password: ''
+    password: '', cPassword: ''
   });
 
+  useEffect(() => {
+
+    if (authenticated) {
+      navigate(dashboard, { replace: true });
+    } else {
+
+    }
+  }, [authenticated, navigate]);
 
   useEffect(() => {
 
     const init = async () => {
       try {
-        setProviderNear(getWeb3AuthNearInstance());
+        setProviderNear(getWeb3AuthEVMInstance());
       } catch (error) {
         console.error(error);
       }
@@ -81,6 +89,7 @@ const SignUp = () => {
       [name]: value
     }));
     let checkRegister = LoginValid(name, value);
+    console.log(checkRegister, "hhh")
     setFormDataErr({ ...formDataErr, [name]: checkRegister });
     // }
 
@@ -103,10 +112,16 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    try {
+      await provider.logout();
+    } catch (error) {
+
+    }
+
     const { firstName,
       lastName,
       email,
-      password } = formData
+      password, cPassword } = formData
 
     for (let key in formData) {
       let checkRegister = LoginValid(key, formData[key]);
@@ -115,51 +130,93 @@ const SignUp = () => {
         return false;
       }
     }
+
+
+    if (password !== cPassword) {
+      toast.error("Confirm password does't matched");
+      return false;
+    }
     const data = {
       firstName, lastName, email, password, role: role.User
     }
 
 
 
-    await login()
+    // await login()
 
-    const result = await register(data)
+    // const result = await register(data)
 
-    return
-    if (result.success) {
-      toastr.success(result.message);
-      setTimeout(() => {
-        navigate(loginRoute)
-      }, 1000)
-    } else {
-      toastr.error(result.message);
+
+    // if (result.success) {
+    //   toast.success(result.message);
+    //   setTimeout(() => {
+    //     navigate(loginRoute)
+    //   }, 1000)
+    // } else {
+    //   toast.error(result.message);
+    // }
+
+    try {
+      if (isVerified) {
+        return false
+      }
+
+      const resp = await logins();
+      console.log(resp, "resp====")
+
+
+      if (resp === false) {
+        return
+      } else {
+        const result = await register(data);
+
+        if (result.success) {
+          toast.success(result.message);
+          setTimeout(() => navigate(loginRoute), 1000);
+        } else {
+          toast.error(result.message);
+        }
+      }
+
+
+    } catch (error) {
+      console.error("Error during registration:", error);
+      toast.error("Something went wrong. Please try again.");
     }
 
 
   };
 
-  const login = async () => {
-
+  const logins = async () => {
     try {
+
+
       if (!providerNear) {
-        console.log("Web3Auth not initilized");
+        console.error("Web3Auth not initialized");
+        toast.error("Web3Auth is not initialized. Please try again later.");
         return;
       }
-      await providerNear.initModal();
+
+      try{
+        await providerNear.initModal();
+      }catch(error){
+        console.error("Web3Auth error:", error);
+      }
       const web3authProvider = await providerNear.connect();
       const user = await providerNear.getUserInfo();
-      if (user?.verifierId !== formData.email) {
-
-        toastr.error("Connected id and you provided in register form does't match")
-      }
       await providerNear.logout();
 
+      if (user?.verifierId !== formData.email) {
+        toast.error("Connected ID and email in the registration form don't match.");
+        return false;
+      }
 
-
-    } catch (ex) {
-      console.log(ex);
+    } catch (error) {
+      console.error("Web3Auth error:", error);
+      toast.error("Failed to authenticate. Please try again.");
+      window.location.reload();
+      return false;
     }
-
   };
   return (
     <>
@@ -282,18 +339,22 @@ const SignUp = () => {
                             type="password"
                             className="form-control showhide-pass"
                             id="account-cpass"
+                            name="cPassword"
+                            value={formData.cPassword}
                             placeholder="Re-type password"
+                            onChange={handleChange}
 
                           />
 
-                          <button
+                          {/* <button
                             type="button"
                             id="btnCToggle"
                             className="form-pass__toggle"
                           >
                             <i id="eyeIcon2" className="fa fa-eye"></i>
-                          </button>
+                          </button> */}
                         </div>
+                        {formDataErr && <span className='' style={{ color: "red" }}>{formDataErr?.cPassword}</span>}
                       </div>
                     </div>
 

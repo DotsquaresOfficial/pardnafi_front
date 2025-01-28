@@ -7,6 +7,7 @@ export const registerApi = baseUrl + "/auth/register";
 export const loginApi = baseUrl + "/auth/login";
 export const forgotPasswordApi = baseUrl + "/auth/forgot-password";
 export const isEmailExistApi = baseUrl + "/auth/is-email-exists";
+export const changePasswordApi = baseUrl + "/auth/change-password";
 
 
 // ================auth api ===============
@@ -26,6 +27,11 @@ export const addContactUsApi = baseUrl + "/contact/contact-us";
 export const submitKycApi = baseUrl + "/auth/submit-kyc";
 
 // ===============kyc=======================
+
+
+// ==============uploaded image url ==============
+export const uploadImageApi = baseUrl + "/upload/upload";
+
 
 
 

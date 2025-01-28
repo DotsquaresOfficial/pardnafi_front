@@ -1,9 +1,12 @@
 
 export const home =  "/";
 export const loginRoute =  "/sign-in";
+export const signup =  "/sign-up";
 export const register =  "/sign-up";
 export const forgot_password =  "/forgot-password";
 export const change_password =  "/change-password";
+
+export const user_profile =  "/user-profile";
 export const dashboard =  "/dashboard";
 export const contact_us =  "/contact-us";
 
@@ -14,6 +17,8 @@ export const terms_conditions =  "/terms-conditions";
 export const privacy_policy =  "/privacy-policys";
 export const browse_groups =  "/browse-groups";
 export const create_group =  "/create-group";
+export const group_details =  "/group-details";
+
 export const polling_page =  "/polling-page";
 
 export const wallet_access =  "/wallet-access";

@@ -24,6 +24,15 @@ const PageHeader = ({ title, text }) => {
       </div>
     </div>
   </section>
+
+  <section className="details-grouppage">
+   <div className="container">
+    
+   </div>
+  </section>
+
+
+
     </>
   );
 };
