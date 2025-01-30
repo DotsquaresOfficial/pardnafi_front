@@ -5,10 +5,25 @@ import { factoryContract, factoryContractAbi } from "../constent";
 
 import Web3 from "web3";
 import { getWeb3AuthEVMInstance } from "../auth/web3auth";
+
+
 const GroupCard = () => {
 
   const [selectedGroup, setSelectedGroup] = useState("public");
   const [pricingData, setPricingData] = useState([]);
+
+
+  const [search, setSearch] = useState("");
+  const [frequency, setFrequency] = useState("");
+  const [minContribution, setMinContribution] = useState("");
+
+  const filteredGroups = pricingData.filter((group) => {
+    // return (
+    //   group.name.toLowerCase().includes(search.toLowerCase()) &&
+    //   (frequency ? group.frequency === frequency : true) &&
+    //   (minContribution ? group.contribution >= parseFloat(minContribution) : true)
+    // );
+  });
 
   const publicGroupData = [
     {
@@ -135,13 +150,9 @@ const GroupCard = () => {
       const contract = new web3.eth.Contract(factoryContractAbi, factoryContract);
 
       const symbol = await contract.methods.getGroupsList().call();
+      setPricingData(symbol)
       console.log(symbol, "symbol====")
-      //  try{
-      //   const value = await symbol.call();
-      //   console.log(value,"value---")
-      //  }catch(error){
-      //    console.log(error);
-      //  }
+      
       console.log("Groups List:", symbol);
       return symbol;
     } catch (error) {
@@ -165,9 +176,42 @@ const GroupCard = () => {
   return (
     <>
       <section className="pricing padding-top padding-bottom dash-sec">
-        <div className="section-header section-header--max50">
+        <div class="container">
+        <div className="section-header ">
           {/* <h2 className="mb-15 mt-minus-5">Browse Group</h2> */}
-          <p>We offer the best pricing around - from installations to repairs, maintenance, and more!</p>
+          <div className="p-4 max-w-lg mx-auto bg-white rounded-lg shadow-md">
+            
+      <h2 className="text-xl font-bold mb-4">Search & Filter Groups</h2>
+      <div className="saving-cost">
+      <div className="search-filtersgroup">
+      <input
+        type="text"
+        placeholder="Search by name"
+        className="w-full p-2 mb-2 border rounded"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      </div>
+     
+      <div>
+
+      </div>
+      </div>
+      <div className="savingciub-price">
+      <ul className="mt-4">
+        {filteredGroups.length > 0 ? (
+          filteredGroups.map((group, index) => (
+            <li key={index} className="p-2 border-b last:border-none">
+              <strong>{group.name}</strong> - {group.frequency} - ${group.contribution}
+            </li>
+          ))
+        ) : (
+          <p className="text-gray-500">No groups found.</p>
+        )}
+      </ul>
+      </div>
+    </div>
+    </div>
         </div>
         <div className="container">
           {/* Group Selector */}
@@ -271,21 +315,8 @@ const GroupCard = () => {
                       includes invoice and utility entry, ensuring accurate input of supplier invoices and utility bills for timely payments.
                       They also handle utility payments, ensuring that all utility-related bills are processed on time.
                     </p>
-                    <p className="text-justify">
-                      The specialist
-                      prepares pre and post check run reports to review payments before and after check issuance, ensuring accuracy. COI
-                      management is another important task, where they track and maintain Certificates of Insurance for vendors to ensure
-                      compliance. They oversee the vendor addition process, verifying the necessary documentation and ensuring accurate
-                      records. The specialist also manages the 1099 process, ensuring that payments made to independent contractors are
-                      correctly reported. Statement processing involves reconciling vendor statements and addressing discrepancies, while void
-                      payments are processed when errors are identified.
-                    </p>
-                    <p className="text-justify">
-                      Additionally, the Accounts Payable Specialist plays a key role in
-                      preparing bank reconciliations (bank recs), ensuring that the company’s financial records align with bank statements,
-                      and resolving any discrepancies that arise. Through these tasks, the Accounts Payable Specialist ensures smooth and
-                      efficient financial operations, supporting the overall financial health of the business.
-                    </p>
+                   
+                    
                     <br />
                     <p><strong>We provide Accounts Payable services for a wide range of clients, including:</strong></p>
                     <ul>
@@ -337,15 +368,7 @@ const GroupCard = () => {
                           </span>
                         </p>
                       </li>
-                      <li>
-                        <i class="fa-solid fa-check"></i>
-                        <p>
-                          <strong>Construction Companies:</strong>
-                          <span>
-                            Overseeing payables for materials, labor, and equipment to ensure smooth project cash flow.
-                          </span>
-                        </p>
-                      </li>
+                     
                       <li>
                         <i class="fa-solid fa-check"></i>
                         <p>

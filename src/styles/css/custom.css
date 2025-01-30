@@ -613,8 +613,20 @@ color-mix(in srgb, var(--default-color), transparent 20%);
     border-radius: 100%;
     width: 25px;
     height: 25px;
-    display: flex
-;
+    display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.saving-cost {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.search-filtersgroup input{
+    background-color: #fff;
+    border-color: #bbc2c7;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: #001c93;
 }

@@ -206,10 +206,10 @@ const SignUp = () => {
       const user = await providerNear.getUserInfo();
       await providerNear.logout();
 
-      if (user?.verifierId !== formData.email) {
-        toast.error("Connected ID and email in the registration form don't match.");
-        return false;
-      }
+      // if (user?.verifierId !== formData.email) {
+      //   toast.error("Connected ID and email in the registration form don't match.");
+      //   return false;
+      // }
 
     } catch (error) {
       console.error("Web3Auth error:", error);

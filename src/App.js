@@ -86,7 +86,7 @@ function App() {
           <Route path={create_group} element={<ProtectedRoute component={<CreateGroup />} />} />
           <Route path={group_details} element={<ProtectedRoute component={<GroupDetails />} />} />
 
-          <Route path={polling_page} element={<ProtectedRoute component={<polling_page />} />} />
+          <Route path={polling_page} element={<ProtectedRoute component={<PollingPage />} />} />
 
 
         </Routes>

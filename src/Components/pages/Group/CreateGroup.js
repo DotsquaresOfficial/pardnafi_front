@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../Widgets/Header'
 import PageHeader from '../../Widgets/PageHeader?'
 import Footer from '../../Widgets/Footer'
@@ -9,15 +9,17 @@ import { toast } from 'react-toastify';
 import { factoryContract, factoryContractAbi } from '../../constent';
 import Web3 from 'web3';
 import { getWeb3AuthEVMInstance } from '../../auth/web3auth';
-
+import { getAccounts } from '../../auth/web3RPC';
+import { useSetGroupMutation } from "../../../redux/groupApi";
 const CreateGroup = () => {
-
+    const [setGroup] = useSetGroupMutation();
     const [groupData, setGroupData] = useState({
         name: '',
         groupSize: 5,
         contribution: 100,
         frequency: 'Monthly',
         duration: 6,
+        description: "",
         daoDepositSupport: false
     });
     const [groupDataErr, setGroupDataErr] = useState({
@@ -25,9 +27,10 @@ const CreateGroup = () => {
         groupSize: '',
         contribution: '',
         duration: '',
+        description: "",
         daoDepositSupport: ''
     });
-
+    const [walletAddress, setWalletAddress] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -55,19 +58,64 @@ const CreateGroup = () => {
     };
 
 
-    const handleCreateGroup = (e) => {
+    const handleCreateGroup = async (e) => {
         e.preventDefault();
 
-        for (let key in groupData) {
-            let checkGroup = InputValid(key, groupData[key]);
-            setGroupDataErr({ ...groupDataErr, [key]: checkGroup });
-            if (checkGroup !== "") {
-                return false;
+        try {
+            for (let key in groupData) {
+                let checkGroup = InputValid(key, groupData[key]);
+                setGroupDataErr({ ...groupDataErr, [key]: checkGroup });
+                if (checkGroup !== "") {
+                    return false;
+                }
             }
+            try {
+                const resp = await createGroups()
+                console.log(resp, "resp===")
+
+                const data = {
+                    groupName: groupData.name,
+                    description: groupData.groupSize,
+                    txHash: resp.data.transactionHash,
+
+                }
+
+                if (resp) {
+
+                    // setGroup(data).then((result) => {
+                    //     console.log(result,"result==")
+                    //     if (result?.data?.status) {
+
+                    //         toast.success(result.data.message);
+                    //         setGroupData({
+                    //             name: '',
+                    //             groupSize: 0,
+                    //             contribution: 0,
+                    //             frequency: '',
+                    //             duration: 0,
+                    //             daoDepositSupport: false
+                    //         })
+
+                    //     } else {
+
+                    //         toast.error(result.data.message);
+                    //     }
+                    // });
+                    toast.success('Group Created: ' + JSON.stringify(groupData))
+                } else {
+                    toast.error(resp.message, "iiiiiiiiiiiiiii")
+                }
+            } catch (error) {
+                toast.error(error.message, "oooooooooooooooooooooooo")
+            }
+
+        } catch (error) {
+            console.log(error, "error00000000")
         }
 
 
-        toast.success('Group Created: ' + JSON.stringify(groupData))
+
+
     };
 
 
@@ -77,16 +125,109 @@ const CreateGroup = () => {
 
     // address to send the token
 
-//     const createGroup = async () => {
-     
-//     const provider=getWeb3AuthEVMInstance();
-// const web3 = new Web3(provider.provider);
-//         const data = new web3.eth.Contract(factoryContractAbi, factoryContract);
+    //     const createGroup = async () => {
 
-//         // const subscription = data.events.createGroup().send({_groupName,_paymentFrequency,_rules,_minimumContribution});
+    //     const provider=getWeb3AuthEVMInstance();
+    // const web3 = new Web3(provider.provider);
+    //         const data = new web3.eth.Contract(factoryContractAbi, factoryContract);
 
-//         // subscription.on('data', console.log);
-//     }
+    //         // const subscription = data.events.createGroup().send({_groupName,_paymentFrequency,_rules,_minimumContribution});
+
+    //         // subscription.on('data', console.log);
+    //     }
+
+    const getUserWalletAddress = async () => {
+        await getWeb3AuthEVMInstance().initModal();
+        await getWeb3AuthEVMInstance().connect()
+        const provider = getWeb3AuthEVMInstance();
+        try {
+            const address = await getAccounts(provider);
+            console.log(address, "address")
+            setWalletAddress(address)
+        } catch (error) {
+            console.log(error, "error")
+        }
+    }
+
+    useEffect(() => {
+
+        getUserWalletAddress()
+    }, []);
+
+    const createGroups = async () => {
+
+        try {
+            const provider = getWeb3AuthEVMInstance();
+            const web3 = new Web3(provider.provider);
+            const data = new web3.eth.Contract(factoryContractAbi, factoryContract);
+            console.log(data, "data");
+
+            console.log("Creating group with values:", {
+                groupName: groupData.name,
+                contribution: groupData.contribution,
+                groupSize: groupData.groupSize,
+                duration: groupData.duration,
+                daoDepositSupport: groupData.daoDepositSupport,
+                walletAddress: walletAddress
+            });
+
+            const transaction = data.methods.createGroup(
+                String(groupData.name),
+                Number(30),
+                String("panely are applicable"),
+                Number(groupData.contribution),
+                Number(groupData.groupSize),
+                Number(groupData.duration),
+                Boolean(groupData.daoDepositSupport)
+            );
+
+            transaction.send({ from: walletAddress })
+                .on('transactionHash', function (hash) {
+                    console.log("Transaction hash:", hash);
+
+
+                    const datas = {
+                        groupName: groupData.name,
+                        description: groupData.groupSize,
+                        txHash: hash,
+                    };
+
+                    setGroup(datas).then((result) => {
+                        console.log(result, "result==");
+                        if (result?.data
+                            ?.success) {
+                            toast.success(result.data?.message);
+                            setGroupData({
+                                name: '',
+                                groupSize: 0,
+                                contribution: 0,
+                                frequency: '',
+                                duration: 0,
+                                daoDepositSupport: false
+                            });
+                        } else {
+                            toast.error(result.data?.message);
+                        }
+                    });
+                })
+                .on('receipt', function (receipt) {
+                    console.log("Transaction successful", receipt);
+                })
+                .on('error', function (error) {
+                    console.error("Transaction failed=========", error);
+                    toast.error(error.message);
+                });
+
+        } catch (error) {
+            toast.error(error.message);
+            console.log(error, "error==========");
+        }
+
+
+
+
+
+    };
 
 
     return (
@@ -231,6 +372,26 @@ const CreateGroup = () => {
                                                 </div>
 
                                             </div>
+
+                                            <div className="col-12">
+                                                <div>
+                                                    <label htmlFor="account-email" className="form-label">
+                                                        Group Description
+                                                    </label>
+                                                    <textarea
+
+                                                        className="form-control"
+                                                        id="account-email"
+                                                        placeholder="description"
+                                                        type="text"
+                                                        name="description"
+                                                        value={groupData.description}
+                                                        onChange={handleChange}
+                                                    />
+                                                </div>
+                                                {groupDataErr.description && <span style={{ color: 'red' }}>{groupDataErr.description}</span>}
+                                            </div>
+
                                             <div className="account__check">
                                                 <div className="account__check-remember">
                                                     <input

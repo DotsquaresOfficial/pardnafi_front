@@ -8,7 +8,7 @@ export const InputValid = (name, value) => {
     error = "This field is required";
     return error;
   }
-  console.log(value,"value===")
+ 
   
   // if (value?.match(/^\s/)) {
   //   error = `Please enter valid ${name} without first space`;
@@ -43,11 +43,6 @@ export const InputValid = (name, value) => {
     error = 'Group duration must be 3,6,9 or 12 months';
     return error;
   }
-  if (name === 'daoDepositSupport' && !value) {
-    error = 'You must enable DAO Deposit Support';
-    return error;
-}
-
-
+ 
   return error;
 };

@@ -9,13 +9,14 @@ export const myApi=createApi({
         baseUrl:baseUrl,
         prepareHeaders: async (headers) => {
          const token = await localStorage.getItem('jwtToken')
+         console.log(token,"token")
          if (!!token) {
              headers.set('Authorization', `Bearer ${token}`)
          }
          return headers
      }
              }),
-    tagTypes: ["faq","contactUs","kyc"],
+    tagTypes: ["faq","contactUs","kyc","group"],
        endpoints:(builder)=>({
        }),
 

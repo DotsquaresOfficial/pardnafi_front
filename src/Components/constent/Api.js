@@ -32,6 +32,13 @@ export const submitKycApi = baseUrl + "/auth/submit-kyc";
 // ==============uploaded image url ==============
 export const uploadImageApi = baseUrl + "/upload/upload";
 
+// ===============group =======================
+export const createGroupApi = baseUrl + "/group/create-group";
+export const getAllGroupApi = baseUrl + "/group/get-all-groups";
+export const searchQueryGroupApi = baseUrl + "/group/query-group";
+export const updateGroupApi = baseUrl + "/group/update-group";
+export const getGroupByIdApi = baseUrl + "/group/get-group-by-id";
 
+// ===============group =======================
 
 
