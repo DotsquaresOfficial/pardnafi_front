@@ -173,7 +173,7 @@
 
                 &:hover {
                     @include add-prefix(transform, translateX(10px));
-                    color: $brand-color;
+                  
 
                     &::after {
                         opacity: 1;

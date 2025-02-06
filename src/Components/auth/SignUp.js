@@ -208,6 +208,7 @@ const SignUp = () => {
     const userData = { firstName, lastName, email, password, role: role.User };
 
     try {
+      debugger
       const authResponse = await logins();
       console.log("Auth response:", authResponse);
 
@@ -229,6 +230,7 @@ const SignUp = () => {
 
   const logins = async () => {
     try {
+      debugger;
       try {
         await getWeb3AuthEVMInstance().initModal();
 
@@ -268,6 +270,7 @@ const SignUp = () => {
       }
 
       console.log("User authenticated successfully:", user);
+      return user;
 
     } catch (error) {
       console.error("Authentication error:", error);
