@@ -78,13 +78,19 @@ const SignIn = () => {
                   console.error("Web3Auth error:", error);
                 }
                 try{
+                    await getWeb3AuthEVMInstance().initModal();
+                }catch(error){
+                  console.error("Web3Auth error:", error);
+                }
+                try{
+              
                     await getWeb3AuthEVMInstance().connect()
-                  await getWeb3AuthEVMInstance().initModal();
+                  
                 }catch(error){
                   console.error("Web3Auth error:", error);
                 }
 
-                const web3authProvider = await getWeb3AuthEVMInstance().connect();
+              
                 const user = await getWeb3AuthEVMInstance().getUserInfo();
                
                 if (user?.verifierId !== loginField.email) {
