@@ -16,7 +16,7 @@ const Dashboard = () => {
             <div className='col-md-4'>
               <div className='createnew-group'>
                 <div className='creategroup-img'>
-                  <Link to={create_group}><img src='/images/icon/add-icon.svg' alt='add' /></Link>
+                  <a href={create_group}><img src='/images/icon/add-icon.svg' alt='add' /></a>
                 </div>
                 <h2>Create a New group</h2>
                 <p>Lorem ipsum dolor sit amet consectetur.</p>
@@ -26,7 +26,7 @@ const Dashboard = () => {
             <div className='col-md-4'>
               <div className='createnew-group'>
                 <div className='creategroup-img'>
-                  <Link to={browse_groups}><img src='/images/icon/world.svg' alt='add' /></Link>
+                  <a href={browse_groups}><img src='/images/icon/world.svg' alt='add' /></a>
 
                 </div>
                 <h2>Browse Groups</h2>

@@ -14,7 +14,7 @@ function Header({ headerClass = null }) {
   const location = useLocation(); // React Router hook to access location
   const [scrollTop, setScrollTop] = useState(0);
 
-  const { logout} = useAuth();
+  const { logout,connectWallet} = useAuth();
   const changeImage = useCallback((themeMode = 'light') => {
     const icon = document.querySelector('#btnSwitch img');
 
@@ -46,10 +46,11 @@ function Header({ headerClass = null }) {
   // ==================contract ================
 
   const getUserWalletBalance = async () =>{
-    await getWeb3AuthEVMInstance().initModal();
-    await getWeb3AuthEVMInstance().connect()
-    const provider = getWeb3AuthEVMInstance();
+    
     try{
+      // await getWeb3AuthEVMInstance().initModal();
+    await connectWallet()
+    const provider = getWeb3AuthEVMInstance();
      const bal = await getBalance(provider);
      console.log(bal,"balance")
     
@@ -59,14 +60,18 @@ function Header({ headerClass = null }) {
     }
   } 
   const getUserWalletAddress = async () =>{
-    await getWeb3AuthEVMInstance().initModal();
-    await getWeb3AuthEVMInstance().connect()
-    const provider=  getWeb3AuthEVMInstance();
-    try{
-     const address = await getAccounts(provider);
-    console.log(address,"address")
-     setWalletAddress(address)
-    }catch(error){
+    try {
+      
+      await connectWallet()
+      const provider=  getWeb3AuthEVMInstance();
+      try{
+       const address = await getAccounts(provider);
+      console.log(address,"address")
+       setWalletAddress(address)
+      }catch(error){
+        console.log(error,"error")
+      }
+    } catch (error) {
       console.log(error,"error")
     }
   } 
@@ -186,9 +191,9 @@ function Header({ headerClass = null }) {
           <div className="container-fluid">
             <div className="header-wrapper">
               <div className="logo">
-                <Link to={register}>
+                <a href={register}>
                   <img className="dark" src="/images/logo/logo.svg" alt="logo" />
-                </Link>
+                </a>
               </div>
               <div className="menu-area">
                 <ul id="menu" className={`menu menu--style1 ${menu ? 'active' : ''}`}>
@@ -196,7 +201,7 @@ function Header({ headerClass = null }) {
                     <Link scroll={false} href="/#0">Home </Link>
                   </li>
                   <li className="menu-item-has-children">
-                    <Link href="/services">How PardnaFi Works</Link>
+                    <a href="/services">How PardnaFi Works</a>
 
                   </li>
                   <li className="menu-item-has-children">
@@ -263,9 +268,9 @@ function Header({ headerClass = null }) {
               <div className="header-action">
                 <div className="menu-area">
                   <div className="header-btn">
-                    <Link to={register} className="trk-btn trk-btn--border trk-join">
+                    <a href={register} className="trk-btn trk-btn--border trk-join">
                       <span>JOIN US</span>
-                    </Link>
+                    </a>
                   </div>
 
                   {/* <!-- toggle icons --> */}

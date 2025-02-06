@@ -78,6 +78,7 @@ const SignIn = () => {
                   console.error("Web3Auth error:", error);
                 }
                 try{
+                    await getWeb3AuthEVMInstance().connect()
                   await getWeb3AuthEVMInstance().initModal();
                 }catch(error){
                   console.error("Web3Auth error:", error);
@@ -86,14 +87,14 @@ const SignIn = () => {
                 const web3authProvider = await getWeb3AuthEVMInstance().connect();
                 const user = await getWeb3AuthEVMInstance().getUserInfo();
                
-                // if (user?.verifierId !== loginField.email) {
-                //   toast.error("Connected ID and email in the registration form don't match.");
-                //   await getWeb3AuthEVMInstance().logout();
-                //   return false;
-                // }
+                if (user?.verifierId !== loginField.email) {
+                  toast.error("Connected ID and email in the registration form don't match.");
+                  await getWeb3AuthEVMInstance().logout();
+                  return false;
+                }
           
               } catch (error) {
-                console.error("Web3Auth error:", error);
+                console.error("Web3Auth error:==========", error);
                 toast.error("Failed to authenticate. Please try again.");
                 return false;
               }

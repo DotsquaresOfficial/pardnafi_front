@@ -3,7 +3,7 @@ import Header from '../../Widgets/Header'
 import PageHeader from '../../Widgets/PageHeader?'
 import Footer from '../../Widgets/Footer'
 import { Link } from 'react-router-dom'
-
+import { v4 as uuidv4 } from 'uuid'
 import { InputValid } from '../../validations/InputValid';
 import { toast } from 'react-toastify';
 import { factoryContract, factoryContractAbi } from '../../constent';
@@ -155,21 +155,13 @@ const CreateGroup = () => {
     }, []);
 
     const createGroups = async () => {
-
         try {
             const provider = getWeb3AuthEVMInstance();
             const web3 = new Web3(provider.provider);
             const data = new web3.eth.Contract(factoryContractAbi, factoryContract);
-            console.log(data, "data");
+            const uniqueId = uuidv4();
 
-            console.log("Creating group with values:", {
-                groupName: groupData.name,
-                contribution: groupData.contribution,
-                groupSize: groupData.groupSize,
-                duration: groupData.duration,
-                daoDepositSupport: groupData.daoDepositSupport,
-                walletAddress: walletAddress
-            });
+
 
             const transaction = data.methods.createGroup(
                 String(groupData.name),
@@ -178,7 +170,8 @@ const CreateGroup = () => {
                 Number(groupData.contribution),
                 Number(groupData.groupSize),
                 Number(groupData.duration),
-                Boolean(groupData.daoDepositSupport)
+                Boolean(groupData.daoDepositSupport),
+                uniqueId
             );
 
             transaction.send({ from: walletAddress })
@@ -190,10 +183,11 @@ const CreateGroup = () => {
                         groupName: groupData.name,
                         description: groupData.groupSize,
                         txHash: hash,
+                        groupId: uniqueId
                     };
 
                     setGroup(datas).then((result) => {
-                        console.log(result, "result==");
+
                         if (result?.data
                             ?.success) {
                             toast.success(result.data?.message);

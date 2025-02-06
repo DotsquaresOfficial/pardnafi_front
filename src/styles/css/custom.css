@@ -629,4 +629,9 @@ color-mix(in srgb, var(--default-color), transparent 20%);
     padding: 12px 20px;
     border-radius: 8px;
     color: #001c93;
+    height: 48px;
+    width: 100%;
+}
+.search-filtersgroup{
+    width: 100%;
 }

@@ -5,10 +5,11 @@ import { factoryContract, factoryContractAbi } from "../constent";
 
 import Web3 from "web3";
 import { getWeb3AuthEVMInstance } from "../auth/web3auth";
-
+import {useGetGroupQuery} from "../../redux/groupApi"
 
 const GroupCard = () => {
-
+  const { data: record } = useGetGroupQuery();
+  console.log(record,"data====")
   const [selectedGroup, setSelectedGroup] = useState("public");
   const [pricingData, setPricingData] = useState([]);
 
@@ -128,41 +129,41 @@ const GroupCard = () => {
   useEffect(() => {
     const initialize = async () => {
       await connectWallet();
-      await getGroupsList();
+      // await getGroupsList();
     };
 
     initialize();
   }, []);
 
-  const getGroupsList = async () => {
-    try {
-      const provider = getWeb3AuthEVMInstance();
+  // const getGroupsList = async () => {
+  //   try {
+  //     const provider = getWeb3AuthEVMInstance();
       
-      try {
+  //     try {
         
-        await provider.initModal();
-        await provider.connect();
-      } catch (error) {
-        console.error("Web3Auth error:", error);
-      }
-      const web3 = new Web3(provider.provider);
+  //       await provider.initModal();
+  //       await provider.connect();
+  //     } catch (error) {
+  //       console.error("Web3Auth error:", error);
+  //     }
+  //     const web3 = new Web3(provider.provider);
 
-      const contract = new web3.eth.Contract(factoryContractAbi, factoryContract);
+  //     const contract = new web3.eth.Contract(factoryContractAbi, factoryContract);
 
-      const symbol = await contract.methods.getGroupsList().call();
-      setPricingData(symbol)
-      console.log(symbol, "symbol====")
+  //     const symbol = await contract.methods.getGroupsList().call();
+  //     setPricingData(symbol)
+     
       
-      console.log("Groups List:", symbol);
-      return symbol;
-    } catch (error) {
-      console.error("Error fetching groups list:", error);
-    }
-  };
+  //     console.log("Groups List:", symbol);
+  //     return symbol;
+  //   } catch (error) {
+  //     console.error("Error fetching groups list:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getGroupsList();
-  }, []);
+  // useEffect(() => {
+  //   getGroupsList();
+  // }, []);
 
 
   useEffect(() => {
@@ -186,7 +187,7 @@ const GroupCard = () => {
       <div className="search-filtersgroup">
       <input
         type="text"
-        placeholder="Search by name"
+        placeholder="Search groups by name..."
         className="w-full p-2 mb-2 border rounded"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
@@ -286,12 +287,12 @@ const GroupCard = () => {
                   <div className="services-list" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a href="#" className="active" id="v-pills-one-tab" data-bs-toggle="pill" data-bs-target="#v-pills-one" type="button" role="tab" aria-controls="v-pills-one" aria-selected="true"><i className="fa-solid fa-arrow-right" />
                       <span>Group A</span></a>
-                    <a href="#" id="v-pills-two-tab" data-bs-toggle="pill" data-bs-target="#v-pills-two" type="button" role="tab" aria-controls="v-pills-two" aria-selected="false"><i class="fa-solid fa-arrow-right"></i><span>Group B</span></a>
-                    <a href="#" id="v-pills-three-tab" data-bs-toggle="pill" data-bs-target="#v-pills-three" type="button" role="tab" aria-controls="v-pills-three" aria-selected="false"><i class="fa-solid fa-arrow-right"></i><span>Group c</span></a>
-                    {/* <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Graphic Design</span></a>
-              <a href="#"><i class="bi bi-arrow-right-circle"></i><span>Marketing</span></a> */}
+
+                    {/* <a href="#" id="v-pills-two-tab" data-bs-toggle="pill" data-bs-target="#v-pills-two" type="button" role="tab" aria-controls="v-pills-two" aria-selected="false"><i class="fa-solid fa-arrow-right"></i><span>Group B</span></a>
+                    <a href="#" id="v-pills-three-tab" data-bs-toggle="pill" data-bs-target="#v-pills-three" type="button" role="tab" aria-controls="v-pills-three" aria-selected="false"><i class="fa-solid fa-arrow-right"></i><span>Group c</span></a> */}
+                
                   </div>
-                </div>{/* End Services List */}
+                </div>
 
               </div>
               <div className="col-lg-8 ps-lg-4">
@@ -307,6 +308,7 @@ const GroupCard = () => {
                   </div>
                 </div>{/* End Services List */}
                 <div className="tab-content" id="v-pills-tabContent">
+                  
                   <div className="tab-pane fade show active" id="v-pills-one" role="tabpanel" aria-labelledby="v-pills-one-tab">
                     <img src="/images/team/group-23.png" alt className="img-fluid services-img" />
                     <h3 className="mb-3">Accounts Payables Services</h3>

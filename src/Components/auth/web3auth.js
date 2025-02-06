@@ -12,7 +12,7 @@ import { CommonPrivateKeyProvider } from "@web3auth/base-provider";
 
 // IMP START - Dashboard Registration
 // const clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ"; // get from https://dashboard.web3auth.io
-const clientId = "BFiU84sd-mL3gBYJO4Ym9rkw_CLKdGBEzN97Ex2BPwghHxX2jC_v2p-lYkP7ur-H7P6_M_FfnwA21HVlnDCOroE"
+const clientId = "BJC_Lk_RKd9cDnYG0qVP7T71FCXG7qcYVllK9kc_5FRScB4FSAlnxNYFNEbcvfUaFBeOPu-w9ljRujxBPaynJ1Q"
 // IMP END - Dashboard Registration
 
 
@@ -39,7 +39,7 @@ const privateKeyProviderEVM = new EthereumPrivateKeyProvider({
 
 const web3AuthOptionsEVM = {
   clientId,
-  web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_MAINNET,
+  web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_DEVNET,
   privateKeyProvider: privateKeyProviderEVM,
 }
 
