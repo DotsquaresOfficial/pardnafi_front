@@ -141,15 +141,20 @@
       img {
         max-width: 100%;
       }
+
+      @include breakpoint(max-xl){
+      max-width:72%;
+      }
+
     }
 
     @include breakpoint(max-sm) {
-      max-width: 130px;
+      max-width: 120px;
     }
 
     @include breakpoint(max-xl) {
       @include breakpoint(lg) {
-        width: 200px;
+        width: 150px;
       }
     }
   }
@@ -200,7 +205,17 @@
       font-family: $text-font;
       color: $title-color;
       font-weight: 500;
+      @include breakpoint(max-xxl) {
+        padding:5px 10px;
+        font-size:14px;
+        @include breakpoint(max-xl) {
+        padding:5px 7px;
+        font-size:14px;
+        }
+      }
 
+       
+     
       // light dark bedge
       span {
         @include font-size(12px);
@@ -342,7 +357,7 @@
     @include breakpoint(max-xl) {
       li {
         a {
-          padding: 10px 16px;
+          padding: 5px 5px;
         }
       }
     }

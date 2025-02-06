@@ -31,8 +31,16 @@ export const AuthProvider = ({ children }) => {
     };
 
     const connectWallet = async () => {
+      try{
         await getWeb3AuthEVMInstance().initModal()
+      }catch(ex){
+        console.log(ex)
+      }
+       try{
         await getWeb3AuthEVMInstance().connect()
+       }catch(ex){
+         console.log(ex)
+       }
     }
 
     return (

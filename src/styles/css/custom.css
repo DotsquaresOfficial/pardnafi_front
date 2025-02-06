@@ -635,3 +635,62 @@ color-mix(in srgb, var(--default-color), transparent 20%);
 .search-filtersgroup{
     width: 100%;
 }
+
+@media(max-width:1440px){
+    .notification-data a i{
+        height: 35px;
+        width: 35px;
+        font-size: 17px;
+    }
+
+    .header-section .container-fluid {
+        padding: 0px 28px;
+    }
+    .user-dropdown .dropdown button img{
+        max-width: 44px;
+    }
+    a.trk-join{
+        padding: 0.8rem 1.7rem;
+        font-size: 14px;
+    }
+}
+
+@media(max-width:1366px){
+    .wallet-connect{
+        margin-left: 17px;
+    }
+}
+
+@media(max-width:1200px){
+    .header-section .container-fluid {
+        padding: 0px 28px;
+    }
+    .wallet-img img {
+        max-width: 22px;
+    }
+    .user-dropdown .dropdown button img {
+        max-width: 36px;
+    }
+    .notification-data a i {
+        height: 30px;
+        width: 30px;
+        font-size: 15px;
+    }
+    .notification-data a i:after{
+        left: 23px;
+    }
+}
+
+@media(max-width:1166px){
+    a.trk-join {
+        padding: 0.8rem 1.1rem;
+        font-size: 12px;
+    }
+}
+
+@media(max-width:1024){
+    a.trk-join {
+        padding: 0.8rem 1.1rem;
+        font-size: 12px;
+    }
+}

@@ -14,7 +14,7 @@ function Header({ headerClass = null }) {
   const location = useLocation(); // React Router hook to access location
   const [scrollTop, setScrollTop] = useState(0);
 
-  const { logout,connectWallet} = useAuth();
+  const { logout,connectWallet,login,authenticated} = useAuth();
   const changeImage = useCallback((themeMode = 'light') => {
     const icon = document.querySelector('#btnSwitch img');
 
@@ -77,8 +77,11 @@ function Header({ headerClass = null }) {
   } 
   
   useEffect(() => {
-    getUserWalletBalance();
+    if(authenticated === true){
+      getUserWalletBalance();
     getUserWalletAddress()
+    }
+    
   }, []);
 
   // ================contract ====================
@@ -216,8 +219,7 @@ function Header({ headerClass = null }) {
                   </li>
 
                 </ul>
-
-                <div className="wallet-connect">
+{authenticated?  <div className="wallet-connect">
            <div className="wallet-img">
            <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet"/>
            </div>
@@ -225,7 +227,8 @@ function Header({ headerClass = null }) {
             <h6>Wallet Balance: {walletBalance?walletBalance:"0"}</h6>
            <h2>{walletAddress?walletAddress:""}</h2>
            </div>
-            </div>
+            </div>:""}
+              
            
       <div className="user-dropdown">
   {/* <div className="dropdown">
@@ -238,7 +241,7 @@ function Header({ headerClass = null }) {
       <li><a className="dropdown-item" href="login.html">Logout</a></li>
     </ul>
   </div> */}
-  <div class="dropdown">
+  {authenticated? <div class="dropdown">
   <button class="btn dropdown-toggle" type="button" style={{background: 'none',border:'none'}} data-bs-toggle="dropdown" aria-expanded="false">
   <img alt="user" class="img-fluid" src="/images/header/user-img.svg"/>
   </button>
@@ -247,17 +250,20 @@ function Header({ headerClass = null }) {
       <li><a className="dropdown-item" href={change_password}>Change Password</a></li>
       <li><a className="dropdown-item" href="#" onClick={handleLogout}>Logout</a></li>
     </ul>
-</div>
+</div>:""}
+ 
+
 </div>
 
-
-<div class="user-dropdown notification-data">
+{authenticated?<div class="user-dropdown notification-data">
        <div class="dropdown">
               <button class="btn" type="button" style={{background: 'none',border:'none'}}>
                  <a class="nav-link" href="#contact"><i class="fa-regular fa-bell"></i></a>
               </button>
             </div>
-            </div>
+            </div>:""}
+
+
 
           
 

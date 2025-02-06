@@ -15,7 +15,7 @@ import { getWeb3AuthEVMInstance } from './web3auth';
 import { useAuth } from '../../AuthContext';
 const SignUp = () => {
 
-  const { authenticated, login } = useAuth();
+  const { authenticated, login,connectWallet } = useAuth();
   const navigate = useNavigate()
   const [providerNear, setProviderNear] = useState(null);
   const [provider, setProvider] = useState(null);
@@ -109,13 +109,80 @@ const SignUp = () => {
 
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     await provider.logout();
+  //   } catch (error) {
+
+  //   }
+
+  //   const { firstName,
+  //     lastName,
+  //     email,
+  //     password, cPassword } = formData
+
+  //   for (let key in formData) {
+  //     let checkRegister = LoginValid(key, formData[key]);
+  //     setFormDataErr({ ...formDataErr, [key]: checkRegister });
+  //     if (checkRegister !== "") {
+  //       return false;
+  //     }
+  //   }
+
+
+  //   if (password !== cPassword) {
+  //     toast.error("Confirm password does't matched");
+  //     return false;
+  //   }
+  //   const data = {
+  //     firstName, lastName, email, password, role: role.User
+  //   }
+
+
+
+  //   try {
+  //     if (isVerified) {
+  //       return false
+  //     }
+
+  //     const resp = await logins();
+  //     console.log(resp,"resp===")
+
+
+
+  //     if (resp === false) {
+  //       return
+  //     } else {
+  //       const result = await register(data);
+
+  //       if (result.success) {
+  //         toast.success(result.message);
+  //         setTimeout(() => navigate(loginRoute), 1000);
+  //       } else {
+  //         toast.error(result.message);
+  //       }
+  //     }
+
+
+  //   } catch (error) {
+  //     console.error("Error during registration:", error);
+  //     toast.error("Something went wrong. Please try again.");
+  //   }
+
+
+  // };
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       await provider.logout();
     } catch (error) {
-
+      console.error("Error logging out:", error);
     }
 
     const { firstName,
@@ -131,93 +198,84 @@ const SignUp = () => {
       }
     }
 
-
     if (password !== cPassword) {
-      toast.error("Confirm password does't matched");
-      return false;
-    }
-    const data = {
-      firstName, lastName, email, password, role: role.User
+      toast.error("Confirm password doesn't match.");
+      return;
     }
 
+    if (isVerified) return; 
 
-
-    // await login()
-
-    // const result = await register(data)
-
-
-    // if (result.success) {
-    //   toast.success(result.message);
-    //   setTimeout(() => {
-    //     navigate(loginRoute)
-    //   }, 1000)
-    // } else {
-    //   toast.error(result.message);
-    // }
+    const userData = { firstName, lastName, email, password, role: role.User };
 
     try {
-      if (isVerified) {
-        return false
-      }
+      const authResponse = await logins();
+      console.log("Auth response:", authResponse);
 
-      const resp = await logins();
-      console.log(resp, "resp====")
+      if (!authResponse) return;
 
-
-      if (resp === false) {
-        return
+      const result = await register(userData);
+      if (result?.success) {
+        toast.success(result.message);
+        setTimeout(() => navigate(loginRoute), 1000);
       } else {
-        const result = await register(data);
-
-        if (result.success) {
-          toast.success(result.message);
-          setTimeout(() => navigate(loginRoute), 1000);
-        } else {
-          toast.error(result.message);
-        }
+        toast.error(result.message || "Registration failed.");
       }
-
-
     } catch (error) {
       console.error("Error during registration:", error);
       toast.error("Something went wrong. Please try again.");
     }
-
-
   };
+
 
   const logins = async () => {
     try {
+      try {
+        await getWeb3AuthEVMInstance().initModal();
 
+      } catch (error) {
+        console.log(error)
 
-      if (!providerNear) {
-        console.error("Web3Auth not initialized");
-        toast.error("Web3Auth is not initialized. Please try again later.");
-        return;
+      }
+      try {
+        await getWeb3AuthEVMInstance().connect()
+
+      } catch (error) {
+        console.log(error)
       }
 
-      try{
-        await providerNear.initModal();
-      }catch(error){
-        console.error("Web3Auth error:", error);
-      }
-      const web3authProvider = await providerNear.connect();
+      // try {
+      //   await connectWallet();
+      // } catch (error) {
+
+      //   console.error("Error initializing Web3Auth modal:", error);
+      //   toast.error("Failed to initialize Web3Auth. Please try again.");
+      //   // window.location.reload();
+      //   return;
+      // }
+
+    //  const web3authProvider = await providerNear.connect();
       const user = await providerNear.getUserInfo();
       await providerNear.logout();
 
-      if (user?.verifierId !== formData.email) {
-        toast.error("Connected ID and email in the registration form don't match.");
-        return false;
+      if (!user?.verifierId) {
+        toast.error("Failed to retrieve user details. Please try again.");
+        return;
       }
 
+      if (user.verifierId !== formData.email) {
+        toast.error("Connected ID and email in the registration form don't match.");
+        return;
+      }
+
+      console.log("User authenticated successfully:", user);
+
     } catch (error) {
-      console.error("Web3Auth error:", error);
-      toast.error("Failed to authenticate. Please try again.");
+      console.error("Authentication error:", error);
+      toast.error("Authentication failed. Please try again.");
       window.location.reload();
-      return false;
     }
   };
+
   return (
     <>
       <Header />

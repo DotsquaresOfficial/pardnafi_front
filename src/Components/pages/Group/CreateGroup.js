@@ -2,17 +2,20 @@ import React, { useState, useEffect } from 'react';
 import Header from '../../Widgets/Header'
 import PageHeader from '../../Widgets/PageHeader?'
 import Footer from '../../Widgets/Footer'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { InputValid } from '../../validations/InputValid';
 import { toast } from 'react-toastify';
 import { factoryContract, factoryContractAbi } from '../../constent';
 import Web3 from 'web3';
+
 import { getWeb3AuthEVMInstance } from '../../auth/web3auth';
 import { getAccounts } from '../../auth/web3RPC';
 import { useSetGroupMutation } from "../../../redux/groupApi";
+import { browse_groups } from '../../constent/Routes';
 const CreateGroup = () => {
     const [setGroup] = useSetGroupMutation();
+    const navigate = useNavigate()
     const [groupData, setGroupData] = useState({
         name: '',
         groupSize: 5,
@@ -70,41 +73,8 @@ const CreateGroup = () => {
                 }
             }
             try {
-                const resp = await createGroups()
-                console.log(resp, "resp===")
+             await createGroups()
 
-                const data = {
-                    groupName: groupData.name,
-                    description: groupData.groupSize,
-                    txHash: resp.data.transactionHash,
-
-                }
-
-                if (resp) {
-
-                    // setGroup(data).then((result) => {
-                    //     console.log(result,"result==")
-                    //     if (result?.data?.status) {
-
-                    //         toast.success(result.data.message);
-                    //         setGroupData({
-                    //             name: '',
-                    //             groupSize: 0,
-                    //             contribution: 0,
-                    //             frequency: '',
-                    //             duration: 0,
-                    //             daoDepositSupport: false
-                    //         })
-
-                    //     } else {
-
-                    //         toast.error(result.data.message);
-                    //     }
-                    // });
-                    toast.success('Group Created: ' + JSON.stringify(groupData))
-                } else {
-                    toast.error(resp.message, "iiiiiiiiiiiiiii")
-                }
             } catch (error) {
                 toast.error(error.message, "oooooooooooooooooooooooo")
             }
@@ -137,10 +107,21 @@ const CreateGroup = () => {
     //     }
 
     const getUserWalletAddress = async () => {
-        await getWeb3AuthEVMInstance().initModal();
-        await getWeb3AuthEVMInstance().connect()
-        const provider = getWeb3AuthEVMInstance();
+       
         try {
+            await getWeb3AuthEVMInstance().initModal();
+            
+        } catch (error) {
+            
+        }
+        try {
+            await getWeb3AuthEVMInstance().connect()
+            
+        } catch (error) {
+            
+        }
+        try {
+            const provider = getWeb3AuthEVMInstance();
             const address = await getAccounts(provider);
             console.log(address, "address")
             setWalletAddress(address)
@@ -155,7 +136,9 @@ const CreateGroup = () => {
     }, []);
 
     const createGroups = async () => {
+
         try {
+
             const provider = getWeb3AuthEVMInstance();
             const web3 = new Web3(provider.provider);
             const data = new web3.eth.Contract(factoryContractAbi, factoryContract);
@@ -176,12 +159,11 @@ const CreateGroup = () => {
 
             transaction.send({ from: walletAddress })
                 .on('transactionHash', function (hash) {
-                    console.log("Transaction hash:", hash);
-
+                
 
                     const datas = {
                         groupName: groupData.name,
-                        description: groupData.groupSize,
+                        description: groupData.description,
                         txHash: hash,
                         groupId: uniqueId
                     };
@@ -199,6 +181,8 @@ const CreateGroup = () => {
                                 duration: 0,
                                 daoDepositSupport: false
                             });
+
+                            navigate(browse_groups)
                         } else {
                             toast.error(result.data?.message);
                         }
