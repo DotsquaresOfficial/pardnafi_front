@@ -321,7 +321,7 @@ background: #28A745;
 
 .notification-data a i:after {
     position: absolute;
-    content: "2";
+    /* content: "2"; */
     background: #ED4F9D;
     border-radius: 100%;
     width: 20px;

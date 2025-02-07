@@ -67,14 +67,14 @@ const CreateGroup = () => {
         try {
             for (let key in groupData) {
                 let checkGroup = InputValid(key, groupData[key]);
-                console.log(checkGroup,"checkGroup==")
+                console.log(checkGroup, "checkGroup==")
                 setGroupDataErr({ ...groupDataErr, [key]: checkGroup });
                 if (checkGroup !== "") {
                     return false;
                 }
             }
             try {
-             await createGroups()
+                await createGroups()
 
             } catch (error) {
                 toast.error(error.message, "oooooooooooooooooooooooo")
@@ -108,18 +108,18 @@ const CreateGroup = () => {
     //     }
 
     const getUserWalletAddress = async () => {
-       
+
         try {
             await getWeb3AuthEVMInstance().initModal();
-            
+
         } catch (error) {
-            
+
         }
         try {
             await getWeb3AuthEVMInstance().connect()
-            
+
         } catch (error) {
-            
+
         }
         try {
             const provider = getWeb3AuthEVMInstance();
@@ -145,22 +145,30 @@ const CreateGroup = () => {
             const data = new web3.eth.Contract(factoryContractAbi, factoryContract);
             const uniqueId = uuidv4();
 
-
+            if (groupData.frequency === "Monthly") {
+                groupData.frequency = 30
+            } else if (groupData.frequency === "Weekly") {
+                groupData.frequency = 7
+            } else if (groupData.frequency === "Bi-weekly") {
+                groupData.frequency = 14
+            }
 
             const transaction = data.methods.createGroup(
                 String(groupData.name),
-                Number(30),
+                web3.utils.toWei(groupData.contribution.toString(groupData.frequency), "ether"),
                 String("panely are applicable"),
-                Number(groupData.contribution),
-                Number(groupData.groupSize),
-                Number(groupData.duration),
+                web3.utils.toWei(groupData.contribution.toString(), "ether"),
+                web3.utils.toWei(groupData.groupSize.toString(), "ether"),
+                web3.utils.toWei(groupData.duration.toString(), "ether"),
+
+
                 Boolean(groupData.daoDepositSupport),
                 uniqueId
             );
 
             transaction.send({ from: walletAddress })
                 .on('transactionHash', function (hash) {
-                
+
 
                     const datas = {
                         groupName: groupData.name,

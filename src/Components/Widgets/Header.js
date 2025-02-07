@@ -246,7 +246,7 @@ function Header({ headerClass = null }) {
               
                   {authenticated ? <div class="dropdown">
                     <button class="btn dropdown-toggle" type="button" style={{ background: 'none', border: 'none' }} data-bs-toggle="dropdown" aria-expanded="false">
-                      <img alt="user" class="img-fluid" src="/images/header/user-img.svg" />
+                      <img alt="user" class="img-fluid" src="/images/header/user.jpg" />
                     </button>
                     <ul className="dropdown-menu">
                       <li><a className="dropdown-item" href="/user-profile"  >User Profile</a></li>

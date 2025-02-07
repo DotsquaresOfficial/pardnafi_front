@@ -229,17 +229,7 @@ const SignIn = () => {
                                         </div>
 
                                         <div className="account__check">
-                                            <div className="account__check-remember">
-                                                <input
-                                                    type="checkbox"
-                                                    className="form-check-input"
-                                                    value=""
-                                                    id="terms-check"
-                                                />
-                                                <label htmlFor="terms-check" className="form-check-label">
-                                                    Remember me
-                                                </label>
-                                            </div>
+                                           
                                             <div className="account__check-forgot">
                                                 <Link to={forgot_password}>Forgot Password?</Link>
                                             </div>

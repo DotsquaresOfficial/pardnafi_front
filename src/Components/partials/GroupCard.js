@@ -9,7 +9,7 @@ import { useGetGroupQuery } from "../../redux/groupApi"
 
 const GroupCard = () => {
   const { data: record } = useGetGroupQuery();
-  console.log(record, "data====")
+  console.log(record, "hhh")
   const [selectedGroup, setSelectedGroup] = useState("public");
   const [pricingData, setPricingData] = useState([]);
 
@@ -340,19 +340,35 @@ const GroupCard = () => {
                       >
                         <img src={item?.groupImage || "/images/team/group-23.png"} alt={item?.groupName} className="img-fluid services-img" />
                         <h3 className="mb-3">{item?.groupName || "Group Name"}</h3>
-                        <p className="text-justify">{item?.description || "No description available."}</p>
+
 
                         <br />
-                        <p><strong>Group Details:</strong></p>
+                        <p><strong>Group Details :</strong></p>
                         <ul>
-                          <li><i className="fa-solid fa-check"></i> <strong>Group ID:</strong> <span>{item?.groupId}</span></li>
-                          <li><i className="fa-solid fa-check"></i> <strong>Transaction Hash:</strong> <span>{item?.txHash}</span></li>
-                          
-                          <li><i className="fa-solid fa-check"></i> <strong>Created At:</strong> <span>{new Date(item?.createdAt).toLocaleString()}</span></li>
-                          
+
+                          <li><i className="fa-solid fa-check"></i> <strong>Group Contribution Per Cycle : </strong> <span>{item?.frequencyPrice
+                          }£</span></li>
+                          <li><i className="fa-solid fa-check"></i> <strong>Group Payout Frequency : </strong> <span>{item?.frequencyTime
+                          } Days</span></li>
+
+
+
+                          <li><i className="fa-solid fa-check"></i> <strong>Group Duration : </strong> <span>{item?.
+                            duration
+                          } Months</span></li>
+                          <li><i className="fa-solid fa-check"></i> <strong>Group Created By : </strong> <span>{item?.
+                            owner
+                          } </span></li>
+
+
+                          <li><i className="fa-solid fa-check"></i> <strong>Max Group Members : </strong> <span>{item?.groupSize
+                          }</span></li>
+
+                          <li><i className="fa-solid fa-check"></i> <strong>Created At : </strong> <span>{new Date(item?.createdAt).toLocaleString()}</span></li>
+
                         </ul>
 
-                        <p><strong>Group Members:</strong></p>
+                        <p><strong>Group Members : </strong></p>
                         {item?.members?.length > 0 ? (
                           <ul>
                             {item?.members?.map((member, i) => (
@@ -362,293 +378,12 @@ const GroupCard = () => {
                         ) : (
                           <p>No members yet.</p>
                         )}
+
+                        <p className="text-justify"> <strong>Group Rules : </strong>  {item?.description || "No description available."}</p>
                       </div>
                     ))}
                   </div>
-                  {/* <div className="tab-pane fade show active" id="v-pills-one" role="tabpanel" aria-labelledby="v-pills-one-tab">
-                    <img src="/images/team/group-23.png" alt className="img-fluid services-img" />
-                    <h3 className="mb-3">Accounts Payables Services</h3>
-                    <p className="text-justify">
-                      An Accounts Payable Specialist is responsible for managing various key financial processes within the company. This
-                      includes invoice and utility entry, ensuring accurate input of supplier invoices and utility bills for timely payments.
-                      They also handle utility payments, ensuring that all utility-related bills are processed on time.
-                    </p>
-
-
-                    <br />
-                    <p><strong>We provide Accounts Payable services for a wide range of clients, including:</strong></p>
-                    <ul>
-                      <li>
-                        <i class="fa-solid fa-check"></i>
-                        <p>
-                          <strong>Property Owners and Landlords:</strong>
-                          <span>
-                            Streamlining the processing of utility bills, vendor invoices, and maintaining accurate payment records for properties.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i class="fa-solid fa-check"></i>
-                        <p>
-                          <strong>Real Estate Developers:</strong>
-                          <span>
-                            Managing complex payables related to construction, materials, and contractor services to ensure timely and accurate
-                            payments.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i class="fa-solid fa-check"></i>
-                        <p>
-                          <strong>Property Management Companies:</strong>
-                          <span>
-                            Handling recurring expenses, vendor reconciliations, and timely utility payments for properties under management.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i class="fa-solid fa-check"></i>
-                        <p>
-                          <strong>Commercial Enterprises:</strong>
-                          <span>
-                            Assisting businesses with invoice entry, vendor management, and reconciliation to ensure smooth cash flow and maintain
-                            vendor relationships.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i class="fa-solid fa-check"></i>
-                        <p>
-                          <strong>Financial Institutions and Banks:</strong>
-                          <span>
-                            Ensuring that all payables, including utility bills and operational costs, are managed accurately for efficient
-                            financial reporting.
-                          </span>
-                        </p>
-                      </li>
-
-                      <li>
-                        <i class="fa-solid fa-check"></i>
-                        <p>
-                          <strong>Consulting and Legal Firms:</strong>
-                          <span>
-                            Managing payables for professional services, office supplies, and operational expenses to support business continuity.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i class="fa-solid fa-check"></i>
-                        <p>
-                          <strong>Healthcare Providers:</strong>
-                          <span>
-                            Ensuring timely payment of vendor invoices, medical supplies, and services while maintaining accurate financial records.
-                          </span>
-                        </p>
-                      </li>
-                    </ul>
-                    <p>
-                      <strong>
-                        We offer customized accounts payable solutions to streamline processes, reduce errors, and maintain vendor relations for
-                        organizations across various industries.
-                      </strong>
-                    </p>
-                  </div>
-                  <div className="tab-pane fade" id="v-pills-two" role="tabpanel" aria-labelledby="v-pills-two-tab">
-                    <img src="/images/team/group-23.png" alt className="img-fluid services-img" />
-                    <h3 className="mb-3">Accounts Receivable Services</h3>
-                    <p className="text-justify">
-                      We provide comprehensive Accounts Receivable services to help businesses manage their incoming payments efficiently and
-                      maintain a healthy cash flow. Our services include invoice generation and delivery, ensuring accurate billing and timely
-                      distribution to clients. We handle payment tracking, following up on outstanding invoices to reduce delays and improve
-                      collection rates. Our team also manages customer reconciliations, ensuring all payments are correctly applied to
-                      outstanding balances and resolving any discrepancies promptly.
-                    </p>
-                    <p className="text-justify">
-                      We assist with credit management, assessing the
-                      creditworthiness of customers and setting appropriate credit limits to mitigate risk. Additionally, our services include
-                      generating aged receivables reports, helping businesses stay on top of overdue payments and prioritize collections.
-                      Through deposit posting and bank reconciliations, we ensure that all payments are accurately recorded and reconciled
-                      with bank statements. We support businesses in optimizing their cash flow, reducing bad debt, and improving the overall
-                      efficiency of their receivables process.
-                    </p>
-                    <br />
-                    <p><strong>We provide Accounts Receivable services for a variety of industries, including:</strong></p>
-                    <ul>
-                      <li>
-                        <i class="fa-regular fa-circle-check"></i>
-                        <p>
-                          <strong>Property Owners and Landlords:</strong>
-                          <span>
-                            Managing rent collection, tenant invoicing, and timely follow-ups to ensure consistent cash flow.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i class="fa-regular fa-circle-check"></i>
-                        <p>
-                          <strong>Real Estate Developers:</strong>
-                          <span>
-                            Handling receivables related to project sales, deposits, and progress payments from buyers and clients.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i class="fa-regular fa-circle-check"></i>
-                        <p>
-                          <strong>Property Management Companies:</strong>
-                          <span>
-                            Overseeing tenant payments, maintaining accurate records, and managing outstanding balances for managed properties.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i class="fa-regular fa-circle-check"></i>
-                        <p>
-                          <strong>Commercial Enterprises:</strong>
-                          <span>
-                            Assisting businesses with invoicing, collections, and ensuring the timely receipt of payments for goods and services
-                            rendered.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i class="fa-regular fa-circle-check"></i>
-                        <p>
-                          <strong>Financial Institutions and Banks:</strong>
-                          <span>
-                            Managing loan repayments, fees, and maintaining accurate records of customer receivables.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i class="fa-regular fa-circle-check"></i>
-                        <p>
-                          <strong>Consulting and Legal Firms:</strong>
-                          <span>
-                            Ensuring timely collection of fees for services rendered while maintaining strong client relationships.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i class="fa-regular fa-circle-check"></i>
-                        <p>
-                          <strong>Healthcare Providers:</strong>
-                          <span>
-                            Handling patient billing, insurance claims, and ensuring that payments are received promptly for services provided.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i class="fa-regular fa-circle-check"></i>
-                        <p>
-                          <strong>Manufacturers and Distributors:</strong>
-                          <span>
-                            Overseeing collections for product sales, ensuring smooth cash flow, and minimizing outstanding invoices.
-                          </span>
-                        </p>
-                      </li>
-                    </ul>
-                    <p>
-                      <strong>
-                        We offer tailored Accounts Receivable services to help businesses efficiently manage collections, improve cash flow,
-                        and minimize payment delays across various sectors.
-                      </strong>
-                    </p>
-                  </div>
-                  <div className="tab-pane fade" id="v-pills-three" role="tabpanel" aria-labelledby="v-pills-three-tab">
-                    <img src="/images/team/group-23.png" alt className="img-fluid services-img" />
-                    <h3 className="mb-3">Real Estate General Ledger Accounting Services</h3>
-                    <p className="text-justify">
-                      Our <strong>Property Accounts Services</strong> ensure financial precision and accuracy through a range of specialized accounting
-                      processes. We guarantee <strong>Financial Month-End Precision</strong>, meticulously closing the books and providing detailed
-                      financial reports. <strong>Bank Reconciliations</strong> are handled seamlessly, ensuring that all transactions match the company’s
-                      records. Our team also offers <strong>Insurance Amortization Expertise</strong>, ensuring insurance costs are properly allocated over
-                      the coverage period. With <strong>Journal Entry Virtuosity</strong>, we record all financial transactions with care, and provide
-                      in-depth <strong>GL Analysis and Reconciliation</strong> to ensure the general ledger is always up to date and accurate.
-                    </p>
-                    <p className="text-justify">
-                      We manage
-                      <strong>Monthly Reserve Management</strong>, setting aside necessary funds for upcoming expenses and contingencies. Our services also
-                      include <strong>Efficient Funds Transfer</strong>, optimizing cash flow by ensuring funds are transferred promptly and efficiently.
-                      At year-end, we ensure <strong>Year-End Closure Excellence</strong>, completing all necessary processes to prepare for financial
-                      year-end audits. Additionally, we provide <strong>Audit Support Excellence</strong>, assisting in audit preparation and offering
-                      transparency in financial reporting. These services provide property owners and managers with complete, reliable, and
-                      timely financial oversight.
-                    </p>
-                    <br />
-                    <p><strong>We provide **Property Accounts Services** for a variety of clients, including:</strong></p>
-                    <ul>
-                      <li>
-                        <i className="bi bi-check-circle" />
-                        <p>
-                          <strong>Property Owners and Landlords:</strong>
-                          <span>
-                            Offering comprehensive accounting support to manage rental income, expenses, and financial reporting.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i className="bi bi-check-circle" />
-                        <p>
-                          <strong>Real Estate Developers:</strong>
-                          <span>
-                            Assisting with project financials, including budgeting, cost tracking, and monthly closing.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i className="bi bi-check-circle" />
-                        <p>
-                          <strong>Property Management Companies:</strong>
-                          <span>
-                            Streamlining financial processes such as rent collection, bank reconciliations, and expense management.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i className="bi bi-check-circle" />
-                        <p>
-                          <strong>Real Estate Investment Firms:</strong>
-                          <span>
-                            Managing financial reporting for property portfolios and ensuring accurate general ledger entries.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i className="bi bi-check-circle" />
-                        <p>
-                          <strong>Commercial Real Estate Firms:</strong>
-                          <span>
-                            Providing tailored accounting services for large property holdings and complex transactions.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i className="bi bi-check-circle" />
-                        <p>
-                          <strong>Construction Companies:</strong>
-                          <span>
-                            Overseeing financials related to construction projects, including monthly reserves and journal entries.
-                          </span>
-                        </p>
-                      </li>
-                      <li>
-                        <i className="bi bi-check-circle" />
-                        <p>
-                          <strong>Real Estate Funds:</strong>
-                          <span>
-                            Supporting with audit preparation, year-end closure, and financial performance analysis for investment portfolios.
-                          </span>
-                        </p>
-                      </li>
-                    </ul>
-                    <p>
-                      <strong>
-                        We offer customized accounting services designed to optimize financial operations and ensure accuracy across the real
-                        estate industry.
-                      </strong>
-                    </p>
-                  </div> */}
+             
                 </div>
               </div>
             </div>
