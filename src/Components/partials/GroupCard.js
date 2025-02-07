@@ -5,11 +5,11 @@ import { factoryContract, factoryContractAbi } from "../constent";
 
 import Web3 from "web3";
 import { getWeb3AuthEVMInstance } from "../auth/web3auth";
-import {useGetGroupQuery} from "../../redux/groupApi"
+import { useGetGroupQuery } from "../../redux/groupApi"
 
 const GroupCard = () => {
   const { data: record } = useGetGroupQuery();
-  console.log(record,"data====")
+  console.log(record, "data====")
   const [selectedGroup, setSelectedGroup] = useState("public");
   const [pricingData, setPricingData] = useState([]);
 
@@ -138,9 +138,9 @@ const GroupCard = () => {
   // const getGroupsList = async () => {
   //   try {
   //     const provider = getWeb3AuthEVMInstance();
-      
+
   //     try {
-        
+
   //       await provider.initModal();
   //       await provider.connect();
   //     } catch (error) {
@@ -152,8 +152,8 @@ const GroupCard = () => {
 
   //     const symbol = await contract.methods.getGroupsList().call();
   //     setPricingData(symbol)
-     
-      
+
+
   //     console.log("Groups List:", symbol);
   //     return symbol;
   //   } catch (error) {
@@ -178,46 +178,46 @@ const GroupCard = () => {
     <>
       <section className="pricing padding-top padding-bottom dash-sec">
         <div class="container">
-        <div className="section-header ">
-          {/* <h2 className="mb-15 mt-minus-5">Browse Group</h2> */}
-          <div className="p-4 max-w-lg mx-auto bg-white rounded-lg shadow-md">
-            
-      <h2 className="text-xl font-bold mb-4">Search & Filter Groups</h2>
-      <div className="saving-cost">
-      <div className="search-filtersgroup">
-      <input
-        type="text"
-        placeholder="Search groups by name..."
-        className="w-full p-2 mb-2 border rounded"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      </div>
-     
-      <div>
+          <div className="section-header ">
+            {/* <h2 className="mb-15 mt-minus-5">Browse Group</h2> */}
+            <div className="p-4 max-w-lg mx-auto bg-white rounded-lg shadow-md">
 
-      </div>
-      </div>
-      <div className="savingciub-price">
-      <ul className="mt-4">
-        {filteredGroups.length > 0 ? (
-          filteredGroups.map((group, index) => (
-            <li key={index} className="p-2 border-b last:border-none">
-              <strong>{group.name}</strong> - {group.frequency} - ${group.contribution}
-            </li>
-          ))
-        ) : (
-          <p className="text-gray-500">No groups found.</p>
-        )}
-      </ul>
-      </div>
-    </div>
-    </div>
+              <h2 className="text-xl font-bold mb-4">Search & Filter Groups</h2>
+              <div className="saving-cost">
+                <div className="search-filtersgroup">
+                  <input
+                    type="text"
+                    placeholder="Search groups by name..."
+                    className="w-full p-2 mb-2 border rounded"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                </div>
+
+                <div>
+
+                </div>
+              </div>
+              <div className="savingciub-price">
+                <ul className="mt-4">
+                  {filteredGroups.length > 0 ? (
+                    filteredGroups.map((group, index) => (
+                      <li key={index} className="p-2 border-b last:border-none">
+                        <strong>{group.name}</strong> - {group.frequency} - ${group.contribution}
+                      </li>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">No groups found.</p>
+                  )}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="container">
           {/* Group Selector */}
           <div className="private-govermrnt">
-            <select
+            {/* <select
               className="form-select form-select-lg mb-3"
               aria-label="Select Group"
               value={selectedGroup}
@@ -225,7 +225,7 @@ const GroupCard = () => {
             >
               <option value="public">Public Group</option>
               <option value="private">Private Group</option>
-            </select>
+            </select> */}
           </div>
 
           {/* Pricing Cards */}
@@ -285,12 +285,32 @@ const GroupCard = () => {
                 <div className="service-box">
                   <h4>Services List</h4>
                   <div className="services-list" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a href="#" className="active" id="v-pills-one-tab" data-bs-toggle="pill" data-bs-target="#v-pills-one" type="button" role="tab" aria-controls="v-pills-one" aria-selected="true"><i className="fa-solid fa-arrow-right" />
-                      <span>Group A</span></a>
+                    {/* {record&&record.map((item)=>{
+                    return<><a href="#" className="active" id="v-pills-one-tab" data-bs-toggle="pill" data-bs-target="#v-pills-one" type="button" role="tab" aria-controls="v-pills-one" aria-selected="true"><i className="fa-solid fa-arrow-right" />
+                     <span>{item?.groupName}</span> </a></>
+                   })}  */}
+
+                    {record && record.map((item, index) => (
+                      <a
+                        key={item?.groupId}
+                        href="#"
+                        className={`nav-link ${index === 0 ? "active" : ""}`} // Activate first tab by default
+                        id={`v-pills-${index}-tab`}
+                        data-bs-toggle="pill"
+                        data-bs-target={`#v-pills-${index}`}
+                        type="button"
+                        role="tab"
+                        aria-controls={`v-pills-${index}`}
+                        aria-selected={index === 0 ? "true" : "false"}
+                      >
+                        <i className="fa-solid fa-arrow-right" />
+                        <span>{item?.groupName}</span>
+                      </a>
+                    ))}
 
                     {/* <a href="#" id="v-pills-two-tab" data-bs-toggle="pill" data-bs-target="#v-pills-two" type="button" role="tab" aria-controls="v-pills-two" aria-selected="false"><i class="fa-solid fa-arrow-right"></i><span>Group B</span></a>
                     <a href="#" id="v-pills-three-tab" data-bs-toggle="pill" data-bs-target="#v-pills-three" type="button" role="tab" aria-controls="v-pills-three" aria-selected="false"><i class="fa-solid fa-arrow-right"></i><span>Group c</span></a> */}
-                
+
                   </div>
                 </div>
 
@@ -308,8 +328,44 @@ const GroupCard = () => {
                   </div>
                 </div>{/* End Services List */}
                 <div className="tab-content" id="v-pills-tabContent">
-                  
-                  <div className="tab-pane fade show active" id="v-pills-one" role="tabpanel" aria-labelledby="v-pills-one-tab">
+
+                  <div className="tab-content" id="v-pills-tabContent">
+                    {record && record?.map((item, index) => (
+                      <div
+                        key={item?.groupId}
+                        className={`tab-pane fade ${index === 0 ? "show active" : ""}`}
+                        id={`v-pills-${index}`}
+                        role="tabpanel"
+                        aria-labelledby={`v-pills-${index}-tab`}
+                      >
+                        <img src={item?.groupImage || "/images/team/group-23.png"} alt={item?.groupName} className="img-fluid services-img" />
+                        <h3 className="mb-3">{item?.groupName || "Group Name"}</h3>
+                        <p className="text-justify">{item?.description || "No description available."}</p>
+
+                        <br />
+                        <p><strong>Group Details:</strong></p>
+                        <ul>
+                          <li><i className="fa-solid fa-check"></i> <strong>Group ID:</strong> <span>{item?.groupId}</span></li>
+                          <li><i className="fa-solid fa-check"></i> <strong>Transaction Hash:</strong> <span>{item?.txHash}</span></li>
+                          <li><i className="fa-solid fa-check"></i> <strong>Created By:</strong> <span>{item?.createdBy}</span></li>
+                          <li><i className="fa-solid fa-check"></i> <strong>Created At:</strong> <span>{new Date(item?.createdAt).toLocaleString()}</span></li>
+                          
+                        </ul>
+
+                        <p><strong>Group Members:</strong></p>
+                        {item?.members?.length > 0 ? (
+                          <ul>
+                            {item?.members?.map((member, i) => (
+                              <li key={i}><i className="fa-solid fa-user"></i> {member}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p>No members yet.</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  {/* <div className="tab-pane fade show active" id="v-pills-one" role="tabpanel" aria-labelledby="v-pills-one-tab">
                     <img src="/images/team/group-23.png" alt className="img-fluid services-img" />
                     <h3 className="mb-3">Accounts Payables Services</h3>
                     <p className="text-justify">
@@ -317,8 +373,8 @@ const GroupCard = () => {
                       includes invoice and utility entry, ensuring accurate input of supplier invoices and utility bills for timely payments.
                       They also handle utility payments, ensuring that all utility-related bills are processed on time.
                     </p>
-                   
-                    
+
+
                     <br />
                     <p><strong>We provide Accounts Payable services for a wide range of clients, including:</strong></p>
                     <ul>
@@ -370,7 +426,7 @@ const GroupCard = () => {
                           </span>
                         </p>
                       </li>
-                     
+
                       <li>
                         <i class="fa-solid fa-check"></i>
                         <p>
@@ -592,7 +648,7 @@ const GroupCard = () => {
                         estate industry.
                       </strong>
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

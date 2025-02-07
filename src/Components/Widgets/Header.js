@@ -2,19 +2,19 @@ import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation } from 'react-router-dom';
 import Image from 'react-bootstrap/Image';
 import { change_password, register } from "../constent/Routes";
-import {useAuth} from "../../AuthContext";
+import { useAuth } from "../../AuthContext";
 import { getAccounts, getBalance } from "../auth/web3RPC";
 import { getWeb3AuthEVMInstance } from "../auth/web3auth";
 
 function Header({ headerClass = null }) {
   const [menu, setMenu] = useState(false);
   const [show, setShow] = useState(false);
-  const [walletBalance,setWalletBalance] = useState(0);
-  const [walletAddress,setWalletAddress] = useState("");
+  const [walletBalance, setWalletBalance] = useState(0);
+  const [walletAddress, setWalletAddress] = useState("");
   const location = useLocation(); // React Router hook to access location
   const [scrollTop, setScrollTop] = useState(0);
 
-  const { logout,connectWallet,login,authenticated} = useAuth();
+  const { logout, connectWallet, login, authenticated } = useAuth();
   const changeImage = useCallback((themeMode = 'light') => {
     const icon = document.querySelector('#btnSwitch img');
 
@@ -45,43 +45,43 @@ function Header({ headerClass = null }) {
 
   // ==================contract ================
 
-  const getUserWalletBalance = async () =>{
-    
-    try{
-      // await getWeb3AuthEVMInstance().initModal();
-    await connectWallet()
-    const provider = getWeb3AuthEVMInstance();
-     const bal = await getBalance(provider);
-     console.log(bal,"balance")
-    
-     setWalletBalance(bal)
-    }catch(error){
-      console.log(error,"error")
-    }
-  } 
-  const getUserWalletAddress = async () =>{
+  const getUserWalletBalance = async () => {
+
     try {
-      
+      // await getWeb3AuthEVMInstance().initModal();
       await connectWallet()
-      const provider=  getWeb3AuthEVMInstance();
-      try{
-       const address = await getAccounts(provider);
-      console.log(address,"address")
-       setWalletAddress(address)
-      }catch(error){
-        console.log(error,"error")
+      const provider = getWeb3AuthEVMInstance();
+      const bal = await getBalance(provider);
+      console.log(bal, "balance")
+
+      setWalletBalance(bal)
+    } catch (error) {
+      console.log(error, "error")
+    }
+  }
+  const getUserWalletAddress = async () => {
+    try {
+
+      await connectWallet()
+      const provider = getWeb3AuthEVMInstance();
+      try {
+        const address = await getAccounts(provider);
+        console.log(address, "address")
+        setWalletAddress(address)
+      } catch (error) {
+        console.log(error, "error")
       }
     } catch (error) {
-      console.log(error,"error")
+      console.log(error, "error")
     }
-  } 
-  
+  }
+
   useEffect(() => {
-    if(authenticated === true){
+    if (authenticated === true) {
       getUserWalletBalance();
-    getUserWalletAddress()
+      getUserWalletAddress()
     }
-    
+
   }, []);
 
   // ================contract ====================
@@ -219,19 +219,19 @@ function Header({ headerClass = null }) {
                   </li>
 
                 </ul>
-{authenticated?  <div className="wallet-connect">
-           <div className="wallet-img">
-           <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet"/>
-           </div>
-           <div className="wallet-img">
-            <h6>Wallet Balance: {walletBalance?walletBalance:"0"}</h6>
-           <h2>{walletAddress?walletAddress:""}</h2>
-           </div>
-            </div>:""}
-              
-           
-      <div className="user-dropdown">
-  {/* <div className="dropdown">
+                {authenticated ? <div className="wallet-connect">
+                  <div className="wallet-img">
+                    <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet" />
+                  </div>
+                  <div className="wallet-img">
+                    <h6>Wallet Balance: {walletBalance ? Number(walletBalance).toFixed(4) : "0"}</h6>
+                    <h2>{walletAddress ? walletAddress : ""}</h2>
+                  </div>
+                </div> : ""}
+
+
+                <div className="user-dropdown">
+                  {/* <div className="dropdown">
     <button className="btn" type="button" style={{background: 'none'}} data-bs-toggle="dropdown" aria-expanded="false">
     <img alt="user" class="img-fluid" src="/images/header/user-img.svg"/><span>Nalsen Mendala</span>
     </button>
@@ -241,31 +241,31 @@ function Header({ headerClass = null }) {
       <li><a className="dropdown-item" href="login.html">Logout</a></li>
     </ul>
   </div> */}
-  {authenticated? <div class="dropdown">
-  <button class="btn dropdown-toggle" type="button" style={{background: 'none',border:'none'}} data-bs-toggle="dropdown" aria-expanded="false">
-  <img alt="user" class="img-fluid" src="/images/header/user-img.svg"/>
-  </button>
-  <ul className="dropdown-menu">
-      <li><a className="dropdown-item" href="/user-profile"  >User Profile</a></li>
-      <li><a className="dropdown-item" href={change_password}>Change Password</a></li>
-      <li><a className="dropdown-item" href="#" onClick={handleLogout}>Logout</a></li>
-    </ul>
-</div>:""}
- 
-
-</div>
-
-{authenticated?<div class="user-dropdown notification-data">
-       <div class="dropdown">
-              <button class="btn" type="button" style={{background: 'none',border:'none'}}>
-                 <a class="nav-link" href="#contact"><i class="fa-regular fa-bell"></i></a>
-              </button>
-            </div>
-            </div>:""}
+                  {authenticated ? <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" style={{ background: 'none', border: 'none' }} data-bs-toggle="dropdown" aria-expanded="false">
+                      <img alt="user" class="img-fluid" src="/images/header/user-img.svg" />
+                    </button>
+                    <ul className="dropdown-menu">
+                      <li><a className="dropdown-item" href="/user-profile"  >User Profile</a></li>
+                      <li><a className="dropdown-item" href={change_password}>Change Password</a></li>
+                      <li><a className="dropdown-item" href="#" onClick={handleLogout}>Logout</a></li>
+                    </ul>
+                  </div> : ""}
 
 
+                </div>
 
-          
+                {authenticated ? <div class="user-dropdown notification-data">
+                  <div class="dropdown">
+                    <button class="btn" type="button" style={{ background: 'none', border: 'none' }}>
+                      <a class="nav-link" href="#contact"><i class="fa-regular fa-bell"></i></a>
+                    </button>
+                  </div>
+                </div> : ""}
+
+
+
+
 
 
 
@@ -275,7 +275,8 @@ function Header({ headerClass = null }) {
                 <div className="menu-area">
                   <div className="header-btn">
                     <a href={register} className="trk-btn trk-btn--border trk-join">
-                      <span>JOIN US</span>
+                    
+                    {!authenticated ?<span>JOIN US</span>:""}  
                     </a>
                   </div>
 

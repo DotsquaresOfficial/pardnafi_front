@@ -8,7 +8,11 @@ export const InputValid = (name, value) => {
     error = "This field is required";
     return error;
   }
- 
+  
+ if(name =="name" && value.length<3){
+  error="Group name must be between 3 and 50 characters."
+  return error
+ }
   
   // if (value?.match(/^\s/)) {
   //   error = `Please enter valid ${name} without first space`;

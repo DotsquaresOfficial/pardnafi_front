@@ -350,9 +350,10 @@ background: #28A745;
 .wallet-img h6{
     color: #000000;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 20px;
     margin-bottom: 0px;
+
 }
 
 .wallet-img h2{
@@ -361,6 +362,10 @@ background: #28A745;
     font-size: 16px;
     line-height: 20px;
     margin-bottom: 0px;
+    width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .header-section .container-fluid {
     padding: 0px 133px;
@@ -653,6 +658,16 @@ color-mix(in srgb, var(--default-color), transparent 20%);
         padding: 0.8rem 1.7rem;
         font-size: 14px;
     }
+    .createnew-group h2{
+        font-size: 21px;
+    }
+    .creategroup-img{
+        width: 85px;
+        height: 85px;
+    }
+    .creategroup-img img {
+        max-width: 35px;
+    }
 }
 
 @media(max-width:1366px){
@@ -679,6 +694,9 @@ color-mix(in srgb, var(--default-color), transparent 20%);
     .notification-data a i:after{
         left: 23px;
     }
+    .wallet-connect{
+        margin-right: 12px;
+    }
 }
 
 @media(max-width:1166px){
@@ -686,11 +704,25 @@ color-mix(in srgb, var(--default-color), transparent 20%);
         padding: 0.8rem 1.1rem;
         font-size: 12px;
     }
+    .creategroup-img{
+        width: 75px;
+        height: 75px;
+    }
+    .creategroup-img img {
+        max-width: 30px;
+    }
+    .createnew-group h1{
+        font-size: 37px;
+        min-height: 46px;
+    }
 }
 
 @media(max-width:1024){
     a.trk-join {
         padding: 0.8rem 1.1rem;
         font-size: 12px;
+    }
+    .createnew-group{
+        padding: 20px;
     }
 }

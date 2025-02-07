@@ -67,6 +67,7 @@ const CreateGroup = () => {
         try {
             for (let key in groupData) {
                 let checkGroup = InputValid(key, groupData[key]);
+                console.log(checkGroup,"checkGroup==")
                 setGroupDataErr({ ...groupDataErr, [key]: checkGroup });
                 if (checkGroup !== "") {
                     return false;
