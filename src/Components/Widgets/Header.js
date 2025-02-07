@@ -273,12 +273,12 @@ function Header({ headerClass = null }) {
               </div>
               <div className="header-action">
                 <div className="menu-area">
-                  <div className="header-btn">
+                {!authenticated ?  <div className="header-btn">
                     <a href={register} className="trk-btn trk-btn--border trk-join">
                     
-                    {!authenticated ?<span>JOIN US</span>:""}  
+                   <span>JOIN US</span>
                     </a>
-                  </div>
+                  </div>:""}  
 
                   {/* <!-- toggle icons --> */}
                   <div className={menu ? "header-bar d-lg-none header-bar--style1 active" : "header-bar d-lg-none header-bar--style1"} onClick={() => toggleMenu()}>
