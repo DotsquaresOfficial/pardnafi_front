@@ -347,7 +347,7 @@ const GroupCard = () => {
                         <ul>
                           <li><i className="fa-solid fa-check"></i> <strong>Group ID:</strong> <span>{item?.groupId}</span></li>
                           <li><i className="fa-solid fa-check"></i> <strong>Transaction Hash:</strong> <span>{item?.txHash}</span></li>
-                          <li><i className="fa-solid fa-check"></i> <strong>Created By:</strong> <span>{item?.createdBy}</span></li>
+                          
                           <li><i className="fa-solid fa-check"></i> <strong>Created At:</strong> <span>{new Date(item?.createdAt).toLocaleString()}</span></li>
                           
                         </ul>

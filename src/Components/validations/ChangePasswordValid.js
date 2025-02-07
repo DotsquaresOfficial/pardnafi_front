@@ -14,7 +14,7 @@ export const ChangePasswordValid = (name, value, nPassword, cPassword) => {
     }
     if (cPassword !== "") {
       if (value !== cPassword) {
-        error = "Confirm password does't matched";
+        error = "Confirm password doesn't match";
         return {name:"confirm_new_password",error:error};
       }
     }
@@ -27,7 +27,7 @@ export const ChangePasswordValid = (name, value, nPassword, cPassword) => {
     }
     if (nPassword !== "") {
       if (nPassword !== value) {
-        error = "Confirm password does't matched";
+        error = "Confirm password doesn't match";
 
         return {name:"confirm_new_password",error:error};
       }

@@ -219,6 +219,7 @@ function Header({ headerClass = null }) {
                   </li>
 
                 </ul>
+                <div class="for-m">
                 {authenticated ? <div className="wallet-connect">
                   <div className="wallet-img">
                     <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet" />
@@ -241,6 +242,8 @@ function Header({ headerClass = null }) {
       <li><a className="dropdown-item" href="login.html">Logout</a></li>
     </ul>
   </div> */}
+
+              
                   {authenticated ? <div class="dropdown">
                     <button class="btn dropdown-toggle" type="button" style={{ background: 'none', border: 'none' }} data-bs-toggle="dropdown" aria-expanded="false">
                       <img alt="user" class="img-fluid" src="/images/header/user-img.svg" />
@@ -264,14 +267,7 @@ function Header({ headerClass = null }) {
                 </div> : ""}
 
 
-
-
-
-
-
-
-              </div>
-              <div className="header-action">
+                <div className="header-action">
                 <div className="menu-area">
                 {!authenticated ?  <div className="header-btn">
                     <a href={register} className="trk-btn trk-btn--border trk-join">
@@ -288,7 +284,15 @@ function Header({ headerClass = null }) {
                   </div>
                 </div>
               </div>
+              </div>
 
+
+
+
+
+
+              </div>
+             
             </div>
           </div>
         </div>

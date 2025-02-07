@@ -15,11 +15,11 @@ import { getWeb3AuthEVMInstance } from './web3auth';
 import { useAuth } from '../../AuthContext';
 const SignUp = () => {
 
-  const { authenticated, login,connectWallet } = useAuth();
+  const { authenticated, login, connectWallet } = useAuth();
   const navigate = useNavigate()
   const [providerNear, setProviderNear] = useState(null);
   const [provider, setProvider] = useState(null);
-  const [isVerified, setIsVerified] = useState(false);
+  const [isVerified, setIsVerified] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
 
@@ -89,10 +89,10 @@ const SignUp = () => {
       [name]: value
     }));
     let checkRegister = LoginValid(name, value);
-    console.log(checkRegister, "hhh")
+   
     setFormDataErr({ ...formDataErr, [name]: checkRegister });
     // }
-
+    setIsVerified(null)
     if (name == "email") {
       let data = { email: value }
       const resp = await isEmailExist(data)
@@ -199,11 +199,11 @@ const SignUp = () => {
     }
 
     if (password !== cPassword) {
-      toast.error("Confirm password doesn't match.");
+      toast.error("Confirm password doesn't match");
       return;
     }
 
-    if (isVerified) return; 
+    if (isVerified) return;
 
     const userData = { firstName, lastName, email, password, role: role.User };
 
@@ -255,7 +255,7 @@ const SignUp = () => {
       //   return;
       // }
 
-    //  const web3authProvider = await providerNear.connect();
+      //  const web3authProvider = await providerNear.connect();
       const user = await providerNear.getUserInfo();
       await providerNear.logout();
 
@@ -275,7 +275,7 @@ const SignUp = () => {
     } catch (error) {
       console.error("Authentication error:", error);
       toast.error("Authentication failed. Please try again.");
-      window.location.reload();
+      // window.location.reload();
     }
   };
 
@@ -360,7 +360,11 @@ const SignUp = () => {
                             value={formData.email}
                             onChange={handleChange}
                           />
-                          <span style={isVerified ? { color: "red" } : { color: "green" }}>{isVerified ? "Already exists" : "Active"}</span>
+                          {isVerified !== null && (
+                            <span style={{ color: isVerified ? "red" : "green" }}>
+                              {isVerified ? "Already exists" : "Active"}
+                            </span>
+                          )}
                         </div>{formDataErr && <span className='' style={{ color: "red" }}>{formDataErr?.email}</span>}
                       </div>
                       <div className="col-12">

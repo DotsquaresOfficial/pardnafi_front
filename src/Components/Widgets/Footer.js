@@ -109,7 +109,7 @@ function Footer() {
                         <div className="footer__bottom">
                             <div className="footer__end">
                                 <div className="footer__end-copyright">
-                                    <p className=" mb-0">© 2025 All Rights Reserved By Pardna Fi </p>
+                                    <p className=" mb-0">© 2025 All Rights Reserved By PardnaFi </p>
                                 </div>
                                 <div>
                                     <ul className="social">
