@@ -36,8 +36,6 @@ const SignUp = () => {
     firstName: '',
     lastName: '',
     email: '',
-    // phone: '',
-
     password: '', cPassword: ''
   });
 
@@ -78,6 +76,7 @@ const SignUp = () => {
 
     //Return if there is an problem
     if (checkRegister !== "") {
+      
       return;
     }
 
@@ -107,15 +106,16 @@ const SignUp = () => {
 
   };
 
-
-
-
-
   const handleSubmit = async (e) => {
+    // Prevents Default
     e.preventDefault();
 
+    // Turn on debugger
     debugger;
+
+    // Start the lader
     setIsLoading(true);
+
     // Fetch the from data
     const { firstName, lastName, email, password, cPassword } = formData
 
@@ -126,37 +126,92 @@ const SignUp = () => {
       let checkRegisterFrom = LoginValid(key, formData[key]);
       setFormDataErr({ ...formDataErr, [key]: checkRegisterFrom });
       if (checkRegisterFrom !== "") {
+        // If there is any error then stop the loader
+        setIsLoading(false);
         return false;
       }
     }
 
+    // If all feilds are valid then validate the confirm password and password
     if (password !== cPassword) {
       toast.error("Confirm password doesn't match");
+      setIsLoading(false);
       return;
     }
 
+    // Check if email doesnot exists
     if (isEmailExist) {
       toast.error("Email already Exists, Please change your email.");
+      setIsLoading(false);
       return;
     };
 
+    // create user data
     const userData = { firstName, lastName, email, password, role: role.User };
 
     try {
-      debugger
-      const authResponse = await VerifyLogin();
-      console.log("Auth response:", authResponse);
+      try {
+        // Connect the wallet with web3auth
+        await  connectWallet(formData.email.trim().toLowerCase());
 
-      if (!authResponse) return;
+        // If wallet is not connected then revert the error message
+ 
+        if(!getWeb3AuthEVMInstance()?.connected){
+         toast.error("Failed to verify user.");
+         setIsLoading(false);
+          return;
+        }
+ 
+       } catch (error) {
+        console.log(error);
+        toast.error(`Something went wrong ${error}`);
+        setIsLoading(false);
+        return;
+       }
 
-      const result = await register(userData);
-      if (result?.success) {
-        toast.success(result.message);
-        setTimeout(() => navigate(loginRoute), 1000);
-      } else {
-        toast.error(result.message || "Registration failed.");
+      try {
+        // get users information
+        const user = await getWeb3AuthEVMInstance().getUserInfo()
+        await getWeb3AuthEVMInstance().logout();
+  
+        if (!user?.verifierId) {
+          setIsLoading(false);
+          toast.error("Failed to retrieve user details. Please try again.");
+          return;
+        }
+  
+        // Trim and lowercase to check all the emails
+        if (user.verifierId.trim().toLowerCase() !== formData.email.trim().toLowerCase()) {
+          setIsLoading(false);
+          toast.error("Connected ID and email in the registration form don't match.");
+          return;
+        }
+        setIsLoading(false);
+  
+        console.log("User authenticated successfully:", user);
+
+        const result = await register(userData);
+        if (result?.success) {
+          toast.success(result.message);
+          isLoading(false);
+          setTimeout(() => navigate(loginRoute), 1000);
+        } else {
+          isLoading(false);
+          toast.error(result.message || "Registration failed.");
+        }
+    
+  
+      } catch (error) {
+      
+        console.error("Authentication error:", error);
+        toast.error("Authentication failed. Please try again.");
+        setIsLoading(false);
+        return;
+        // window.location.reload();
       }
+    
     } catch (error) {
+      setIsLoading(false);
       console.error("Error during registration:", error);
       toast.error("Something went wrong. Please try again.");
     }
@@ -165,55 +220,10 @@ const SignUp = () => {
   };
 
 
-  const VerifyLogin = async () => {
-  
-    try {
-     
-      debugger;
-      try {
-       await  connectWallet(formData.email.trim().toLowerCase());
-
-       if(!getWeb3AuthEVMInstance()?.connected){
-        toast.error("Failed to verify user.");
-        setIsLoading(false);
-         return;
-       }
-
-      } catch (error) {
-        console.log(error)
-      }
-
-
-      const user = await getWeb3AuthEVMInstance().getUserInfo()
-      await getWeb3AuthEVMInstance().logout();
-
-      if (!user?.verifierId) {
-        toast.error("Failed to retrieve user details. Please try again.");
-        return;
-      }
-
-      // Trim and lowercase to check all the emails
-      if (user.verifierId.trim().toLowerCase() !== formData.email.trim().toLowerCase()) {
-        toast.error("Connected ID and email in the registration form don't match.");
-        return;
-      }
-
-      console.log("User authenticated successfully:", user);
-      return user;
-
-    } catch (error) {
-    
-      console.error("Authentication error:", error);
-      toast.error("Authentication failed. Please try again.");
-      return;
-      // window.location.reload();
-    }
-  };
-
   return (
     <>
       <Header />
-      <PageHeader title="Register" text="Register" />
+      <PageHeader title="Sign Up" text="Sign Up" />
       <section className="account padding-top padding-bottom sec-bg-color2">
         <div className="container">
           <div
@@ -244,6 +254,8 @@ const SignUp = () => {
                             First name
                           </label>
                           <input
+                            maxLength={50}
+                                                        
                             className="form-control"
                             type="text"
                             placeholder="Ex. Jhon"
@@ -266,6 +278,7 @@ const SignUp = () => {
                             Last name
                           </label>
                           <input
+                           maxLength={50}
                             className="form-control"
                             type="text"
                             id="last-name"
@@ -283,6 +296,7 @@ const SignUp = () => {
                             Email
                           </label>
                           <input
+                           maxLength={254}
                             type="email"
                             className="form-control"
                             id="account-email"
@@ -332,6 +346,8 @@ const SignUp = () => {
                             Password
                           </label>
                           <input
+                            minLength={8}
+                            maxLength={64}
                             type={passwordShow.type}
                             className="form-control showhide-pass"
                             id="account-pass"
@@ -360,6 +376,8 @@ const SignUp = () => {
                             Confirm Password
                           </label>
                           <input
+                            minLength={8}
+                            maxLength={64}
                             type="password"
                             className="form-control showhide-pass"
                             id="account-cpass"
