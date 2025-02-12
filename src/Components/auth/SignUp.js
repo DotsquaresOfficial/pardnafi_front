@@ -193,10 +193,10 @@ const SignUp = () => {
         const result = await register(userData);
         if (result?.success) {
           toast.success(result.message);
-          isLoading(false);
+          setIsLoading(false);
           setTimeout(() => navigate(loginRoute), 1000);
         } else {
-          isLoading(false);
+          setIsLoading(false);
           toast.error(result.message || "Registration failed.");
         }
     
