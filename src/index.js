@@ -13,10 +13,7 @@ root.render(
     <Provider store={store}>
       <App />
     </Provider>
-     </AuthProvider>
-//   <Provider store={store}>
-//   <App />
-// </Provider>
+  </AuthProvider>
 );
 
 

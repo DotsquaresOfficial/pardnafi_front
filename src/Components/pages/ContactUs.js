@@ -12,14 +12,12 @@ const ContactUs = () => {
     const [setContactUs] = useSetContactUsMutation();
     const [contactUsField, setContactUsField] = useState({
         firstName: '',
-
         contactNumber: '',
         email: '',
         message: ''
     });
     const [contactUsFieldErr, setContactUsFieldErr] = useState({
         firstName: '',
-
         contactNumber: '',
         email: '',
         message: ''

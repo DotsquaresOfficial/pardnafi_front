@@ -10,11 +10,12 @@ import Header from "../Widgets/Header";
 import Footer from "../Widgets/Footer";
 import { useAuth } from '../../AuthContext';
 import { getWeb3AuthEVMInstance } from './web3auth';
+import { WALLET_ADAPTERS } from '@web3auth/base';
 
 const SignIn = () => {
-      const { authenticated, login } = useAuth();
-    const navigate = useNavigate()
+    const { authenticated, login, connectWallet } = useAuth();
     const [loginField, setLoginField] = useState({ email: "", password: "" });
+    const [isLoading, setIsLoading] = useState(false);
     const [loginFieldErr, setLoginFieldErr] = useState({
         email: "",
         password: "",
@@ -24,13 +25,13 @@ const SignIn = () => {
         type: "password",
     });
 
-    useEffect(() => {
+    const navigate = useNavigate();
 
+    useEffect(() => {
       if (authenticated) {
         navigate(dashboard, { replace: true });
-      } else {
-
       }
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }); 
     }, [authenticated, navigate]);
 
 
@@ -51,11 +52,8 @@ const SignIn = () => {
 
     const onLogin = async (event) => {
         event.preventDefault();
-
-
         try {
             // Validate the fields
-
             for (let key in loginField) {
                 let checkLogin = LoginValid(key, loginField[key]);
                 setLoginFieldErr({ ...loginFieldErr, [key]: checkLogin });
@@ -72,19 +70,10 @@ const SignIn = () => {
                   toast.error("Web3Auth is not initialized. Please try again later.");
                   return;
                 }
-                try{
-                    await getWeb3AuthEVMInstance().logout();
-                }catch(error){
-                  console.error("Web3Auth error:", error);
-                }
-                try{
-                    await getWeb3AuthEVMInstance().initModal();
-                }catch(error){
-                  console.error("Web3Auth error:", error);
-                }
+                
                 try{
               
-                    await getWeb3AuthEVMInstance().connect()
+                await connectWallet(loginField.email.trim().toLowerCase());
                   
                 }catch(error){
                   console.error("Web3Auth error:", error);
@@ -93,7 +82,7 @@ const SignIn = () => {
               
                 const user = await getWeb3AuthEVMInstance().getUserInfo();
                
-                if (user?.verifierId !== loginField.email) {
+                if (user?.verifierId.trim().toLowerCase() !== loginField.email.trim().toLowerCase()) {
                   toast.error("Connected ID and email in the registration form don't match.");
                   await getWeb3AuthEVMInstance().logout();
                   return false;
@@ -114,8 +103,6 @@ const SignIn = () => {
 
 
             let result = await loginHandle(LoginData);
-
-
 
             if (result.success) {
                 localStorage.setItem("jwtToken", result?.data?.access_token);

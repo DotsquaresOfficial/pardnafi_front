@@ -14,7 +14,6 @@ import "./styles/css/custom.css";
 import "./styles/css/bootstrap.min.css";
 import "./styles/css/swiper-bundle.min.css";
 import "./styles/sass/style.scss";
-
 import SignIn from "./Components/auth/SignIn";
 import SignUp from "./Components/auth/SignUp";
 import Dashboard from "./Components/Widgets/Dashboard";
@@ -22,7 +21,7 @@ import CreateGroup from "./Components/pages/Group/CreateGroup";
 import PollingPage from "./Components/pages/Group/PollingPage";
 import BrowseGroups from "./Components/pages/Group/BrowseGroups";
 import ContactUs from "./Components/pages/ContactUs";
-import { browse_groups, change_password, contact_us, create_group, dashboard, forgot_password, group_details, loginRoute, onfidoKyc, polling_page, register, user_profile } from "./Components/constent/Routes";
+import { browse_groups, change_password, contact_us, create_group, dashboard, forgot_password, group_details, home, loginRoute, onfidoKyc, polling_page, register, user_profile } from "./Components/constent/Routes";
 import ForgotPassword from "./Components/auth/ForgotPassword";
 import ChangePassword from "./Components/auth/ChangePassword";
 import Profile from "./Components/pages/User/Profile";
@@ -39,11 +38,7 @@ function App() {
     }
   }, [login]);
   const [loading, setLoading] = useState(true);
-
-
   const [dark, setDark] = useState(false);
-
-
 
   //........... animation.....
   useEffect(() => {
@@ -70,6 +65,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path={home} element={<SignIn />} />
           <Route path={loginRoute} element={<SignIn />} />
           <Route path={register} element={<SignUp />} />
           <Route path={forgot_password} element={<ForgotPassword />} />
@@ -79,16 +75,11 @@ function App() {
           <Route path={onfidoKyc} element={<ProtectedRoute component={<OnfidoKyc />} />} />
           <Route path={change_password} element={<ProtectedRoute component={<ChangePassword />} />} />
           <Route path={browse_groups} element={<ProtectedRoute component={<BrowseGroups />} />} />
-
           <Route path={dashboard} element={<ProtectedRoute component={<Dashboard />} />} />
-
           <Route path={user_profile} element={<ProtectedRoute component={<Profile />} />} />
           <Route path={create_group} element={<ProtectedRoute component={<CreateGroup />} />} />
           <Route path={group_details} element={<ProtectedRoute component={<GroupDetails />} />} />
-
           <Route path={polling_page} element={<ProtectedRoute component={<PollingPage />} />} />
-
-
         </Routes>
 
       </BrowserRouter>

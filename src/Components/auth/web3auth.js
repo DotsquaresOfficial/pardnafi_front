@@ -8,6 +8,8 @@ import { getDefaultExternalAdapters } from "@web3auth/default-evm-adapter";
 import { WalletServicesPlugin } from "@web3auth/wallet-services-plugin";
 
 import { CommonPrivateKeyProvider } from "@web3auth/base-provider";
+import { Web3AuthNoModal } from "@web3auth/no-modal";
+import { AuthAdapter } from "@web3auth/auth-adapter";
 // IMP END - Blockchain Calls
 
 // IMP START - Dashboard Registration
@@ -43,16 +45,19 @@ const web3AuthOptionsEVM = {
   privateKeyProvider: privateKeyProviderEVM,
 }
 
-const web3authEVM = new Web3Auth(web3AuthOptionsEVM);
+const web3authEVM = new Web3AuthNoModal(web3AuthOptionsEVM);
 // IMP END - SDK Initialization
 
 // IMP START - Configuring External Wallets
-const adapters = getDefaultExternalAdapters({ options: web3AuthOptionsEVM });
-adapters.forEach((adapter) => {
-  web3authEVM.configureAdapter(adapter);
-});
+// const adapters = getDefaultExternalAdapters({ options: web3AuthOptionsEVM });
+// adapters.forEach((adapter) => {
+//   web3authEVM.configureAdapter(adapter);
+// });
 
 // IMP END - Configuring External Wallets
+
+const authadapter = new AuthAdapter();
+web3authEVM.configureAdapter(authadapter);
 
 const walletServicesPlugin = new WalletServicesPlugin();
 web3authEVM.addPlugin(walletServicesPlugin);
@@ -64,7 +69,7 @@ const getWeb3AuthEVMInstance = () => {
 }
 
 const getWalletServicesPluginInstance = () => {
-  return walletServicesPlugin;
+ // return walletServicesPlugin;
 }
 
 export { getWeb3AuthEVMInstance, getWalletServicesPluginInstance };

@@ -116,7 +116,7 @@ const CreateGroup = () => {
 
         }
         try {
-            await getWeb3AuthEVMInstance().connect()
+           // await getWeb3AuthEVMInstance().connect()
 
         } catch (error) {
 

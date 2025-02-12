@@ -9,27 +9,22 @@ import { Link, useNavigate } from "react-router-dom"
 import { dashboard, loginRoute } from '../constent/Routes';
 import { toast } from 'react-toastify';
 import { LoginValid } from '../validations/LoginValid';
-import { register, isEmailExist } from '../services/Login';
+import { register, isEmailExist as fetchIsEmailExist } from '../services/Login';
 import { role } from "../constent/Enum"
 import { getWeb3AuthEVMInstance } from './web3auth';
 import { useAuth } from '../../AuthContext';
+import { CircularProgress } from '@mui/material';
 const SignUp = () => {
 
   const { authenticated, login, connectWallet } = useAuth();
   const navigate = useNavigate()
-  const [providerNear, setProviderNear] = useState(null);
-  const [provider, setProvider] = useState(null);
-  const [isVerified, setIsVerified] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
-
-
-
+  const [isEmailExist, setIsEmailExist] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    // phone: '',
     password: '', cPassword: ''
   });
   const [passwordShow, setPasswordShow] = useState({
@@ -47,7 +42,7 @@ const SignUp = () => {
   });
 
   useEffect(() => {
-
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     if (authenticated) {
       navigate(dashboard, { replace: true });
     } else {
@@ -55,18 +50,6 @@ const SignUp = () => {
     }
   }, [authenticated, navigate]);
 
-  useEffect(() => {
-
-    const init = async () => {
-      try {
-        setProviderNear(getWeb3AuthEVMInstance());
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    init();
-  }, []);
 
   const showcurrentPassword = () => {
     if (passwordShow.type === "password") {
@@ -81,119 +64,68 @@ const SignUp = () => {
 
     const { name, value } = e.target;
 
+    // remove any email existance log.
+    setIsEmailExist(null);
 
-
-    // if (!isVerified) {
     setFormData(prevData => ({
       ...prevData,
       [name]: value
     }));
-    let checkRegister = LoginValid(name, value);
-   
-    setFormDataErr({ ...formDataErr, [name]: checkRegister });
-    // }
-    setIsVerified(null)
-    if (name == "email") {
-      let data = { email: value }
-      const resp = await isEmailExist(data)
-      if (resp.success) {
-        if (resp.isEmailExists) {
-          setIsVerified(true)
-          return false
-        } else {
-          setIsVerified(false)
-        }
 
+    let checkRegister = LoginValid(name, value);
+
+    setFormDataErr({ ...formDataErr, [name]: checkRegister });
+
+    //Return if there is an problem
+    if (checkRegister !== "") {
+      return;
+    }
+
+    // Set is Verified Null
+    if (name == "email") {
+      try {
+        debugger;
+        let data = { email: value }
+        setIsEmailExist("Loading");
+        const resp = await fetchIsEmailExist(data)
+        if (resp.success) {
+          if (resp.isEmailExists) {
+            setTimeout(() => {
+              setIsEmailExist(true);
+            }, 1000); // Delay of 1 second gives soomth experience.
+          } else {
+            setTimeout(() => {
+              setIsEmailExist(false);
+            }, 1000); // Delay of 1 second gives soomth experience.
+          }
+        }
+      } catch (ex) {
+        toast.error("Something went wrong.");
+        setIsEmailExist(true);
       }
     }
 
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
 
-  //   try {
-  //     await provider.logout();
-  //   } catch (error) {
-
-  //   }
-
-  //   const { firstName,
-  //     lastName,
-  //     email,
-  //     password, cPassword } = formData
-
-  //   for (let key in formData) {
-  //     let checkRegister = LoginValid(key, formData[key]);
-  //     setFormDataErr({ ...formDataErr, [key]: checkRegister });
-  //     if (checkRegister !== "") {
-  //       return false;
-  //     }
-  //   }
-
-
-  //   if (password !== cPassword) {
-  //     toast.error("Confirm password does't matched");
-  //     return false;
-  //   }
-  //   const data = {
-  //     firstName, lastName, email, password, role: role.User
-  //   }
-
-
-
-  //   try {
-  //     if (isVerified) {
-  //       return false
-  //     }
-
-  //     const resp = await logins();
-  //     console.log(resp,"resp===")
-
-
-
-  //     if (resp === false) {
-  //       return
-  //     } else {
-  //       const result = await register(data);
-
-  //       if (result.success) {
-  //         toast.success(result.message);
-  //         setTimeout(() => navigate(loginRoute), 1000);
-  //       } else {
-  //         toast.error(result.message);
-  //       }
-  //     }
-
-
-  //   } catch (error) {
-  //     console.error("Error during registration:", error);
-  //     toast.error("Something went wrong. Please try again.");
-  //   }
-
-
-  // };
 
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      await provider.logout();
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
+    debugger;
+    setIsLoading(true);
+    // Fetch the from data
+    const { firstName, lastName, email, password, cPassword } = formData
 
-    const { firstName,
-      lastName,
-      email,
-      password, cPassword } = formData
-
+    // Iterate through all the feilds
     for (let key in formData) {
-      let checkRegister = LoginValid(key, formData[key]);
-      setFormDataErr({ ...formDataErr, [key]: checkRegister });
-      if (checkRegister !== "") {
+
+      // Check if details are valid
+      let checkRegisterFrom = LoginValid(key, formData[key]);
+      setFormDataErr({ ...formDataErr, [key]: checkRegisterFrom });
+      if (checkRegisterFrom !== "") {
         return false;
       }
     }
@@ -203,13 +135,16 @@ const SignUp = () => {
       return;
     }
 
-    if (isVerified) return;
+    if (isEmailExist) {
+      toast.error("Email already Exists, Please change your email.");
+      return;
+    };
 
     const userData = { firstName, lastName, email, password, role: role.User };
 
     try {
       debugger
-      const authResponse = await logins();
+      const authResponse = await VerifyLogin();
       console.log("Auth response:", authResponse);
 
       if (!authResponse) return;
@@ -225,46 +160,40 @@ const SignUp = () => {
       console.error("Error during registration:", error);
       toast.error("Something went wrong. Please try again.");
     }
+
+    setIsLoading(false);
   };
 
 
-  const logins = async () => {
+  const VerifyLogin = async () => {
+  
     try {
+     
       debugger;
       try {
-        await getWeb3AuthEVMInstance().initModal();
+       await  connectWallet(formData.email.trim().toLowerCase());
+
+       if(!getWeb3AuthEVMInstance()?.connected){
+        toast.error("Failed to verify user.");
+        setIsLoading(false);
+         return;
+       }
 
       } catch (error) {
         console.log(error)
-
-      }
-      try {
-        await getWeb3AuthEVMInstance().connect()
-
-      } catch (error) {
-        console.log(error)
       }
 
-      // try {
-      //   await connectWallet();
-      // } catch (error) {
 
-      //   console.error("Error initializing Web3Auth modal:", error);
-      //   toast.error("Failed to initialize Web3Auth. Please try again.");
-      //   // window.location.reload();
-      //   return;
-      // }
-
-      //  const web3authProvider = await providerNear.connect();
-      const user = await providerNear.getUserInfo();
-      await providerNear.logout();
+      const user = await getWeb3AuthEVMInstance().getUserInfo()
+      await getWeb3AuthEVMInstance().logout();
 
       if (!user?.verifierId) {
         toast.error("Failed to retrieve user details. Please try again.");
         return;
       }
 
-      if (user.verifierId !== formData.email) {
+      // Trim and lowercase to check all the emails
+      if (user.verifierId.trim().toLowerCase() !== formData.email.trim().toLowerCase()) {
         toast.error("Connected ID and email in the registration form don't match.");
         return;
       }
@@ -273,8 +202,10 @@ const SignUp = () => {
       return user;
 
     } catch (error) {
+    
       console.error("Authentication error:", error);
       toast.error("Authentication failed. Please try again.");
+      return;
       // window.location.reload();
     }
   };
@@ -360,10 +291,38 @@ const SignUp = () => {
                             value={formData.email}
                             onChange={handleChange}
                           />
-                          {isVerified !== null && (
-                            <span style={{ color: isVerified ? "red" : "green" }}>
-                              {isVerified ? "Already exists" : "Active"}
+                          {isEmailExist !== null && isEmailExist !== "Loading" && (
+                            <span style={{ color: isEmailExist ? "red" : "green", display: 'flex', alignItems: 'center' }}>
+                              {/* Conditionally render the icon and text */}
+                              {isEmailExist ? (
+                                <>
+                                  <span style={{ marginRight: '8px' }}>✖</span> {/* Cross symbol */}
+                                  {"Email already exists"}
+                                </>
+                              ) : (
+                                <>
+                                  <span style={{ marginRight: '8px' }}>✔</span> {/* Checkmark symbol */}
+                                  {"Email available"}
+                                </>
+                              )}
                             </span>
+                          )}
+
+                          {isEmailExist === "Loading" && (
+                            <div style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              gap: '8px'
+                            }}>
+                              <CircularProgress size={16} />
+                              <span style={{
+                                fontSize: '14px',
+                                marginLeft: '8px'
+                              }}>
+                                {" checking your email ..."}
+                              </span>
+                            </div>
                           )}
                         </div>{formDataErr && <span className='' style={{ color: "red" }}>{formDataErr?.email}</span>}
                       </div>
@@ -411,24 +370,36 @@ const SignUp = () => {
 
                           />
 
-                          {/* <button
-                            type="button"
-                            id="btnCToggle"
-                            className="form-pass__toggle"
-                          >
-                            <i id="eyeIcon2" className="fa fa-eye"></i>
-                          </button> */}
+                          
                         </div>
                         {formDataErr && <span className='' style={{ color: "red" }}>{formDataErr?.cPassword}</span>}
                       </div>
                     </div>
 
-                    <button
-                      type="submit"
-                      className="trk-btn trk-btn--border trk-btn--primary d-block mt-4"
-                    >
-                      Connect Wallet
-                    </button>
+                   {
+                    !isLoading?
+                     <button
+                     type="submit"
+                     className="trk-btn trk-btn--border trk-btn--primary d-block mt-4"
+                   >
+                     Verify email
+                   </button>:(
+                            <div style={{
+                              display: 'flex',
+                              padding:'20px',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              gap: '8px'
+                            }}>
+                              <CircularProgress size={25} />
+                              <span style={{
+                                fontSize: '14px',
+                                marginLeft: '8px'
+                              }}>
+                              </span>
+                            </div>
+                          )
+                   }
                   </form>
 
                   <div className="account__switch">

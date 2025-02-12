@@ -42,46 +42,30 @@ function Header({ headerClass = null }) {
   }, []);
 
 
-
   // ==================contract ================
 
-  const getUserWalletBalance = async () => {
+  const getUserWalletBalanceAndAccount = async () => {
 
     try {
-      // await getWeb3AuthEVMInstance().initModal();
-      await connectWallet()
-      const provider = getWeb3AuthEVMInstance();
+      debugger;
+      await getWeb3AuthEVMInstance().init();
+      const provider = getWeb3AuthEVMInstance().provider;
       const bal = await getBalance(provider);
-      console.log(bal, "balance")
-
-      setWalletBalance(bal)
+      console.log(bal, "balance");
+      const address = await getAccounts(provider);
+      console.log(address, "address")
+      setWalletAddress(address);
+      setWalletBalance(bal);
     } catch (error) {
       console.log(error, "error")
     }
   }
-  const getUserWalletAddress = async () => {
-    try {
 
-      await connectWallet()
-      const provider = getWeb3AuthEVMInstance();
-      try {
-        const address = await getAccounts(provider);
-        console.log(address, "address")
-        setWalletAddress(address)
-      } catch (error) {
-        console.log(error, "error")
-      }
-    } catch (error) {
-      console.log(error, "error")
-    }
-  }
 
   useEffect(() => {
     if (authenticated === true) {
-      getUserWalletBalance();
-      getUserWalletAddress()
+      getUserWalletBalanceAndAccount();
     }
-
   }, []);
 
   // ================contract ====================
