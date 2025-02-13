@@ -305,7 +305,7 @@ const SignUp = () => {
                             value={formData.email}
                             onChange={handleChange}
                           />
-                          {isEmailExist !== null && isEmailExist !== "Loading" && (
+                          {formDataErr.email===""&& isEmailExist !== null && isEmailExist !== "Loading" && (
                             <span style={{ color: isEmailExist ? "red" : "green", display: 'flex', alignItems: 'center' }}>
                               {/* Conditionally render the icon and text */}
                               {isEmailExist ? (
@@ -322,7 +322,7 @@ const SignUp = () => {
                             </span>
                           )}
 
-                          {isEmailExist === "Loading" && (
+                          {formDataErr.email===""&&isEmailExist === "Loading" && (
                             <div style={{
                               display: 'flex',
                               justifyContent: 'center',

@@ -5,6 +5,7 @@ import { change_password, register } from "../constent/Routes";
 import { useAuth } from "../../AuthContext";
 import { getAccounts, getBalance } from "../auth/web3RPC";
 import { getWeb3AuthEVMInstance } from "../auth/web3auth";
+import Web3 from "web3";
 
 function Header({ headerClass = null }) {
   const [menu, setMenu] = useState(false);
@@ -50,12 +51,19 @@ function Header({ headerClass = null }) {
       debugger;
       await getWeb3AuthEVMInstance().init();
       const provider = getWeb3AuthEVMInstance().provider;
-      const bal = await getBalance(provider);
-      console.log(bal, "balance");
-      const address = await getAccounts(provider);
-      console.log(address, "address")
-      setWalletAddress(address);
-      setWalletBalance(bal);
+          const web3 = new Web3(provider);
+      
+          // Get user's account
+          const accounts = await web3.eth.getAccounts();
+          // Get balance in ether
+          const balanceWei = await web3.eth.getBalance(accounts[0]);
+          const balance = web3.utils.fromWei(balanceWei, "ether");
+      // const bal = await getBalance(provider);
+      // console.log(bal, "balance");
+      // const address = await getAccounts(provider);
+      // console.log(address, "address")
+      setWalletAddress(accounts[0]);
+      setWalletBalance(balance);
     } catch (error) {
       console.log(error, "error")
     }
@@ -187,10 +195,10 @@ function Header({ headerClass = null }) {
                   <li className="megamenu menu-item-has-children">
                     <Link scroll={false} href="/#0">Home </Link>
                   </li>
-                  <li className="menu-item-has-children">
+                  {/* <li className="menu-item-has-children">
                     <a href="/services">How PardnaFi Works</a>
 
-                  </li>
+                  </li> */}
                   <li className="menu-item-has-children">
                     <Link scroll={false} href="/#0">Who is PardnaFi for</Link>
 
