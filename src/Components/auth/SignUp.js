@@ -401,7 +401,8 @@ const SignUp = () => {
                      className="trk-btn trk-btn--border trk-btn--primary d-block mt-4"
                    >
                      Verify email
-                   </button>:(
+                   </button>:
+                   (
                             <div style={{
                               display: 'flex',
                               padding:'20px',
