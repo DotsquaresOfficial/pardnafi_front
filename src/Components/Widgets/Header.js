@@ -10,8 +10,8 @@ import Web3 from "web3";
 function Header({ headerClass = null }) {
   const [menu, setMenu] = useState(false);
   const [show, setShow] = useState(false);
-  const [walletBalance, setWalletBalance] = useState(0);
-  const [walletAddress, setWalletAddress] = useState("");
+  const [walletBalance, setWalletBalance] = useState(null);
+  const [walletAddress, setWalletAddress] = useState(null);
   const location = useLocation(); // React Router hook to access location
   const [scrollTop, setScrollTop] = useState(0);
 
@@ -48,22 +48,28 @@ function Header({ headerClass = null }) {
   const getUserWalletBalanceAndAccount = async () => {
 
     try {
-      debugger;
-      await getWeb3AuthEVMInstance().init();
-      const provider = getWeb3AuthEVMInstance().provider;
+          debugger;
+          await getWeb3AuthEVMInstance().init();
+          const provider = getWeb3AuthEVMInstance().provider;
+      
           const web3 = new Web3(provider);
       
           // Get user's account
           const accounts = await web3.eth.getAccounts();
-          // Get balance in ether
-          const balanceWei = await web3.eth.getBalance(accounts[0]);
-          const balance = web3.utils.fromWei(balanceWei, "ether");
-      // const bal = await getBalance(provider);
-      // console.log(bal, "balance");
-      // const address = await getAccounts(provider);
-      // console.log(address, "address")
-      setWalletAddress(accounts[0]);
-      setWalletBalance(balance);
+           if(accounts.length>0){
+            // Get balance in ether
+            const balanceWei = await web3.eth.getBalance(accounts[0]);
+            const balance = web3.utils.fromWei(balanceWei, "ether");
+
+            // const bal = await getBalance(provider);
+            // console.log(bal, "balance");
+            // const address = await getAccounts(provider);
+            // console.log(address, "address")
+            setWalletAddress(accounts[0]);
+            setWalletBalance(balance);
+           }else{
+            window.location.reload();
+           }
     } catch (error) {
       console.log(error, "error")
     }
@@ -193,7 +199,8 @@ function Header({ headerClass = null }) {
               <div className="menu-area">
                 <ul id="menu" className={`menu menu--style1 ${menu ? 'active' : ''}`}>
                   <li className="megamenu menu-item-has-children">
-                    <Link scroll={false} href="/#0">Home </Link>
+                  <a href="/dashboard">Home</a>
+                   
                   </li>
                   {/* <li className="menu-item-has-children">
                     <a href="/services">How PardnaFi Works</a>
@@ -217,12 +224,44 @@ function Header({ headerClass = null }) {
                     <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet" />
                   </div>
                   <div className="wallet-img">
-                    <h6>Wallet Balance: {walletBalance ? Number(walletBalance).toFixed(4) : "0"}</h6>
-                    <h2>{walletAddress ? walletAddress : ""}</h2>
-                  </div>
+                  <h6>
+                    {walletBalance === null || walletBalance === undefined ? (
+                      <div
+                        style={{
+                          background: '#f6f7f8',
+                          backgroundImage: 'linear-gradient(45deg, #f6f7f8 25%,rgba(224, 224, 224, 0.4) 50%, #f6f7f8 75%)',
+                          backgroundSize: '200% 100%',
+                          animation: 'shimmer 1.8s infinite linear',
+                          height: '20px', // Adjust the height
+                          width: '100%', // Adjust the width as needed
+                          borderRadius: '4px', // Optional rounded corners
+                        }}
+                      ></div>
+                    ) : (
+                      `${Number(walletBalance).toFixed(4)} ETH`
+                    )}
+                  </h6>
+                  <h2>
+                    {walletAddress === null || walletAddress === undefined ? (
+                      <div
+                        style={{
+                          marginTop:'6px',
+                          background: '#f6f7f8',
+                          backgroundImage: 'linear-gradient(45deg, #f6f7f8 25%,rgba(227, 227, 227, 0.4) 50%, #f6f7f8 75%)',
+                          backgroundSize: '200% 100%',
+                          animation: 'shimmer 2.7s infinite linear',
+                          height: '20px', // Adjust the height
+                          width: '100%', // Adjust the width as needed
+                          borderRadius: '4px', // Optional rounded corners
+                        }}
+                      ></div>
+                    ) : (
+                      walletAddress
+                    )}
+                  </h2>
+                </div>
+
                 </div> : ""}
-
-
                 <div className="user-dropdown">
                   {/* <div className="dropdown">
     <button className="btn" type="button" style={{background: 'none'}} data-bs-toggle="dropdown" aria-expanded="false">
