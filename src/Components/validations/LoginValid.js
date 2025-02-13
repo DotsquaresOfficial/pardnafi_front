@@ -1,17 +1,15 @@
 import { Emailpattern, Mobilepattern, Passwordpattern } from "../pattern/Pattern"
 
 export const LoginValid = (name, value) => {
-
-   value = value.trim(); // Remove leading and trailing spaces
    let error = ""
    if (name === "email") {
 
       if (value === "") {
-         error = "Email is required."
+         error = "This field is required"
          return error
       }
       if (!Emailpattern.test(value)) {
-         error = "Please enter valid email address."
+         error = "Please enter  valid email address"
          return error
       }
       return error
@@ -19,26 +17,12 @@ export const LoginValid = (name, value) => {
    if (name === "password") {
 
       if (value === "") {
-         error = "Password is required."
+         error = "This field is required"
          return error
       }
       if (!Passwordpattern.test(value)) {
-         let error = '';
-
-         // Check for minimum length and other requirements  
-         if (value.length < 8) {
-            error = "Password must be at least 8 characters long.";
-         } else if (!/[A-Z]/.test(value)) {
-            error = "Password must contain at least one uppercase letter.";
-         } else if (!/[a-z]/.test(value)) {
-            error = "Password must contain at least one lowercase letter.";
-         } else if (!/[0-9]/.test(value)) {
-            error = "Password must contain at least one number.";
-         } else if (!/[!@#%?^-_/$&*]/.test(value)) {
-            error = "Password must contain at least one special character like @, #, %, ?, etc.";
-         }
-
-         return error;
+         error = "Password must be at least 8 characters"
+         return error
       }
 
       return error
@@ -46,7 +30,7 @@ export const LoginValid = (name, value) => {
    if (name === "cPassword") {
 
       if (value === "") {
-         error = "Confirm password is required."
+         error = "This field is required"
          return error
       }
      
@@ -57,7 +41,7 @@ export const LoginValid = (name, value) => {
    if (name === "firstName") {
 
       if (value === "") {
-         error = "First name is required."
+         error = "This field is required"
          return error
       }
 
@@ -66,11 +50,14 @@ export const LoginValid = (name, value) => {
    if (name === "lastName") {
 
       if (value === "") {
-         error = "Last name is required."
+         error = "This field is required"
          return error
       }
 
       return error
    }
+    if (name === 'contactNumber' && !Mobilepattern.test(value)) {
+       error = "Please enter a valid mobile number";
+       return error;
+     }
 }
-

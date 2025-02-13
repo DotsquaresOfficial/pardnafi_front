@@ -2,43 +2,96 @@ import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { getWeb3AuthEVMInstance } from '../auth/web3auth';
 import { getAccounts } from '../auth/web3RPC';
-import { factoryContract, factoryContractAbi } from '../constent';
+import { factoryContract, factoryContractAbi, groupAbi } from '../constent';
+import { toast } from 'react-toastify';
 
 function GroupDetails({ item, index, selectedGroupId }) {
     const [isJoined, setIsJoined] = useState(null);
+    const [walletAddress, setWalletAddress] = useState("");
+
 
     useEffect(() => {
-        
+
         if (selectedGroupId === item?.groupId) {
             handleJoinGroup(item?.groupAddress);
         }
     }, [selectedGroupId]);
 
-   
+    console.log(selectedGroupId, "selectedGroupId====")
+
     const handleJoinGroup = async (group_address) => {
         try {
-            console.log("call00")
+
+            // console.log("call00=============")
             const provider = getWeb3AuthEVMInstance();
-            console.log("call1")
-            // await provider.initModal();
-            console.log("call2")
-            // await provider.connect();
-            console.log("call3")
+            // console.log("call1")
+            // // await provider.initModal();
+            // console.log("call2")
+            // // await provider.connect();
+            // console.log("call3")
             const web3 = new Web3(provider);
             const contract = new web3.eth.Contract(factoryContractAbi, factoryContract);
             const address = await getAccounts(provider);
 
+            setWalletAddress(address)
             const transaction = contract.methods.isJoined(group_address, address);
-            console.log(transaction,"transaction===")
+
             const isJoined = await transaction.call();
-console.log(isJoined,"isJoined==")
-            
+
+
 
             setIsJoined(isJoined);
         } catch (error) {
             console.error("Error fetching groups list:", error);
         }
     };
+
+    const joinGroupHandler = async () => {
+
+        const provider = getWeb3AuthEVMInstance();
+        // console.log("call1")
+        // // await provider.initModal();
+        // console.log("call2")
+        // // await provider.connect();
+        // console.log("call3")
+        const web3 = new Web3(provider);
+        const contract = new web3.eth.Contract(groupAbi, item?.groupAddress);
+
+        const transaction = contract.methods.joinGroup(
+            
+        );
+
+
+        transaction.send({ from: walletAddress })
+            .on('transactionHash', function (hash) {
+console.log(hash,"hash\========")
+
+                const datas = {
+
+                };
+
+                // setGroup(datas).then((result) => {
+
+                //     if (result?.data
+                //         ?.success) {
+                //         toast.success(result.data?.message);
+
+                //         // navigate(browse_groups)
+                //     } else {
+                //         toast.error(result.data?.message);
+                //     }
+                // });
+            })
+            .on('receipt', function (receipt) {
+
+                console.log("Transaction successful", receipt);
+            })
+            .on('error', function (error) {
+                console.error("Transaction failed=========", error);
+                toast.error(error.message);
+            });
+
+    }
 
     return (
         <div
@@ -74,7 +127,7 @@ console.log(isJoined,"isJoined==")
             )}
 
             <p className="text-justify"><strong>Group Rules: </strong>{item?.description || "No description available."}</p>
-            <button className="trk-btn trk-btn--border trk-btn--primary d-block mt-4">{isJoined ? "Already Joined" : "Join Group"}</button>
+            <button className="trk-btn trk-btn--border trk-btn--primary d-block mt-4" onClick={() => isJoined ?joinGroupHandler():""}>{isJoined ? "Already Joined" : "Join Group"}</button>
         </div>
     );
 }

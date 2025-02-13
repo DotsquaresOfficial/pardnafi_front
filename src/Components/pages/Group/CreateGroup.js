@@ -8,7 +8,7 @@ import { InputValid } from '../../validations/InputValid';
 import { toast } from 'react-toastify';
 import { factoryContract, factoryContractAbi } from '../../constent';
 import Web3 from 'web3';
-
+import {GroupValidation} from '../../validations/GroupValidation';
 import { getWeb3AuthEVMInstance } from '../../auth/web3auth';
 import { getAccounts } from '../../auth/web3RPC';
 import { useSetGroupMutation } from "../../../redux/groupApi";
@@ -18,10 +18,10 @@ const CreateGroup = () => {
     const navigate = useNavigate()
     const [groupData, setGroupData] = useState({
         name: '',
-        groupSize: 5,
-        contribution: 100,
-        frequency: 'Monthly',
-        duration: 6,
+        groupSize: '',
+        contribution: '',
+        frequency: '30',
+        duration: '',
         description: "",
         daoDepositSupport: false
     });
@@ -29,9 +29,10 @@ const CreateGroup = () => {
         name: '',
         groupSize: '',
         contribution: '',
+        frequency: '',
         duration: '',
         description: "",
-        daoDepositSupport: ''
+       
     });
     const [walletAddress, setWalletAddress] = useState("");
 
@@ -45,13 +46,17 @@ const CreateGroup = () => {
         }));
 
 
-        let error = InputValid(name, value);
+        let error = GroupValidation(name, value);
         setGroupDataErr((prevErr) => ({
             ...prevErr,
             [name]: error,
         }));
     };
-
+    const handleKeyDown = (event) => {
+        if (event.key === " " || event.keyCode === 32) {
+            event.preventDefault();
+        }
+    };
 
     const handleDaoSupportChange = () => {
         setGroupData((prevData) => ({
@@ -61,33 +66,38 @@ const CreateGroup = () => {
     };
 
 
-    const handleCreateGroup = async (e) => {
-        e.preventDefault();
+    // const handleCreateGroup = async (e) => {
+    //     e.preventDefault();
 
-        try {
-            for (let key in groupData) {
-                let checkGroup = InputValid(key, groupData[key]);
-                console.log(checkGroup, "checkGroup==")
-                setGroupDataErr({ ...groupDataErr, [key]: checkGroup });
-                if (checkGroup !== "") {
-                    return false;
-                }
-            }
-            try {
-                await createGroups()
+    //     try {
+    //         for (let key in groupData) {
+    //             console.log(key,"key",groupData)
 
-            } catch (error) {
-                toast.error(error.message, "oooooooooooooooooooooooo")
-            }
+    //             console.log(groupData[key], "groupData[key]")
+    //             let checkGroup = GroupValidation(key, groupData[key]);
+    //             console.log(checkGroup, "checkGroup==")
+    //             return
+    //             setGroupDataErr({ ...groupDataErr, [key]: checkGroup });
+    //             if (checkGroup !== "") {
+    //                 return false;
+    //             }
+    //         }
+    //         return
+    //         try {
+    //             await createGroups()
 
-        } catch (error) {
-            console.log(error, "error00000000")
-        }
+    //         } catch (error) {
+    //             toast.error(error.message, "oooooooooooooooooooooooo")
+    //         }
+
+    //     } catch (error) {
+    //         console.log(error, "error00000000")
+    //     }
 
 
 
 
-    };
+    // };
 
 
 
@@ -106,6 +116,38 @@ const CreateGroup = () => {
 
     //         // subscription.on('data', console.log);
     //     }
+
+    const handleCreateGroup = async (e) => {
+        e.preventDefault();
+    
+        let errors = {}; 
+        let hasError = false;
+    
+        for (let key in groupData) {
+            let checkGroup = GroupValidation(key, groupData[key]); 
+          
+            errors[key] = checkGroup; 
+            
+            if (checkGroup) {
+                hasError = true;
+            }
+        }
+  
+        setGroupDataErr(errors); 
+    
+        if (hasError) {
+            return; // Stop submission if errors exist
+        }
+    
+
+       
+        try {
+            await createGroups();
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+    
 
     const getUserWalletAddress = async () => {
 
@@ -140,6 +182,7 @@ const CreateGroup = () => {
 
         try {
 
+            console.log("call1")
             const provider = getWeb3AuthEVMInstance();
             const web3 = new Web3(provider.provider);
             const data = new web3.eth.Contract(factoryContractAbi, factoryContract);
@@ -153,6 +196,7 @@ const CreateGroup = () => {
                 groupData.frequency = 14
             }
 
+            console.log(groupData.frequency,"call2")
             const transaction = data.methods.createGroup(
                 String(groupData.name),
                 web3.utils.toWei(groupData.contribution.toString(groupData.frequency), "ether"),
@@ -165,6 +209,9 @@ const CreateGroup = () => {
                 Boolean(groupData.daoDepositSupport),
                 uniqueId
             );
+
+      
+            
 
             transaction.send({ from: walletAddress })
                 .on('transactionHash', function (hash) {
@@ -271,6 +318,7 @@ const CreateGroup = () => {
                                                         id="Group Name"
                                                         placeholder="Group Name"
                                                         name="name"
+                                                        // onKeyDown={handleKeyDown}
                                                         value={groupData.name}
                                                         onChange={handleChange}
                                                     />
@@ -287,6 +335,7 @@ const CreateGroup = () => {
                                                         type="text"
                                                         name="groupSize"
                                                         value={groupData.groupSize}
+                                                        onKeyDown={handleKeyDown}
                                                         onChange={handleChange}
                                                         min="5"
                                                         max="20"
@@ -309,6 +358,7 @@ const CreateGroup = () => {
                                                         type="text"
                                                         name="contribution"
                                                         value={groupData.contribution}
+                                                        onKeyDown={handleKeyDown}
                                                         onChange={handleChange}
                                                     />
                                                 </div>
@@ -326,10 +376,12 @@ const CreateGroup = () => {
                                                         value={groupData.frequency}
                                                         onChange={handleChange}
                                                     >
+                                                        
                                                         <option value="Weekly">Weekly</option>
                                                         <option value="Bi-weekly">Bi-weekly</option>
                                                         <option value="Monthly">Monthly</option>
                                                     </select>
+                                                    {groupDataErr.frequency && <span style={{ color: 'red' }}>{groupDataErr.frequency}</span>}
 
 
                                                 </div>
@@ -349,6 +401,7 @@ const CreateGroup = () => {
                                                         value={groupData.duration}
                                                         onChange={handleChange}
                                                     >
+                                                        <option value="">Select Duration</option>
                                                         <option value="3">3 Months</option>
                                                         <option value="6">6 Months</option>
                                                         <option value="12">12 Months</option>
@@ -369,7 +422,8 @@ const CreateGroup = () => {
 
                                                         className="form-control"
                                                         id="account-email"
-                                                        placeholder="description"
+                                                        placeholder="Description"
+                                                        // onKeyDown={handleKeyDown}
                                                         type="text"
                                                         name="description"
                                                         value={groupData.description}
@@ -386,7 +440,6 @@ const CreateGroup = () => {
                                                         className="form-check-input"
                                                         value=""
                                                         id="terms-check"
-
                                                         checked={groupData.daoDepositSupport}
                                                         onChange={handleDaoSupportChange}
                                                     />

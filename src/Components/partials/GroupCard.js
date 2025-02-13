@@ -21,7 +21,10 @@ const GroupCard = () => {
   const [frequency, setFrequency] = useState("");
   const [groupAddress, setGroupAddress] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
-  const [selectedGroupId, setSelectedGroupId] = useState(null);
+  const [selectedGroupId, setSelectedGroupId] = useState(
+    record?.length > 0 ? record[0]?.groupId : null
+);
+
   const filteredGroups = pricingData.filter((group) => {
     // return (
     //   group.name.toLowerCase().includes(search.toLowerCase()) &&
@@ -29,6 +32,7 @@ const GroupCard = () => {
     //   (minContribution ? group.contribution >= parseFloat(minContribution) : true)
     // );
   });
+ 
 
 
   const publicGroupData = [
@@ -177,6 +181,11 @@ const GroupCard = () => {
 
 
 
+useEffect(() => {
+    if (record?.length > 0) {
+        setSelectedGroupId(record[0]?.groupId); // Set first item active by default
+    }
+}, [record]);
 
   const handleTabClick = (groupId) => {
     setSelectedGroupId(groupId);
