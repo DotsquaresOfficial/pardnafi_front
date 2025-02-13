@@ -93,6 +93,12 @@ const SignIn = () => {
                 }
             }
 
+            if(!isEmailExist){
+                toast.error("Please register your email.");
+                setIsLoading(false);
+                return;
+            }
+
             //Verify That the Email belongs to the connected ID, call Provider initilizer
             try {
                 console.log(getWeb3AuthEVMInstance, "getWeb3AuthEVMInstance==")
@@ -127,13 +133,26 @@ const SignIn = () => {
 
                     await connectWallet(loginField.email.trim().toLowerCase());
 
+                    if( !getWeb3AuthEVMInstance().connected){
+                        setIsLoading(false);
+                        toast.error("Failed to verify your email.");
+                        return;
+                    }
+
                 } catch (error) {
                     setIsLoading(false);
                     console.error("Web3Auth error:", error);
+                    toast.error("Something went wrong");
+                    return;
                 }
 
 
                 const user = await getWeb3AuthEVMInstance().getUserInfo();
+
+                if(!user){
+                    setIsLoading(false);
+                    toast.error("Failed to get users details");
+                }
 
                 if (user?.verifierId.trim().toLowerCase() !== loginField.email.trim().toLowerCase()) {
                     toast.error("Connected ID and email in the registration form don't match.");
@@ -154,7 +173,6 @@ const SignIn = () => {
                 } else {
                     setTimeout(function () {
                         setIsLoading(false);
-                        // navigate(dashboard, { replace: true });
                         navigate(onfidoKyc, { replace: true });
                     }, 2000);
                 }
@@ -170,11 +188,8 @@ const SignIn = () => {
             console.error("Login failed: ", error);
             toast.error("An error occurred during login. Please try again.");
         }
+        setIsLoading(false);
     };
-
-
-
-
     return (
         <>
             <Header />
