@@ -5,11 +5,11 @@ export const LoginValid = (name, value) => {
    if (name === "email") {
 
       if (value === "") {
-         error = "This field is required"
+         error = "Email is required."
          return error
       }
       if (!Emailpattern.test(value)) {
-         error = "Please enter  valid email address"
+         error = "Please enter valid email address."
          return error
       }
       return error
@@ -17,7 +17,7 @@ export const LoginValid = (name, value) => {
    if (name === "password") {
 
       if (value === "") {
-         error = "This field is required"
+         error = "Password is required"
          return error
       }
       if (!Passwordpattern.test(value)) {
@@ -30,7 +30,7 @@ export const LoginValid = (name, value) => {
    if (name === "cPassword") {
 
       if (value === "") {
-         error = "This field is required"
+         error = "Confirm password field is required"
          return error
       }
      
@@ -41,7 +41,7 @@ export const LoginValid = (name, value) => {
    if (name === "firstName") {
 
       if (value === "") {
-         error = "This field is required"
+         error = "First name is required"
          return error
       }
 
@@ -50,7 +50,7 @@ export const LoginValid = (name, value) => {
    if (name === "lastName") {
 
       if (value === "") {
-         error = "This field is required"
+         error = "Last name is required"
          return error
       }
 
