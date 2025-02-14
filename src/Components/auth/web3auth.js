@@ -14,7 +14,7 @@ import { AuthAdapter } from "@web3auth/auth-adapter";
 
 // IMP START - Dashboard Registration
 // const clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ"; // get from https://dashboard.web3auth.io
-const clientId = "BJC_Lk_RKd9cDnYG0qVP7T71FCXG7qcYVllK9kc_5FRScB4FSAlnxNYFNEbcvfUaFBeOPu-w9ljRujxBPaynJ1Q"
+const clientId = "BHgArYmWwSeq21czpcarYh0EVq2WWOzflX-NTK-tY1-1pauPzHKRRLgpABkmYiIV_og9jAvoIxQ8L3Smrwe04Lw"
 // IMP END - Dashboard Registration
 
 
@@ -43,6 +43,18 @@ const web3AuthOptionsEVM = {
   clientId,
   web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_DEVNET,
   privateKeyProvider: privateKeyProviderEVM,
+  uiConfig: {
+    appName: "Pardna Fi",
+    appUrl: "https://pardnafi-front.vercel.app/",
+    logoLight: "https://pardnafi-front.vercel.app/images/logo/logo.svg",
+    logoDark: "https://pardnafi-front.vercel.app/images/logo/logo.svg",
+    defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl
+    mode: "light", // whether to enable dark mode. defaultValue: false
+    theme: {
+      primary: "#001C93",
+    },
+    useLogoLoader: true,
+  },
 }
 
 const web3authEVM = new Web3AuthNoModal(web3AuthOptionsEVM);
@@ -55,21 +67,24 @@ const web3authEVM = new Web3AuthNoModal(web3AuthOptionsEVM);
 // });
 
 // IMP END - Configuring External Wallets
+const walletServicesPlugin = new WalletServicesPlugin({
+  wsEmbedOpts: {},
+  walletInitOptions: { whiteLabel: { showWidgetButton: true } },
+});
+web3authEVM.addPlugin(walletServicesPlugin); // Add the plugin to web3auth
+
+
 
 const authadapter = new AuthAdapter();
 web3authEVM.configureAdapter(authadapter);
 
-const walletServicesPlugin = new WalletServicesPlugin();
-web3authEVM.addPlugin(walletServicesPlugin);
 
 
 const getWeb3AuthEVMInstance = () => {
-  
   return web3authEVM;
 }
 
 const getWalletServicesPluginInstance = () => {
- // return walletServicesPlugin;
+  return walletServicesPlugin;
 }
-
-export { getWeb3AuthEVMInstance, getWalletServicesPluginInstance };
+export { getWeb3AuthEVMInstance ,getWalletServicesPluginInstance};

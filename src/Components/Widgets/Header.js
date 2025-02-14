@@ -4,8 +4,9 @@ import Image from 'react-bootstrap/Image';
 import { change_password, register } from "../constent/Routes";
 import { useAuth } from "../../AuthContext";
 import { getAccounts, getBalance } from "../auth/web3RPC";
-import { getWeb3AuthEVMInstance } from "../auth/web3auth";
+import { getWalletServicesPluginInstance, getWeb3AuthEVMInstance } from "../auth/web3auth";
 import Web3 from "web3";
+import { WalletServicesPlugin } from "@web3auth/wallet-services-plugin";
 
 function Header({ headerClass = null }) {
   const [menu, setMenu] = useState(false);
@@ -14,6 +15,7 @@ function Header({ headerClass = null }) {
   const [walletAddress, setWalletAddress] = useState(null);
   const location = useLocation(); // React Router hook to access location
   const [scrollTop, setScrollTop] = useState(0);
+
 
   const { logout, connectWallet, login, authenticated } = useAuth();
   const changeImage = useCallback((themeMode = 'light') => {
@@ -220,7 +222,33 @@ function Header({ headerClass = null }) {
                 </ul>
                 <div class="for-m">
                 {authenticated ? <div className="wallet-connect">
-                  <div className="wallet-img">
+                  <div className="wallet-img" onClick={async ()=>{
+                    // Open wallet details here;
+                    debugger;
+                     try{
+                   
+
+                      try {
+                        console.log(getWeb3AuthEVMInstance()?.status);
+                        await getWeb3AuthEVMInstance().init(); // Attempt to initialize
+                      } catch (ex) {
+                        console.log('Error in initializing Web3Auth EVM instance:', ex);
+                      }
+          
+                      
+                      try {
+                        console.log(getWeb3AuthEVMInstance()?.status);
+                        await getWalletServicesPluginInstance().showWalletUi();
+                      } catch (ex) {
+                        console.log('Error in showing WalletConnect scanner:', ex);
+                      }
+                      
+                       
+                       
+                     }catch(ex){
+                      console.log(ex);
+                     }
+                  }}>
                     <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet" />
                   </div>
                   <div className="wallet-img">

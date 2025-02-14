@@ -71,7 +71,7 @@ const SignIn = () => {
                 }
             } catch (ex) {
                 toast.error("Something went wrong.");
-                setIsEmailExist(true);
+                setIsEmailExist(false);
             }
         }
     };
