@@ -12,11 +12,9 @@ import { useAuth } from "../../AuthContext";
 
 const GroupCard = () => {
   const { data: record } = useGetGroupQuery();
-  console.log(record, "hhh")
+  const {connectWallet}= useAuth();
   const [selectedGroup, setSelectedGroup] = useState("public");
   const [pricingData, setPricingData] = useState([]);
-  const {connectWallet}= useAuth();
-
   const [search, setSearch] = useState("");
   const [frequency, setFrequency] = useState("");
   const [groupAddress, setGroupAddress] = useState("");
@@ -25,101 +23,14 @@ const GroupCard = () => {
     record?.length > 0 ? record[0]?.groupId : null
 );
 
-  const filteredGroups = pricingData.filter((group) => {
-    // return (
-    //   group.name.toLowerCase().includes(search.toLowerCase()) &&
-    //   (frequency ? group.frequency === frequency : true) &&
-    //   (minContribution ? group.contribution >= parseFloat(minContribution) : true)
-    // );
-  });
+  // const filteredGroups = record.filter((group) => {
+  //   // return (
+  //   //   group.name.toLowerCase().includes(search.toLowerCase())
+  //   // );
+  // });
  
 
 
-  const publicGroupData = [
-    {
-      id: 1,
-      title: "Basic",
-      price: "$99/Monthly",
-      details: [
-        "Contribution: $100 per cycle",
-        "Frequency: Monthly",
-        "Duration: 12 Months",
-        "Rules: No late payments",
-      ],
-    },
-    {
-      id: 2,
-      title: "Standard",
-      price: "$149/Monthly",
-      details: [
-        "Contribution: $200 per cycle",
-        "Frequency: Weekly",
-        "24/7 technical support",
-        "Duration: 8 Months",
-        "Rules: No late payments",
-      ],
-    },
-    {
-      id: 3,
-      title: "Premium",
-      price: "$199/Monthly",
-      details: [
-        "Contribution: $500 per cycle",
-        "Frequency: Yearly",
-        "Duration: 9 Months",
-        "Rules: No late payments",
-      ],
-    },
-  ];
-
-  const privateGroupData = [
-    {
-      id: 1,
-      title: "Starter",
-      price: "$79/Monthly",
-      details: [
-        "Contribution: $80 per cycle",
-        "Frequency: Monthly",
-        "Duration: 10 Months",
-        "Rules: No late payments",
-      ],
-
-    },
-    {
-      id: 2,
-      title: "Advanced",
-      price: "$129/Monthly",
-      details: [
-        "Contribution: $300 per cycle",
-        "Frequency: Biweekly",
-        "Duration: 6 Months",
-        "Rules: Flexible payments",
-      ],
-    },
-    {
-      id: 3,
-      title: "Pro",
-      price: "$189/Monthly",
-      details: [
-        "Contribution: $400 per cycle",
-        "Frequency: Monthly",
-        "Duration: 7 Months",
-        "Rules: Strict payments",
-      ],
-    },
-    {
-      id: 4,
-      title: "Elite",
-      price: "$249/Monthly",
-      details: [
-        "Contribution: $600 per cycle",
-        "Frequency: Yearly",
-        "Duration: 12 Months",
-        "Rules: VIP Support Included",
-      ],
-
-    },
-  ];
 
   // ================contract integration=====================
   // const connectWallet = async () => {
@@ -171,13 +82,13 @@ const GroupCard = () => {
   // }, []);
 
 
-  useEffect(() => {
-    if (selectedGroup === "public") {
-      setPricingData(publicGroupData);
-    } else {
-      setPricingData(privateGroupData);
-    }
-  }, [selectedGroup]);
+  // useEffect(() => {
+  //   if (selectedGroup === "public") {
+  //     setPricingData(publicGroupData);
+  //   } else {
+  //     setPricingData(privateGroupData);
+  //   }
+  // }, [selectedGroup]);
 
 
 
@@ -215,19 +126,6 @@ useEffect(() => {
 
                 </div>
               </div>
-              <div className="savingciub-price">
-                <ul className="mt-4">
-                  {filteredGroups.length > 0 ? (
-                    filteredGroups.map((group, index) => (
-                      <li key={index} className="p-2 border-b last:border-none">
-                        <strong>{group.name}</strong> - {group.frequency} - ${group.contribution}
-                      </li>
-                    ))
-                  ) : (
-                    <p className="text-gray-500">No groups found.</p>
-                  )}
-                </ul>
-              </div>
             </div>
           </div>
         </div>
@@ -256,7 +154,7 @@ useEffect(() => {
             <div className="row gy-4 gy-lg-5">
               <div className="col-lg-4 d-none d-lg-block">
                 <div className="service-box">
-                  <h4>Services List</h4>
+                  <h4>Groups List</h4>
                   <div className="services-list" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
 
@@ -281,7 +179,9 @@ useEffect(() => {
 
                     )} */}
 
-                    {record && record.map((item, index) => (
+                    {record && record.filter((item) =>
+    item.groupName.toLowerCase().includes(search.toLowerCase())
+  ).map((item, index) => (
                       <a
                         key={item?.groupId}
                         href="#"
@@ -311,7 +211,9 @@ useEffect(() => {
                 <div className="tab-content" id="v-pills-tabContent">
 
                   <div className="tab-content" id="v-pills-tabContent">
-                    {record && record.map((item, index) => (
+                    {record && record.filter((item) =>
+    item.groupName.toLowerCase().includes(search.toLowerCase())
+  ).map((item, index) => (
                       <GroupDetails key={item?.groupId} item={item} index={index} selectedGroupId={selectedGroupId} />
                     ))}
 
