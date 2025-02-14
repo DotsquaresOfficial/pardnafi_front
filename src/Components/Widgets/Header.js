@@ -70,7 +70,7 @@ function Header({ headerClass = null }) {
             setWalletAddress(accounts[0]);
             setWalletBalance(balance);
            }else{
-            window.location.reload();
+            //window.location.reload();
            }
     } catch (error) {
       console.log(error, "error")
