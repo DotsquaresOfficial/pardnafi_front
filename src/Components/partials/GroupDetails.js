@@ -22,7 +22,7 @@ function GroupDetails({ item, index, selectedGroupId }) {
     const handleJoinGroup = async (group_address) => {
         try {
 
-            debugger;
+           
 
             // console.log("call00=============")
             const provider = getWeb3AuthEVMInstance();
@@ -38,7 +38,7 @@ function GroupDetails({ item, index, selectedGroupId }) {
             const accounts = await web3.eth.getAccounts();
 
             setWalletAddress(accounts[0])
-            const transaction = contract.methods.isJoined(group_address, address);
+            const transaction = contract.methods.isJoined(group_address, accounts   );
 
             const isJoined = await transaction.call();
 
