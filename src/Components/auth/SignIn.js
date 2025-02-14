@@ -92,7 +92,7 @@ const SignIn = () => {
                 }
             }
 
-            if(!isEmailExist){
+            if (!isEmailExist) {
                 toast.error("Please register your email.");
                 setIsLoading(false);
                 return;
@@ -109,12 +109,9 @@ const SignIn = () => {
 
             if (result.success) {
                 try {
-                    debugger;
-                    
-
                     await connectWallet(loginField.email.trim().toLowerCase());
 
-                    if( !getWeb3AuthEVMInstance().connected){
+                    if (!getWeb3AuthEVMInstance().connected) {
                         setIsLoading(false);
                         toast.error("Failed to verify your email.");
                         return;
@@ -130,7 +127,7 @@ const SignIn = () => {
 
                 const user = await getWeb3AuthEVMInstance().getUserInfo();
 
-                if(!user){
+                if (!user) {
                     setIsLoading(false);
                     toast.error("Failed to get users details");
                 }
@@ -234,7 +231,7 @@ const SignIn = () => {
 
                                                     {loginFieldErr.email === "" && isEmailExist === "Loading" && (
                                                         <div style={{
-                                                            padding:'10px',
+                                                          
                                                             display: 'flex',
                                                             justifyContent: 'center',
                                                             alignItems: 'center',
@@ -276,7 +273,7 @@ const SignIn = () => {
 
                                                         >
                                                             <i id="eyeIcon" className={`fa ${passwordShow.eye}`}></i>
-                                                        </button> 
+                                                        </button>
                                                     }
                                                 </div>
                                                 {loginFieldErr && <span className='' style={{ color: "red" }}>{loginFieldErr?.password}</span>}
@@ -291,28 +288,28 @@ const SignIn = () => {
                                             </div>
                                         </div>
 
-                                        {!isLoading?<button
+                                        {!isLoading ? <button
                                             type="submit"
                                             className="trk-btn trk-btn--border trk-btn--primary d-block mt-4"
                                         >
                                             Sign in
-                                        </button>:
-                                                        (
-                                                            <div style={{
-                                                                display: 'flex',
-                                                                padding: '20px',
-                                                                justifyContent: 'center',
-                                                                alignItems: 'center',
-                                                                gap: '8px'
-                                                            }}>
-                                                                <CircularProgress size={25} />
-                                                                <span style={{
-                                                                    fontSize: '14px',
-                                                                    marginLeft: '8px'
-                                                                }}>
-                                                                </span>
-                                                            </div>
-                                                        )}
+                                        </button> :
+                                            (
+                                                <div style={{
+                                                    display: 'flex',
+                                                    padding: '20px',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    gap: '8px'
+                                                }}>
+                                                    <CircularProgress size={25} />
+                                                    <span style={{
+                                                        fontSize: '14px',
+                                                        marginLeft: '8px'
+                                                    }}>
+                                                    </span>
+                                                </div>
+                                            )}
                                     </form>
 
                                     <div className="account__switch">

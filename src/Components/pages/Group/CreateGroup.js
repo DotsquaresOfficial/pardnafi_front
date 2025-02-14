@@ -4,13 +4,10 @@ import PageHeader from '../../Widgets/PageHeader?'
 import Footer from '../../Widgets/Footer'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
-import { InputValid } from '../../validations/InputValid';
 import { toast } from 'react-toastify';
 import { factoryContract, factoryContractAbi } from '../../constent';
 import Web3 from 'web3';
 import { GroupValidation } from '../../validations/GroupValidation';
-import { getWeb3AuthEVMInstance } from '../../auth/web3auth';
-import { getAccounts } from '../../auth/web3RPC';
 import { useSetGroupMutation } from "../../../redux/groupApi";
 import { CircularProgress } from '@mui/material';
 import { browse_groups } from '../../constent/Routes';
@@ -131,14 +128,13 @@ const CreateGroup = () => {
                 web3.utils.toWei(groupData.contribution.toString(), "ether"),
                 web3.utils.toWei(groupData.groupSize.toString(), "ether"),
                 web3.utils.toWei(groupData.duration.toString(), "ether"),
-
-
                 Boolean(groupData.daoDepositSupport),
                 uniqueId
             );
 
-
-
+            if(walletBalance===null|| walletAddress<0.01){
+                toast.error("insufficient balance, Please topup your wallet.");
+            }
 
             transaction.send({ from: walletAddress })
                 .on('transactionHash', function (hash) {
@@ -210,25 +206,7 @@ const CreateGroup = () => {
                                             Join the community and start saving together.
                                         </p>
                                     </div>
-
-                                    {/* <div className="account__social">
-                    <Link scroll={false} href="" className="account__social-btn">
-                      <span>
-                        <img
-                          src="/images/others/google.svg"
-                          alt="google icon"
-                        />
-                      </span>
-                      Continue with google
-                    </Link>
-                  </div> */}
-
-                                    {/* <div className="account__divider account__divider--style1">
-                    <span>or</span>
-                  </div> */}
-
                                     <form
-
                                         className="account__form needs-validation"
                                         onSubmit={handleCreateGroup}
                                     >
@@ -317,10 +295,6 @@ const CreateGroup = () => {
                                                     <label htmlFor="account-cpass" className="form-label">
                                                         Group Duration (months)
                                                     </label>
-                                                    {/* <select className="form-control" id="last-name-options">
-                          <option value="Doe">Doe</option>
-                          <option value="Smith">Smith</option>
-                        </select> */}
                                                     <select
                                                         className="form-select" aria-label="Default select example"
                                                         name="duration"
@@ -349,7 +323,6 @@ const CreateGroup = () => {
                                                         className="form-control"
                                                         id="account-email"
                                                         placeholder="Description"
-                                                        // onKeyDown={handleKeyDown}
                                                         type="text"
                                                         name="description"
                                                         value={groupData.description}
@@ -404,12 +377,6 @@ const CreateGroup = () => {
                                                 </div>
                                             )}
                                     </form>
-
-                                    {/* <div className="account__switch">
-                    <p>
-                      Don’t have an account yet? <Link to="/">Login</Link>
-                    </p>
-                  </div> */}
                                 </div>
                             </div>
                         </div>

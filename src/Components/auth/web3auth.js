@@ -53,7 +53,7 @@ const web3authEVM = new Web3AuthNoModal(web3AuthOptionsEVM);
 // IMP END - Configuring External Wallets
 const walletServicesPlugin = new WalletServicesPlugin({
   wsEmbedOpts: {},
-  walletInitOptions: { whiteLabel: { showWidgetButton: false } },
+  walletInitOptions: { whiteLabel: { showWidgetButton: true } },
 });
 web3authEVM.addPlugin(walletServicesPlugin); // Add the plugin to web3auth
 

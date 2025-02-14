@@ -258,7 +258,7 @@ const SignUp = () => {
                                                         
                             className="form-control"
                             type="text"
-                            placeholder="Ex. Jhon"
+                            placeholder="Ex. Dan"
                             name="firstName"
                             value={formData.firstName}
                             onChange={handleChange}
@@ -282,7 +282,7 @@ const SignUp = () => {
                             className="form-control"
                             type="text"
                             id="last-name"
-                            placeholder="Ex. Doe"
+                            placeholder="Ex. Pandey"
                             name="lastName"
                             value={formData.lastName}
                             onChange={handleChange}
