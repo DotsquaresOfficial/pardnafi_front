@@ -133,7 +133,9 @@ const CreateGroup = () => {
             );
 
             if(walletBalance===null|| walletAddress<0.01){
+                setIsLoading(false);
                 toast.error("insufficient balance, Please topup your wallet.");
+                return;
             }
 
             transaction.send({ from: walletAddress })
