@@ -109,6 +109,8 @@ const SignIn = () => {
 
             if (result.success) {
                 try {
+                    debugger;
+                    
 
                     await connectWallet(loginField.email.trim().toLowerCase());
 

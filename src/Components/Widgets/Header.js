@@ -8,13 +8,11 @@ import Web3 from "web3";
 function Header({ headerClass = null }) {
   const [menu, setMenu] = useState(false);
   const [show, setShow] = useState(false);
-  const [walletBalance, setWalletBalance] = useState(null);
-  const [walletAddress, setWalletAddress] = useState(null);
   const location = useLocation(); // React Router hook to access location
   const [scrollTop, setScrollTop] = useState(0);
 
 
-  const { logout, connectWallet, login, authenticated } = useAuth();
+  const { logout, connectWallet, login, authenticated,walletAddress,walletBalance,provider } = useAuth();
   const changeImage = useCallback((themeMode = 'light') => {
     const icon = document.querySelector('#btnSwitch img');
 
@@ -41,69 +39,12 @@ function Header({ headerClass = null }) {
     }
   }, []);
 
-
-  // ==================contract ================
-
-  const getUserWalletBalanceAndAccount = async () => {
-
-    try {
-
-          const provider = getWeb3AuthEVMInstance().provider;
-      
-          const web3 = new Web3(provider);
-      
-          // Get user's account
-          const accounts = await web3.eth.getAccounts();
-           if(accounts.length>0){
-            // Get balance in ether
-            const balanceWei = await web3.eth.getBalance(accounts[0]);
-            const balance = web3.utils.fromWei(balanceWei, "ether");
-            setWalletAddress(accounts[0]);
-            setWalletBalance(balance);
-           }else{
-            //window.location.reload();
-           }
-    } catch (error) {
-      console.log(error, "error")
-    }
-  }
-
-
-  useEffect(() => {
-    if (authenticated === true) {
-      getUserWalletBalanceAndAccount();
-    }
-  }, []);
-
   // ================contract ====================
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     localStorage.clear();
-    logout();
+    await logout();
   }
-
-  // const updateThemeColor = useCallback((themeMode = 'light') => {
-  //   const colorSwitcher = document.getElementById('btnSwitch');
-  //   document.documentElement.setAttribute('data-bs-theme', themeMode);
-  //   localStorage.setItem('theme', themeMode);
-
-  //   if (themeMode === 'dark') {
-  //     colorSwitcher.classList.add('dark-switcher');
-  //   } else {
-  //     colorSwitcher.classList.remove('dark-switcher');
-  //   }
-
-  //   changeImage(themeMode);
-  // }, [changeImage]);
-
-  // const toggleTheme = () => {
-  //   const theme = localStorage.getItem('theme');
-  //   if (theme && theme === 'dark') {
-  //     updateThemeColor('light');
-  //   } else {
-  //     updateThemeColor('dark');
-  //   }
-  // };
 
   function switchThemeByUrl() {
     const urlParams = new URLSearchParams(window.location.search);
