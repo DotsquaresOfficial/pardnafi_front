@@ -34,9 +34,10 @@ function GroupDetails({ item, index, selectedGroupId }) {
             // console.log("call3")
             const web3 = new Web3(provider.provider);
             const contract = new web3.eth.Contract(factoryContractAbi, factoryContract);
-            const address = await getAccounts(provider.provider);
+            // Get user's accounts
+            const accounts = await web3.eth.getAccounts();
 
-            setWalletAddress(address)
+            setWalletAddress(accounts[0])
             const transaction = contract.methods.isJoined(group_address, address);
 
             const isJoined = await transaction.call();
