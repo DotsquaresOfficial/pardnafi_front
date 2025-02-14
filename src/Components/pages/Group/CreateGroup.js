@@ -8,14 +8,17 @@ import { InputValid } from '../../validations/InputValid';
 import { toast } from 'react-toastify';
 import { factoryContract, factoryContractAbi } from '../../constent';
 import Web3 from 'web3';
-import {GroupValidation} from '../../validations/GroupValidation';
+import { GroupValidation } from '../../validations/GroupValidation';
 import { getWeb3AuthEVMInstance } from '../../auth/web3auth';
 import { getAccounts } from '../../auth/web3RPC';
 import { useSetGroupMutation } from "../../../redux/groupApi";
+import { CircularProgress } from '@mui/material';
 import { browse_groups } from '../../constent/Routes';
+
 const CreateGroup = () => {
     const [setGroup] = useSetGroupMutation();
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false);
     const [groupData, setGroupData] = useState({
         name: '',
         groupSize: '',
@@ -32,7 +35,7 @@ const CreateGroup = () => {
         frequency: '',
         duration: '',
         description: "",
-       
+
     });
     const [walletAddress, setWalletAddress] = useState("");
 
@@ -119,46 +122,47 @@ const CreateGroup = () => {
 
     const handleCreateGroup = async (e) => {
         e.preventDefault();
-    
-        let errors = {}; 
+       
+        let errors = {};
         let hasError = false;
-    
+
         for (let key in groupData) {
-            let checkGroup = GroupValidation(key, groupData[key]); 
-          
-            errors[key] = checkGroup; 
-            
+            let checkGroup = GroupValidation(key, groupData[key]);
+
+            errors[key] = checkGroup;
+
             if (checkGroup) {
                 hasError = true;
             }
         }
-  
-        setGroupDataErr(errors); 
-    
-        if (hasError) {
-            return; // Stop submission if errors exist
-        }
-    
 
-       
+        setGroupDataErr(errors);
+
+        if (hasError) {
+            return;
+        }
+
+
+
         try {
             await createGroups();
         } catch (error) {
+            setIsLoading(false);
             toast.error(error.message);
         }
     };
-    
+
 
     const getUserWalletAddress = async () => {
 
         try {
-            await getWeb3AuthEVMInstance().initModal();
+            await getWeb3AuthEVMInstance().init();
 
         } catch (error) {
 
         }
         try {
-           // await getWeb3AuthEVMInstance().connect()
+            // await getWeb3AuthEVMInstance().connect()
 
         } catch (error) {
 
@@ -179,10 +183,11 @@ const CreateGroup = () => {
     }, []);
 
     const createGroups = async () => {
+        debugger;
 
         try {
 
-            console.log("call1")
+
             const provider = getWeb3AuthEVMInstance();
             const web3 = new Web3(provider.provider);
             const data = new web3.eth.Contract(factoryContractAbi, factoryContract);
@@ -196,7 +201,7 @@ const CreateGroup = () => {
                 groupData.frequency = 14
             }
 
-            console.log(groupData.frequency,"call2")
+            setIsLoading(true);
             const transaction = data.methods.createGroup(
                 String(groupData.name),
                 web3.utils.toWei(groupData.contribution.toString(groupData.frequency), "ether"),
@@ -210,12 +215,12 @@ const CreateGroup = () => {
                 uniqueId
             );
 
-      
-            
+
+
 
             transaction.send({ from: walletAddress })
                 .on('transactionHash', function (hash) {
-
+                    setIsLoading(true);
 
                     const datas = {
                         groupName: groupData.name,
@@ -237,23 +242,27 @@ const CreateGroup = () => {
                                 duration: 0,
                                 daoDepositSupport: false
                             });
-
+                            setIsLoading(false);
                             navigate(browse_groups)
                         } else {
+                            setIsLoading(false);    
                             toast.error(result.data?.message);
                         }
                     });
                 })
                 .on('receipt', function (receipt) {
+                    setIsLoading(false);
                     console.log("Transaction successful", receipt);
                 })
                 .on('error', function (error) {
+                    setIsLoading(false);
                     console.error("Transaction failed=========", error);
                     toast.error(error.message);
                 });
 
         } catch (error) {
             toast.error(error.message);
+            setIsLoading(false);
             console.log(error, "error==========");
         }
 
@@ -376,7 +385,7 @@ const CreateGroup = () => {
                                                         value={groupData.frequency}
                                                         onChange={handleChange}
                                                     >
-                                                        
+
                                                         <option value="Weekly">Weekly</option>
                                                         <option value="Bi-weekly">Bi-weekly</option>
                                                         <option value="Monthly">Monthly</option>
@@ -453,13 +462,30 @@ const CreateGroup = () => {
                                             </div>
                                         </div>
 
-                                        <button
+
+                                        {!isLoading ? <button
                                             type="submit"
                                             className="trk-btn trk-btn--border trk-btn--primary d-block mt-4"
                                         // onClick={handleCreateGroup}
                                         >
                                             Create Group
-                                        </button>
+                                        </button> :
+                                            (
+                                                <div style={{
+                                                    display: 'flex',
+                                                    padding: '20px',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    gap: '8px'
+                                                }}>
+                                                    <CircularProgress size={25} />
+                                                    <span style={{
+                                                        fontSize: '14px',
+                                                        marginLeft: '8px'
+                                                    }}>
+                                                    </span>
+                                                </div>
+                                            )}
                                     </form>
 
                                     {/* <div className="account__switch">
