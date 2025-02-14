@@ -10,11 +10,13 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
+    const [web3Initilized,setWeb3Initilized]=useState(false);
     const [authenticated, setAuthenticated] = useState(localStorage?.getItem("jwtToken") ? true : false);
 
     useEffect(() => {
         if (localStorage?.getItem("jwtToken")) {
             setAuthenticated(true);
+            initializeWeb3AuthEVMInstance();
         }
     }, [])
 
@@ -28,21 +30,24 @@ export const AuthProvider = ({ children }) => {
 
     const connectWallet = async (email) => {
         if(!email){
-            return;
+            return false;
         }
-        debugger;
        
-
         try {
-            await getWeb3AuthEVMInstance().init();
+            if(!web3Initilized){
+                await getWeb3AuthEVMInstance().init();
+                 setWeb3Initilized(true);
+            }
         } catch (ex) {
-            console.log(ex)
+            console.log(ex);
+            return false;
         }
 
         try{
             await getWeb3AuthEVMInstance().logout();
         }catch(error){
           console.error("Web3Auth error:", error);
+          return false;
         }
         try {
             await getWeb3AuthEVMInstance().connectTo(WALLET_ADAPTERS.AUTH, {
@@ -51,13 +56,28 @@ export const AuthProvider = ({ children }) => {
                  login_hint: email, // email to send the OTP to
                 },
               });
+              return true;
         } catch (ex) {
-            console.log(ex)
+            console.log(ex);
+            return false;
         }
     }
 
+    const initializeWeb3AuthEVMInstance = async ()=>{
+        try{
+        if(!web3Initilized){
+            await getWeb3AuthEVMInstance().init();
+            setWeb3Initilized(true);
+        }
+          return true;
+        }catch(ex){
+          return false;
+        }
+      }
+
+
     return (
-        <AuthContext.Provider value={{ authenticated, login, logout, connectWallet }}>
+        <AuthContext.Provider value={{ authenticated, login, logout, connectWallet,initializeWeb3AuthEVMInstance }}>
             {children}
         </AuthContext.Provider>
     );

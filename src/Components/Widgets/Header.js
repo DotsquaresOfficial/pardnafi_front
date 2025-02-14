@@ -1,12 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation } from 'react-router-dom';
-import Image from 'react-bootstrap/Image';
 import { change_password, register } from "../constent/Routes";
 import { useAuth } from "../../AuthContext";
-import { getAccounts, getBalance } from "../auth/web3RPC";
 import { getWalletServicesPluginInstance, getWeb3AuthEVMInstance } from "../auth/web3auth";
 import Web3 from "web3";
-import { WalletServicesPlugin } from "@web3auth/wallet-services-plugin";
 
 function Header({ headerClass = null }) {
   const [menu, setMenu] = useState(false);
@@ -50,8 +47,7 @@ function Header({ headerClass = null }) {
   const getUserWalletBalanceAndAccount = async () => {
 
     try {
-          debugger;
-          await getWeb3AuthEVMInstance().init();
+
           const provider = getWeb3AuthEVMInstance().provider;
       
           const web3 = new Web3(provider);
@@ -62,11 +58,6 @@ function Header({ headerClass = null }) {
             // Get balance in ether
             const balanceWei = await web3.eth.getBalance(accounts[0]);
             const balance = web3.utils.fromWei(balanceWei, "ether");
-
-            // const bal = await getBalance(provider);
-            // console.log(bal, "balance");
-            // const address = await getAccounts(provider);
-            // console.log(address, "address")
             setWalletAddress(accounts[0]);
             setWalletBalance(balance);
            }else{
@@ -225,29 +216,11 @@ function Header({ headerClass = null }) {
                   <div className="wallet-img" onClick={async ()=>{
                     // Open wallet details here;
                     debugger;
-                     try{
-                   
-
-                      try {
-                        console.log(getWeb3AuthEVMInstance()?.status);
-                        await getWeb3AuthEVMInstance().init(); // Attempt to initialize
-                      } catch (ex) {
-                        console.log('Error in initializing Web3Auth EVM instance:', ex);
-                      }
-          
-                      
-                      try {
-                        console.log(getWeb3AuthEVMInstance()?.status);
-                        await getWalletServicesPluginInstance().showWalletUi();
-                      } catch (ex) {
-                        console.log('Error in showing WalletConnect scanner:', ex);
-                      }
-                      
-                       
-                       
-                     }catch(ex){
-                      console.log(ex);
-                     }
+                    try {
+                      await getWalletServicesPluginInstance().showWalletUi();
+                    } catch (ex) {
+                      console.log('Error in showing WalletConnect scanner:', ex);
+                    }
                   }}>
                     <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet" />
                   </div>
@@ -291,18 +264,6 @@ function Header({ headerClass = null }) {
 
                 </div> : ""}
                 <div className="user-dropdown">
-                  {/* <div className="dropdown">
-    <button className="btn" type="button" style={{background: 'none'}} data-bs-toggle="dropdown" aria-expanded="false">
-    <img alt="user" class="img-fluid" src="/images/header/user-img.svg"/><span>Nalsen Mendala</span>
-    </button>
-    <ul className="dropdown-menu">
-      <li><a className="dropdown-item" href="#" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">User Profile</a></li>
-      <li><a className="dropdown-item" href="#">Change Password</a></li>
-      <li><a className="dropdown-item" href="login.html">Logout</a></li>
-    </ul>
-  </div> */}
-
-              
                   {authenticated ? <div class="dropdown">
                     <button class="btn dropdown-toggle" type="button" style={{ background: 'none', border: 'none' }} data-bs-toggle="dropdown" aria-expanded="false">
                       <img alt="user" class="img-fluid" src="/images/header/user.jpg" />
@@ -344,12 +305,6 @@ function Header({ headerClass = null }) {
                 </div>
               </div>
               </div>
-
-
-
-
-
-
               </div>
              
             </div>

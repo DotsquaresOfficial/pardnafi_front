@@ -68,58 +68,6 @@ const CreateGroup = () => {
         }));
     };
 
-
-    // const handleCreateGroup = async (e) => {
-    //     e.preventDefault();
-
-    //     try {
-    //         for (let key in groupData) {
-    //             console.log(key,"key",groupData)
-
-    //             console.log(groupData[key], "groupData[key]")
-    //             let checkGroup = GroupValidation(key, groupData[key]);
-    //             console.log(checkGroup, "checkGroup==")
-    //             return
-    //             setGroupDataErr({ ...groupDataErr, [key]: checkGroup });
-    //             if (checkGroup !== "") {
-    //                 return false;
-    //             }
-    //         }
-    //         return
-    //         try {
-    //             await createGroups()
-
-    //         } catch (error) {
-    //             toast.error(error.message, "oooooooooooooooooooooooo")
-    //         }
-
-    //     } catch (error) {
-    //         console.log(error, "error00000000")
-    //     }
-
-
-
-
-    // };
-
-
-
-    // ================contract integration=====================
-
-
-    // address to send the token
-
-    //     const createGroup = async () => {
-
-    //     const provider=getWeb3AuthEVMInstance();
-    // const web3 = new Web3(provider.provider);
-    //         const data = new web3.eth.Contract(factoryContractAbi, factoryContract);
-
-    //         // const subscription = data.events.createGroup().send({_groupName,_paymentFrequency,_rules,_minimumContribution});
-
-    //         // subscription.on('data', console.log);
-    //     }
-
     const handleCreateGroup = async (e) => {
         e.preventDefault();
        
@@ -154,23 +102,11 @@ const CreateGroup = () => {
 
 
     const getUserWalletAddress = async () => {
-
-        try {
-            await getWeb3AuthEVMInstance().init();
-
-        } catch (error) {
-
-        }
-        try {
-            // await getWeb3AuthEVMInstance().connect()
-
-        } catch (error) {
-
-        }
+      
         try {
             const provider = getWeb3AuthEVMInstance();
-            const address = await getAccounts(provider);
-            console.log(address, "address")
+            const address = await getAccounts(provider.provider);
+            console.log(address, "address");
             setWalletAddress(address)
         } catch (error) {
             console.log(error, "error")

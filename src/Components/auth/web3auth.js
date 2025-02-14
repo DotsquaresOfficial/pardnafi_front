@@ -3,20 +3,12 @@
 // IMP START - Quick Start
 import { CHAIN_NAMESPACES, IAdapter, WEB3AUTH_NETWORK } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
-import { Web3Auth, Web3AuthOptions } from "@web3auth/modal";
-import { getDefaultExternalAdapters } from "@web3auth/default-evm-adapter";
 import { WalletServicesPlugin } from "@web3auth/wallet-services-plugin";
-
-import { CommonPrivateKeyProvider } from "@web3auth/base-provider";
 import { Web3AuthNoModal } from "@web3auth/no-modal";
 import { AuthAdapter } from "@web3auth/auth-adapter";
 // IMP END - Blockchain Calls
 
-// IMP START - Dashboard Registration
-// const clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ"; // get from https://dashboard.web3auth.io
 const clientId = "BJC_Lk_RKd9cDnYG0qVP7T71FCXG7qcYVllK9kc_5FRScB4FSAlnxNYFNEbcvfUaFBeOPu-w9ljRujxBPaynJ1Q"
-// IMP END - Dashboard Registration
-
 
 const chainConfigEVM = {
   chainNamespace: CHAIN_NAMESPACES.EIP155,
@@ -81,4 +73,6 @@ const getWeb3AuthEVMInstance = () => {
 const getWalletServicesPluginInstance = () => {
   return walletServicesPlugin;
 }
+
+
 export { getWeb3AuthEVMInstance ,getWalletServicesPluginInstance};

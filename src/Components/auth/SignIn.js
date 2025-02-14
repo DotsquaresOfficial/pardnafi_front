@@ -51,7 +51,6 @@ const SignIn = () => {
         setLoginField({ ...loginField, [name]: value });
         let checkLogin = LoginValid(name, value);
         setLoginFieldErr({ ...loginFieldErr, [name]: checkLogin });
-        // Set is Verified Null
         if (name == "email") {
             try {
                 debugger;
@@ -98,26 +97,6 @@ const SignIn = () => {
                 setIsLoading(false);
                 return;
             }
-
-            //Verify That the Email belongs to the connected ID, call Provider initilizer
-            try {
-                console.log(getWeb3AuthEVMInstance, "getWeb3AuthEVMInstance==")
-                if (!getWeb3AuthEVMInstance()) {
-                    console.error("Web3Auth not initialized");
-                    toast.error("Web3Auth is not initialized. Please try again later.");
-                    setIsLoading(false);
-                    return;
-                }
-
-             
-
-            } catch (error) {
-                console.error("Web3Auth error:==========", error);
-                toast.error("Failed to authenticate. Please try again.");
-                setIsLoading(false);
-                return false;
-            }
-
 
             let LoginData = {
                 email: loginField.email,
