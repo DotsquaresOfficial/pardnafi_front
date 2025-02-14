@@ -187,11 +187,6 @@ const CreateGroup = () => {
             setIsLoading(false);
             console.log(error, "error==========");
         }
-
-
-
-
-
     };
 
 
