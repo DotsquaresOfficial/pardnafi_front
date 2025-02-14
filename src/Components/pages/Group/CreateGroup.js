@@ -14,8 +14,10 @@ import { getAccounts } from '../../auth/web3RPC';
 import { useSetGroupMutation } from "../../../redux/groupApi";
 import { CircularProgress } from '@mui/material';
 import { browse_groups } from '../../constent/Routes';
+import { useAuth } from '../../../AuthContext';
 
 const CreateGroup = () => {
+    const {walletAddress,walletBalance,provider}=useAuth()
     const [setGroup] = useSetGroupMutation();
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +39,6 @@ const CreateGroup = () => {
         description: "",
 
     });
-    const [walletAddress, setWalletAddress] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -101,31 +102,16 @@ const CreateGroup = () => {
     };
 
 
-    const getUserWalletAddress = async () => {
-      
-        try {
-            const provider = getWeb3AuthEVMInstance();
-            const address = await getAccounts(provider.provider);
-            console.log(address, "address");
-            setWalletAddress(address)
-        } catch (error) {
-            console.log(error, "error")
-        }
-    }
-
-    useEffect(() => {
-
-        getUserWalletAddress()
-    }, []);
-
     const createGroups = async () => {
         debugger;
 
+        if(!provider){
+            toast.success("provider not ready, please wait..."); 
+        }
+
         try {
-
-
-            const provider = getWeb3AuthEVMInstance();
-            const web3 = new Web3(provider.provider);
+         
+            const web3 = new Web3(provider);
             const data = new web3.eth.Contract(factoryContractAbi, factoryContract);
             const uniqueId = uuidv4();
 

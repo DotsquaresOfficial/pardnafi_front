@@ -154,7 +154,7 @@ useEffect(() => {
             <div className="row gy-4 gy-lg-5">
               <div className="col-lg-4 d-none d-lg-block">
                 <div className="service-box">
-                  <h4>Groups List</h4>
+                  <h4>Services List</h4>
                   <div className="services-list" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
 

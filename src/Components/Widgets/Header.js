@@ -109,17 +109,7 @@ function Header({ headerClass = null }) {
 
   return (
     <>
-      {/* Light/Dark switch */}
-      {/* <div className="lightdark-switch" onClick={toggleTheme}>
-          <span className="switch-btn" id="btnSwitch">
-            <Image
-              width={0} height={0} sizes="100vw" style={{ width: '100%', height: 'auto' }}
-              src="images/icon/moon.svg"
-              alt="light-dark-switchbtn"
-              className="swtich-icon"
-            />
-          </span>
-        </div> */}
+     
 
       <header className={`header-section ${headerClass ? headerClass : 'bg-color-3'}`} onScroll={isSticky}>
         <div className="header-bottom">
@@ -158,7 +148,9 @@ function Header({ headerClass = null }) {
                     // Open wallet details here;
                     debugger;
                     try {
-                      await getWalletServicesPluginInstance().showWalletUi();
+                      await getWalletServicesPluginInstance().showWalletUi({
+                        show: true,
+                      });
                     } catch (ex) {
                       console.log('Error in showing WalletConnect scanner:', ex);
                     }

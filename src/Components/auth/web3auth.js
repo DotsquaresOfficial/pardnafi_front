@@ -14,8 +14,6 @@ const chainConfigEVM = {
   chainNamespace: CHAIN_NAMESPACES.EIP155,
   chainId: "0x14a34", // Chain ID for Sepolia Testnet
   rpcTarget: "https://sepolia.base.org", // Sepolia RPC endpoint
-  // Avoid using public rpcTarget in production.
-  // Use services like Infura, Quicknode, etc.
   displayName: "Sepolia Testnet",
   blockExplorerUrl: "https://sepolia.basescan.org", // Sepolia Etherscan
   ticker: "ETH",

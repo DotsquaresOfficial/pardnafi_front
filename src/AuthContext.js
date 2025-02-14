@@ -1,6 +1,6 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { getWeb3AuthEVMInstance } from "./Components/auth/web3auth";
+import { getWalletServicesPluginInstance, getWeb3AuthEVMInstance } from "./Components/auth/web3auth";
 import { WALLET_ADAPTERS } from "@web3auth/base";
 import Web3 from "web3";
 
@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
                 const balance = web3.utils.fromWei(balanceWei, "ether");
                 setWalletAddress(accounts[0]);
                 setWalletBalance(balance);
+               
                }
         } catch (error) {
           console.log(error, "error")
