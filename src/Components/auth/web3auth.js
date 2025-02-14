@@ -60,12 +60,6 @@ const web3AuthOptionsEVM = {
 const web3authEVM = new Web3AuthNoModal(web3AuthOptionsEVM);
 // IMP END - SDK Initialization
 
-// IMP START - Configuring External Wallets
-// const adapters = getDefaultExternalAdapters({ options: web3AuthOptionsEVM });
-// adapters.forEach((adapter) => {
-//   web3authEVM.configureAdapter(adapter);
-// });
-
 // IMP END - Configuring External Wallets
 const walletServicesPlugin = new WalletServicesPlugin({
   wsEmbedOpts: {},
