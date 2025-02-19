@@ -102,7 +102,7 @@ const ChangePassword = () => {
 
     return (
       <>
-      <Header />
+    
       <PageHeader title="Change Password" text="Change Password" />
       <section className="account padding-top padding-bottom sec-bg-color2">
         <div className="container">
@@ -216,7 +216,7 @@ const ChangePassword = () => {
           </span>
         </div>
       </section>
-      <Footer />
+    
     </>
       );
     }

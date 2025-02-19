@@ -30,46 +30,6 @@ const ContactUs = () => {
         setContactUsFieldErr({ ...contactUsFieldErr, [name]: checkContact });
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-
-    //     for (let key in contactUsField) {
-    //         let checkContact = InputValid(key, contactUsField[key]);
-    //         setContactUsFieldErr({ ...contactUsFieldErr, [key]: checkContact });
-    //         if (checkContact !== "") {
-    //             return false;
-    //         }
-    //     }
-
-    //     const { firstName, contactNumber, email, message } = contactUsField
-    //     const data = {
-    //         name: firstName,
-    //         contactNumber, email, message
-    //     };
-
-    //     setContactUs(data).then((result) => {
-    //         if (result.data.status) {
-
-    //             toast.success(result.data.message);
-    //             setContactUsField({
-    //                 firstName: '',
-
-    //                 contactNumber: '',
-    //                 email: '',
-    //                 message: ''
-    //             })
-
-    //         } else {
-
-    //             toast.error(result.data.message);
-    //         }
-    //     });
-
-
-
-
-    // };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -104,7 +64,7 @@ const ContactUs = () => {
 
     return (
         <>
-            <Header />
+         
             <PageHeader title="Contact Us" text="Contact Us" />
             <div className="contact padding-top padding-bottom dash-sec">
     {loading && (
@@ -228,7 +188,7 @@ const ContactUs = () => {
 
 
 
-            <Footer />
+        
         </>
     )
 }

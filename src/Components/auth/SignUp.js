@@ -207,7 +207,6 @@ const SignUp = () => {
         toast.error("Authentication failed. Please try again.");
         setIsLoading(false);
         return;
-        // window.location.reload();
       }
     
     } catch (error) {
@@ -222,7 +221,7 @@ const SignUp = () => {
 
   return (
     <>
-      <Header />
+   
       <PageHeader title="Sign Up" text="Sign Up" />
       <section className="account padding-top padding-bottom sec-bg-color2">
         <div className="container">
@@ -437,7 +436,7 @@ const SignUp = () => {
           </span>
         </div>
       </section>
-      <Footer />
+    
     </>
   );
 };

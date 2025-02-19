@@ -47,7 +47,7 @@ const PollingPage = () => {
   };
   return (
     <>
-      <Header />
+
       <PageHeader title="Polling" text="Polling" />
       <section className="account  sec-bg-color2">
         <div className="container">
@@ -261,7 +261,7 @@ const PollingPage = () => {
 
 
 
-      <Footer />
+     
     </>
   )
 }

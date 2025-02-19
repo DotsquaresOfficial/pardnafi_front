@@ -6,10 +6,10 @@ import GroupCard from '../../partials/GroupCard'
 const BrowseGroups = () => {
   return (
     <>
-      <Header/>
+      
       <PageHeader title="Browse Group" text="Browse Group" />
       <GroupCard/>
-      <Footer/>
+  
     </>
   )
 }

@@ -6,7 +6,7 @@ import Footer from '../../Widgets/Footer'
 const GroupDetails = () => {
   return (
     <>
-      <Header />
+    
       <PageHeader title="Group Details" text="Group Details" />
       <section className="pricing padding-top padding-bottom dash-sec">
         <div className="section-header section-header--max50">
@@ -18,7 +18,7 @@ const GroupDetails = () => {
 
 
 
-      <Footer />
+    
     </>
   )
 }

@@ -6,7 +6,7 @@ import Footer from '../../Widgets/Footer'
 const OnfidoKyc = () => {
   return (
     <>
-      <Header />
+    
             <PageHeader title="Onfido Kyc" text="Onfido Kyc" />
             <section className="account padding-top padding-bottom sec-bg-color2">
                 <div className="container">
@@ -38,7 +38,7 @@ const OnfidoKyc = () => {
                     </span>
                 </div>
             </section>
-            <Footer /> 
+          
     </>
   )
 }

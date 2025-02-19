@@ -190,7 +190,7 @@ const CreateGroup = () => {
 
     return (
         <>
-            <Header />
+          
             <PageHeader title="Create Group" text="Create Group" />
             <section className="account padding-top padding-bottom sec-bg-color2">
                 <div className="container">
@@ -390,7 +390,7 @@ const CreateGroup = () => {
                     </span>
                 </div>
             </section>
-            <Footer />
+          
         </>
     )
 }

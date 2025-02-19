@@ -22,9 +22,10 @@ const chainConfigEVM = {
   logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png", // Same Ethereum logo
 };
 
-// IMP END - Chain Config
+let web3authEVM;
+let walletServicesPlugin;
 
-// IMP START - SDK Initialization
+const initWeb3Auth=async ()=>{
 const privateKeyProviderEVM = new EthereumPrivateKeyProvider({
   config: { chainConfig: chainConfigEVM },
 });
@@ -48,20 +49,19 @@ const web3AuthOptionsEVM = {
   },
 }
 
-const web3authEVM = new Web3AuthNoModal(web3AuthOptionsEVM);
-// IMP END - SDK Initialization
+web3authEVM = new Web3AuthNoModal(web3AuthOptionsEVM);
 
-// IMP END - Configuring External Wallets
-const walletServicesPlugin = new WalletServicesPlugin({
+walletServicesPlugin = new WalletServicesPlugin({
   wsEmbedOpts: {},
   walletInitOptions: { whiteLabel: { showWidgetButton: true } },
 });
 web3authEVM.addPlugin(walletServicesPlugin); // Add the plugin to web3auth
 
-
-
 const authadapter = new AuthAdapter();
 web3authEVM.configureAdapter(authadapter);
+
+await web3authEVM.init();
+}
 
 
 
@@ -74,4 +74,4 @@ const getWalletServicesPluginInstance = () => {
 }
 
 
-export { getWeb3AuthEVMInstance ,getWalletServicesPluginInstance};
+export { getWeb3AuthEVMInstance ,getWalletServicesPluginInstance ,initWeb3Auth};

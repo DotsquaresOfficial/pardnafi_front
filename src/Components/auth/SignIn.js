@@ -170,7 +170,7 @@ const SignIn = () => {
     };
     return (
         <>
-            <Header />
+          
             <PageHeader title="Sign In" text="Sign In" />
             <section className="account padding-top padding-bottom sec-bg-color2">
                 <div className="container">
@@ -328,7 +328,7 @@ const SignIn = () => {
                     </span>
                 </div>
             </section>
-            <Footer />
+         
         </>
     );
 };

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import { Link, useLocation } from 'react-router-dom';
 import { change_password, register } from "../constent/Routes";
 import { useAuth } from "../../AuthContext";
@@ -7,9 +7,9 @@ import Web3 from "web3";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 
-function Header({ headerClass = null }) {
+const Header=memo(
+  ({ headerClass = null }) =>{
   const [menu, setMenu] = useState(false);
-  const [show, setShow] = useState(false);
   const [isWalletLoading, setIsWalletLoading] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
 
@@ -56,11 +56,6 @@ function Header({ headerClass = null }) {
     }
   }
 
-  // useEffect(() => {
-  //   switchThemeByUrl();
-  //   const theme = localStorage.getItem('theme');
-  //   updateThemeColor(theme || 'light');
-  // }, [location, updateThemeColor]);
 
   useEffect(() => {
     window.addEventListener('scroll', isSticky);
@@ -79,31 +74,10 @@ function Header({ headerClass = null }) {
     scrollTop >= 250 ? header.classList.add('header-fixed', 'fadeInUp') : header.classList.remove('header-fixed', 'fadeInUp');
   };
 
-  // function closeAllMenus() {
-  //   let elements = document.querySelectorAll(".menu-item-has-children.open");
-  //   elements.forEach((item) => {
-  //     item.classList.remove('open');
-  //     item.querySelector('.submenu').style.display = 'none';
-  //   });
-  // }
 
   const toggleMenu = () => {
     setMenu(!menu);
-    // closeAllMenus();
   };
-
-  // function toggleActive(event) {
-  //   event.preventDefault();
-  //   const mediaQuery = window.matchMedia('(max-width: 991px)');
-  //   if (mediaQuery.matches) {
-  //     event.currentTarget.parentElement.classList.toggle('open');
-  //     const submenu = event.currentTarget.nextElementSibling;
-  //     submenu.style.display = submenu.style.display === 'none' ? "block" : 'none';
-  //   }
-  // }
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const substr = (str, n) => {
     return str.length > n ? str.substr(0, n - 1) : str;
@@ -149,11 +123,14 @@ function Header({ headerClass = null }) {
                         debugger;
                         try {
                           setIsWalletLoading(true);
+                        
                           await getWalletServicesPluginInstance().showWalletUi({
                             show: true,
                           });
+                       
                           setIsWalletLoading(false);
                         } catch (ex) {
+                          console.error(ex);
                           setIsWalletLoading(false);
                           toast.error("Failed to load the wallet. Please try again later");
                         }
@@ -247,8 +224,6 @@ function Header({ headerClass = null }) {
                           <span>JOIN US</span>
                         </a>
                       </div> : ""}
-
-                      {/* <!-- toggle icons --> */}
                       <div className={menu ? "header-bar d-lg-none header-bar--style1 active" : "header-bar d-lg-none header-bar--style1"} onClick={() => toggleMenu()}>
                         <span></span>
                         <span></span>
@@ -265,6 +240,6 @@ function Header({ headerClass = null }) {
       </header>
     </>
   );
-}
+});
 
 export default Header;

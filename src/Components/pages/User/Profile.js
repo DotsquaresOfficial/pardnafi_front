@@ -58,7 +58,7 @@ const Profile = () => {
 
   return (
     <>
-      <Header />
+     
       <PageHeader title="Profile" text="Profile" />
       <section className="account padding-top padding-bottom sec-bg-color2">
         <div className="container">
@@ -186,7 +186,7 @@ const Profile = () => {
           </span>
         </div>
       </section>
-      <Footer />
+     
     </>
   )
 }

@@ -48,7 +48,7 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <Header />
+ 
       <PageHeader title="Forgot Password" text="Forgot Password" />
       <section className="account padding-top padding-bottom sec-bg-color2">
         <div className="container">
@@ -122,7 +122,7 @@ const ForgotPassword = () => {
           </span>
         </div>
       </section>
-      <Footer />
+    
     </>
   );
 }

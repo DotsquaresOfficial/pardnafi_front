@@ -1,6 +1,6 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { getWalletServicesPluginInstance, getWeb3AuthEVMInstance } from "./Components/auth/web3auth";
+import { getWalletServicesPluginInstance, getWeb3AuthEVMInstance, initWeb3Auth } from "./Components/auth/web3auth";
 import { WALLET_ADAPTERS } from "@web3auth/base";
 import Web3 from "web3";
 
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
       }
 
     useEffect(() => {
-        if (localStorage?.getItem("jwtToken")) {
+        if (localStorage?.getItem("jwtToken") && walletBalance===null) {
             login();
         }
     }, [])
@@ -44,8 +44,10 @@ export const AuthProvider = ({ children }) => {
     const login = async () => {
         debugger;
         setAuthenticated(true);
+        
           await  initializeWeb3AuthEVMInstance();
           await  getUserWalletBalanceAndAccount();
+        
     };
 
     const logout = async () => {
@@ -61,7 +63,7 @@ export const AuthProvider = ({ children }) => {
        
         try {
             if(!web3Initilized){
-                await getWeb3AuthEVMInstance().init();
+                await initializeWeb3AuthEVMInstance();
                  setWeb3Initilized(true);
             }
         } catch (ex) {
@@ -97,9 +99,8 @@ export const AuthProvider = ({ children }) => {
 
     const initializeWeb3AuthEVMInstance = async ()=>{
         try{
-            debugger;
         if(!web3Initilized){
-            await getWeb3AuthEVMInstance().init();
+            await initWeb3Auth();
             setWeb3Initilized(true);
         }
           return true;

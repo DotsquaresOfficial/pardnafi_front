@@ -27,7 +27,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Header />
+     
       <PageHeader title="Dashboard" text="Dashboard" />
       <section className="account padding-top padding-bottom sec-bg-color2 dash-sec">
         <div className='container'>
@@ -140,7 +140,7 @@ const Dashboard = () => {
           </div>
         </div>
       </section>
-      <Footer />
+   
     </>
   )
 }

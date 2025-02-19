@@ -29,11 +29,12 @@ import GroupDetails from "./Components/pages/Group/GroupDetails";
 import { useAuth } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import OnfidoKyc from "./Components/pages/Kyc/OnfidoKyc";
+import Layout from "./layout/layout";
 function App() {
-  const { login } = useAuth();
+  const { login ,walletAddress } = useAuth();
   useEffect(() => {
     const jwtToken = localStorage?.getItem("jwtToken");
-    if (jwtToken) {
+    if (jwtToken && walletAddress===null) {
       login();
     }
   }, [login]);
@@ -64,7 +65,9 @@ function App() {
   return (
     <>
       <BrowserRouter>
+      <Layout>
         <Routes>
+          
           <Route path={home} element={<SignIn />} />
           <Route path={loginRoute} element={<SignIn />} />
           <Route path={register} element={<SignUp />} />
@@ -81,7 +84,7 @@ function App() {
           <Route path={group_details} element={<ProtectedRoute component={<GroupDetails />} />} />
           <Route path={polling_page} element={<ProtectedRoute component={<PollingPage />} />} />
         </Routes>
-
+        </Layout>
       </BrowserRouter>
       <ToastContainer /></>
   );
