@@ -19,7 +19,13 @@ export const AuthProvider = ({ children }) => {
 
     const getUserWalletBalanceAndAccount = async () => {
         try {
+            debugger;
               const provider = getWeb3AuthEVMInstance().provider;
+              if(!provider){
+                await logout();
+                return;
+              }
+
               const web3 = new Web3(provider);
               const accounts = await web3.eth.getAccounts();
                if(accounts.length>0){
@@ -28,7 +34,7 @@ export const AuthProvider = ({ children }) => {
                 const balance = web3.utils.fromWei(balanceWei, "ether");
                 setWalletAddress(accounts[0]);
                 setWalletBalance(balance);
-               
+                setAuthenticated(true);
                }
         } catch (error) {
           console.log(error, "error")
@@ -42,16 +48,19 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     const login = async () => {
-        debugger;
-        setAuthenticated(true);
-          
+          debugger; 
           await  initializeWeb3AuthEVMInstance();
           await  getUserWalletBalanceAndAccount();
         
     };
 
     const logout = async () => {
-        await getWeb3AuthEVMInstance().logout();
+        try{
+          localStorage.clear();
+          await getWeb3AuthEVMInstance().logout();
+        }catch(ex){
+          console.log(ex);
+        }
         setAuthenticated(false);
     };
 
