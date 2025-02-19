@@ -132,8 +132,9 @@ const Header=memo(
                           }
                         } catch (ex) {
                           console.error(ex);
-                          await initWeb3Auth();
+                        
                           toast.warn("Initializing wallet connection, please wait...");
+                          await initWeb3Auth();
                         }
                       }}>
                         <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet" />
