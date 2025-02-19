@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, memo } from "react";
 import { Link, useLocation } from 'react-router-dom';
 import { change_password, register } from "../constent/Routes";
 import { useAuth } from "../../AuthContext";
-import { getWalletServicesPluginInstance, getWeb3AuthEVMInstance } from "../auth/web3auth";
+import { getWalletServicesPluginInstance, getWeb3AuthEVMInstance, initWeb3Auth } from "../auth/web3auth";
 import Web3 from "web3";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
@@ -122,17 +122,18 @@ const Header=memo(
                       !isWalletLoading ? <div className="wallet-img" onClick={async () => {
                         debugger;
                         try {
-                          setIsWalletLoading(true);
                         
-                          await getWalletServicesPluginInstance().showWalletUi({
-                            show: true,
-                          });
-                       
-                          setIsWalletLoading(false);
+                          if(getWalletServicesPluginInstance()){
+                            await getWalletServicesPluginInstance().showWalletUi({
+                              show: true,
+                            });
+                          }else{
+                            toast.warn("Initializing wallet connection, please wait...");
+                          }
                         } catch (ex) {
                           console.error(ex);
-                          setIsWalletLoading(false);
-                          toast.error("Failed to load the wallet. Please try again later");
+                          await initWeb3Auth();
+                          toast.warn("Initializing wallet connection, please wait...");
                         }
                       }}>
                         <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet" />

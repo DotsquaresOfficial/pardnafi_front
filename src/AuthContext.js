@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     const login = async () => {
         debugger;
         setAuthenticated(true);
-        
+          
           await  initializeWeb3AuthEVMInstance();
           await  getUserWalletBalanceAndAccount();
         
