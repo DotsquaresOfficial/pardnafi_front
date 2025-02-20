@@ -9,12 +9,28 @@ import { CircularProgress } from "@mui/material";
 
 const Header=memo(
   ({ headerClass = null }) =>{
+    const { logout, connectWallet, login, authenticated, walletAddress, walletBalance, provider ,getUserWalletBalanceAndAccount} = useAuth();
   const [menu, setMenu] = useState(false);
   const [isWalletLoading, setIsWalletLoading] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
 
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { logout, connectWallet, login, authenticated, walletAddress, walletBalance, provider } = useAuth();
+  // Simulate refreshing balance (in your real-world scenario, fetch data here)
+  const refreshBalance = async () => {
+    setIsLoading(true); // Start loading (rotation starts)
+    // Simulate a network request with setTimeout
+     await getUserWalletBalanceAndAccount();
+    setTimeout(() => {
+      // Simulating fetching wallet balance, replace with actual logic
+   
+      setIsLoading(false); // Stop loading (rotation stops)
+    }, 2000); // Simulate 2 seconds of loading
+  };
+
+
+
+ 
   const changeImage = useCallback((themeMode = 'light') => {
     const icon = document.querySelector('#btnSwitch img');
 
@@ -162,43 +178,79 @@ const Header=memo(
                         </div>
                       )
                     }
-                    <div className="wallet-img">
-                      <h6>
-                        {walletBalance === null || walletBalance === undefined ? (
-                          <div
-                            style={{
-                              background: '#f6f7f8',
-                              backgroundImage: 'linear-gradient(45deg, #f6f7f8 25%,rgba(224, 224, 224, 0.4) 50%, #f6f7f8 75%)',
-                              backgroundSize: '200% 100%',
-                              animation: 'shimmer 1.8s infinite linear',
-                              height: '20px', // Adjust the height
-                              width: '100%', // Adjust the width as needed
-                              borderRadius: '4px', // Optional rounded corners
-                            }}
-                          ></div>
-                        ) : (
-                          `${Number(walletBalance).toFixed(4)} ETH`
-                        )}
-                      </h6>
-                      <h2>
-                        {walletAddress === null || walletAddress === undefined ? (
-                          <div
-                            style={{
-                              marginTop: '6px',
-                              background: '#f6f7f8',
-                              backgroundImage: 'linear-gradient(45deg, #f6f7f8 25%,rgba(227, 227, 227, 0.4) 50%, #f6f7f8 75%)',
-                              backgroundSize: '200% 100%',
-                              animation: 'shimmer 2.7s infinite linear',
-                              height: '20px', 
-                              width: '100%', 
-                              borderRadius: '4px', 
-                            }}
-                          ></div>
-                        ) : (
-                          walletAddress
-                        )}
-                      </h2>
-                    </div>
+                   <div className="wallet-img" style={{ padding: '20px' }}>
+      <div 
+        className="wallet-info"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '100%',
+        }}
+      >
+        <div>
+          <h6>
+            {walletBalance === null || walletBalance === undefined ? (
+              <div
+                style={{
+                  background: '#f6f7f8',
+                  backgroundImage:
+                    'linear-gradient(45deg, #f6f7f8 25%,rgba(224, 224, 224, 0.4) 50%, #f6f7f8 75%)',
+                  backgroundSize: '200% 100%',
+                  animation: 'shimmer 1.8s infinite linear',
+                  height: '20px', // Adjust the height
+                  width: '100%', // Adjust the width as needed
+                  borderRadius: '4px', // Optional rounded corners
+                }}
+              ></div>
+            ) : (
+              `${Number(walletBalance).toFixed(4)} ETH`
+            )}
+          </h6>
+          <h2>
+            {walletAddress === null || walletAddress === undefined ? (
+              <div
+                style={{
+                  marginTop: '6px',
+                  background: '#f6f7f8',
+                  backgroundImage:
+                    'linear-gradient(45deg, #f6f7f8 25%,rgba(227, 227, 227, 0.4) 50%, #f6f7f8 75%)',
+                  backgroundSize: '200% 100%',
+                  animation: 'shimmer 2.7s infinite linear',
+                  height: '20px',
+                  width: '100%',
+                  borderRadius: '4px',
+                }}
+              ></div>
+            ) : (
+              walletAddress
+            )}
+          </h2>
+        </div>
+
+        {/* Refresh Button */}
+        <button
+          onClick={refreshBalance}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '10px',
+            marginLeft: '10px', // Space between balance and button
+          }}
+        >
+          <i
+            className={`fas fa-sync-alt ${isLoading ? 'rotate' : ''}`}
+            style={{
+              fontSize: '18px',
+              transition: 'transform 1.5s ease',
+              display: 'inline-block',
+              transform: isLoading ? 'rotate(360deg)' : 'rotate(0deg)',
+            }}
+          ></i>
+        </button>
+      </div>
+    </div>
 
                   </div> : ""}
                   <div className="user-dropdown">

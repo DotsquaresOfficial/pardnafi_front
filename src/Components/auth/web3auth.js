@@ -8,7 +8,6 @@ import { Web3AuthNoModal } from "@web3auth/no-modal";
 import { AuthAdapter } from "@web3auth/auth-adapter";
 // IMP END - Blockchain Calls
 
-// BJC_Lk_RKd9cDnYG0qVP7T71FCXG7qcYVllK9kc_5FRScB4FSAlnxNYFNEbcvfUaFBeOPu-w9ljRujxBPaynJ1Q - Last Client Id
 const clientId = "BNMK_l8_e5oXo1wmXUSD8J3e2zwPnfQf24OHMQJHVAkqS57zg23BlBah4sPTlelveLOIQfsZiaczqUz_BjBK8NQ"
 
 const chainConfigEVM = {
@@ -53,9 +52,9 @@ web3authEVM = new Web3AuthNoModal(web3AuthOptionsEVM);
 
 walletServicesPlugin = new WalletServicesPlugin({
   wsEmbedOpts: {},
-  walletInitOptions: { whiteLabel: { showWidgetButton: true } },
+  walletInitOptions: { whiteLabel: { showWidgetButton: false } },
 });
-web3authEVM.addPlugin(walletServicesPlugin); // Add the plugin to web3auth
+web3authEVM.addPlugin(walletServicesPlugin); 
 
 const authadapter = new AuthAdapter();
 web3authEVM.configureAdapter(authadapter);

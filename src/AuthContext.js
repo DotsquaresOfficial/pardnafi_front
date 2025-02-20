@@ -120,7 +120,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ authenticated, login, logout, connectWallet,initializeWeb3AuthEVMInstance ,provider,walletAddress,walletBalance}}>
+        <AuthContext.Provider value={{ authenticated, login, logout, connectWallet,initializeWeb3AuthEVMInstance ,provider,walletAddress,walletBalance,getUserWalletBalanceAndAccount}}>
             {children}
         </AuthContext.Provider>
     );
