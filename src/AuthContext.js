@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
 
     const getUserWalletBalanceAndAccount = async () => {
         try {
-            debugger;
+        
               const provider = getWeb3AuthEVMInstance().provider;
               if(!provider){
                 await logout();
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     const login = async () => {
-          debugger; 
+         
           await  initializeWeb3AuthEVMInstance();
           await  getUserWalletBalanceAndAccount();
         
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const connectWallet = async (email) => {
-        debugger;
+      
         if(!email){
             return false;
         }

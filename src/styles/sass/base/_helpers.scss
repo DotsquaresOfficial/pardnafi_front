@@ -5,9 +5,9 @@
 
 //Customizing bootstrap container
 .container {
-  @include breakpoint(xl) {
-    max-width: 1170px;
-  }
+  // @include breakpoint(xl) {
+  //   max-width: 1170px;
+  // }
 }
 
 .home-4,

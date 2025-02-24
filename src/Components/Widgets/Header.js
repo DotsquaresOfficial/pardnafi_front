@@ -140,7 +140,7 @@ const Header=memo(
                   {authenticated ? <div className="wallet-connect">
                     {
                       !isWalletLoading ? <div className="wallet-img" onClick={async () => {
-                        debugger;
+                     
                         try {
                           
                         

@@ -16,7 +16,7 @@ export const myApi=createApi({
          return headers
      }
              }),
-    tagTypes: ["faq","contactUs","kyc","group"],
+    tagTypes: ["faq","contactUs","kyc","group","groupAnalytics"],
        endpoints:(builder)=>({
        }),
 
