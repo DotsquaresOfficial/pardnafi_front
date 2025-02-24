@@ -99,15 +99,23 @@ const Header=memo(
     return str.length > n ? str.substr(0, n - 1) : str;
   };
 
+  function shortenWalletAddress(address) {
+    if (!address || address.length < 10) return address; 
+    return `${address.slice(0, 4)}...${address.slice(-4)}`;
+  }
+
   return (
     <>
-
-
-      <header className={`header-section ${headerClass ? headerClass : 'bg-color-3'}`} onScroll={isSticky}>
+     <header className={`header-section ${headerClass ? headerClass : 'bg-color-3'}`} onScroll={isSticky}>
         <div className="header-bottom">
           <div className="container-fluid">
             <div className="header-wrapper">
               <div className="logo">
+              <div className={menu ? "header-bar d-lg-none header-bar--style1 active" : "header-bar d-lg-none header-bar--style1"} onClick={toggleMenu}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
                 <a href={register}>
                   <img className="dark" src="/images/logo/logo.svg" alt="logo" />
                 </a>
@@ -116,12 +124,8 @@ const Header=memo(
                 <ul id="menu" className={`menu menu--style1 ${menu ? 'active' : ''}`}>
                   <li className="megamenu menu-item-has-children">
                     <a href="/dashboard">Home</a>
-
                   </li>
-                  {/* <li className="menu-item-has-children">
-                    <a href="/services">How PardnaFi Works</a>
-
-                  </li> */}
+                  
                   <li className="menu-item-has-children">
                     <Link scroll={false} href="/#0">Who is PardnaFi for</Link>
 
@@ -223,7 +227,7 @@ const Header=memo(
                 }}
               ></div>
             ) : (
-              walletAddress
+              shortenWalletAddress(walletAddress)
             )}
           </h2>
         </div>

@@ -14,7 +14,7 @@ import { browse_groups } from '../../constent/Routes';
 import { useAuth } from '../../../AuthContext';
 
 const CreateGroup = () => {
-    const {walletAddress,walletBalance,provider}=useAuth()
+    const { walletAddress, walletBalance, provider } = useAuth()
     const [setGroup] = useSetGroupMutation();
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +48,7 @@ const CreateGroup = () => {
 
 
         let error = GroupValidation(name, value);
+
         setGroupDataErr((prevErr) => ({
             ...prevErr,
             [name]: error,
@@ -60,27 +61,31 @@ const CreateGroup = () => {
     };
 
     const handleDaoSupportChange = () => {
-        setGroupData((prevData) => ({
-            ...prevData,
-            daoDepositSupport: !prevData.daoDepositSupport,
-        }));
+        setGroupData((prevData) => {
+            return {
+                ...prevData,
+                daoDepositSupport: !prevData.daoDepositSupport, // Toggle value
+            };
+        });
     };
 
     const handleCreateGroup = async (e) => {
         e.preventDefault();
-       
+
         let errors = {};
         let hasError = false;
 
         for (let key in groupData) {
-            let checkGroup = GroupValidation(key, groupData[key]);
+            if (key === "daoDepositSupport") continue;
 
+            let checkGroup = GroupValidation(key, groupData[key]);
             errors[key] = checkGroup;
 
             if (checkGroup) {
                 hasError = true;
             }
         }
+
 
         setGroupDataErr(errors);
 
@@ -99,15 +104,16 @@ const CreateGroup = () => {
     };
 
 
-    const createGroups = async () => {
-        debugger;
 
-        if(!provider){
-            toast.success("provider not ready, please wait..."); 
+    const createGroups = async () => {
+
+
+        if (!provider) {
+            toast.success("provider not ready, please wait...");
         }
 
         try {
-         
+
             const web3 = new Web3(provider);
             const data = new web3.eth.Contract(factoryContractAbi, factoryContract);
             const uniqueId = uuidv4();
@@ -132,7 +138,7 @@ const CreateGroup = () => {
                 uniqueId
             );
 
-            if(walletBalance===null|| walletBalance<0.01){
+            if (walletBalance === null || walletBalance < 0.01) {
                 setIsLoading(false);
                 toast.error("insufficient balance, Please topup your wallet.");
                 return;
@@ -165,7 +171,7 @@ const CreateGroup = () => {
                             setIsLoading(false);
                             navigate(browse_groups)
                         } else {
-                            setIsLoading(false);    
+                            setIsLoading(false);
                             toast.error(result.data?.message);
                         }
                     });
@@ -190,7 +196,7 @@ const CreateGroup = () => {
 
     return (
         <>
-          
+
             <PageHeader title="Create Group" text="Create Group" />
             <section className="account padding-top padding-bottom sec-bg-color2">
                 <div className="container">
@@ -241,7 +247,13 @@ const CreateGroup = () => {
                                                         type="text"
                                                         name="groupSize"
                                                         value={groupData.groupSize}
-                                                        onKeyDown={handleKeyDown}
+                                                        onKeyPress={(event) => {
+                                                            const input = event.target.value + event.key; // Get the current input + new keypress
+                                                            if (!/^\d{1,2}$/.test(input)) {
+                                                                event.preventDefault(); // Block input if it's not a 1-2 digit number
+                                                            }
+                                                        }}
+
                                                         onChange={handleChange}
                                                         min="5"
                                                         max="20"
@@ -350,7 +362,7 @@ const CreateGroup = () => {
 
                                                 </div>
 
-                                                {groupDataErr.daoDepositSupport && <span style={{ color: 'red' }}>{groupDataErr.daoDepositSupport}</span>}
+                                                {/* { {groupDataErr.daoDepositSupport && <span style={{ color: 'red' }}>{groupDataErr.daoDepositSupport}</span>} } */}
                                             </div>
                                         </div>
 
@@ -390,7 +402,7 @@ const CreateGroup = () => {
                     </span>
                 </div>
             </section>
-          
+
         </>
     )
 }
