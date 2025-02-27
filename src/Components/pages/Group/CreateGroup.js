@@ -25,7 +25,8 @@ const CreateGroup = () => {
         frequency: '30',
         duration: '',
         description: "",
-        daoDepositSupport: false
+        daoDepositSupport: false,
+        isPublic: false
     });
     const [groupDataErr, setGroupDataErr] = useState({
         name: '',
@@ -65,6 +66,14 @@ const CreateGroup = () => {
             return {
                 ...prevData,
                 daoDepositSupport: !prevData.daoDepositSupport, // Toggle value
+            };
+        });
+    };
+    const handleIsPublicChange = () => {
+        setGroupData((prevData) => {
+            return {
+                ...prevData,
+                isPublic: !prevData.isPublic, // Toggle value
             };
         });
     };
@@ -134,8 +143,11 @@ const CreateGroup = () => {
                 web3.utils.toWei(groupData.contribution.toString(), "ether"),
                 web3.utils.toWei(groupData.groupSize.toString(), "ether"),
                 web3.utils.toWei(groupData.duration.toString(), "ether"),
+
                 Boolean(groupData.daoDepositSupport),
-                uniqueId
+                Boolean(true), "0x2ca55E00C6c9CA06890aa0cE53050A48FDCA07F2",
+                uniqueId,
+
             );
 
             if (walletBalance === null || walletBalance < 0.01) {
@@ -152,7 +164,8 @@ const CreateGroup = () => {
                         groupName: groupData.name,
                         description: groupData.description,
                         txHash: hash,
-                        groupId: uniqueId
+                        groupId: uniqueId,
+
                     };
 
                     setGroup(datas).then((result) => {
@@ -346,7 +359,7 @@ const CreateGroup = () => {
                                                 {groupDataErr.description && <span style={{ color: 'red' }}>{groupDataErr.description}</span>}
                                             </div>
 
-                                            <div className="account__check">
+                                            {/* <div className="account__check"> */}
                                                 <div className="account__check-remember">
                                                     <input
                                                         type="checkbox"
@@ -358,6 +371,24 @@ const CreateGroup = () => {
                                                     />
                                                     <label htmlFor="terms-check" className="form-check-label">
                                                         Enable DAO Deposit Support
+                                                    </label>
+
+                                                {/* </div> */}
+
+                                                {/* { {groupDataErr.daoDepositSupport && <span style={{ color: 'red' }}>{groupDataErr.daoDepositSupport}</span>} } */}
+                                            </div>
+                                            <div className="account__check">
+                                                <div className="account__check-remember">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-check-input"
+                                                        value=""
+                                                        id="terms-check"
+                                                        checked={groupData.isPublic}
+                                                        onChange={handleIsPublicChange}
+                                                    />
+                                                    <label htmlFor="terms-check" className="form-check-label">
+                                                        IsPublic
                                                     </label>
 
                                                 </div>

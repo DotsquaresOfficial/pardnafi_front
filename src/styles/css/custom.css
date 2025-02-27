@@ -781,9 +781,187 @@ color-mix(in srgb, var(--default-color), transparent 20%);
     font-weight: 600;
 }
 
+.group-details-title h2{
+    margin-bottom: 23px;
+}
+
+.group-details-title p{
+    font-size: 15px;
+    color: rgba(255, 255, 255, .90);
+    font-weight: 500;
+    padding: 17px 0px;
+    max-width: 700px;
+    line-height: 25px;
+    margin-bottom: 0px;
+}
+
+.address-hyperlink {
+    display: flex;
+    align-items: center;
+}
 
 
+.address-hyperlink h6{
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 0px;
+}
+.payment-method{
+    padding: 50px 0px;
+}
+.upcoming-payment {
+    background: #fff;
+    border-bottom: solid 4px #0047AB;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 4px 28px 0px #1A408921;
+}
 
+.payment-simble {
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+}
+
+.up-box h2 {
+    width: 50px;
+    height: 50px;
+    background: #0047AB;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 0px;
+    margin-bottom: 0px;
+}
+
+.payment-date h3{
+    font-size: 17px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 7px;
+    line-height: 15px;
+}
+
+.payment-date p{
+    margin-bottom: 0px;
+    color: #6B777F;
+    font-size: 15px;
+    margin-bottom: 0px;
+    line-height: 15px;
+}
+
+.group-contrutbution {
+    background: #fff;
+    border-bottom: solid 4px #0047AB;
+    border-radius: 10px;
+    padding: 20px 20px;
+    margin-top: 23px;
+    box-shadow: 0px 4px 28px 0px #1A408921;
+}
+
+.group-contrutbution ul {
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+.group-contrutbution ul li {
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+.group-contrutbution ul li  {
+    color:#283e50;
+    font-weight: bold;
+}
+.group-contrutbution ul li span {
+    color:#6b777f;
+    font-weight: 600;
+}
+
+.contr-graph{
+    background: #fff;
+    border-bottom: solid 4px #0047AB;
+    border-radius: 10px;
+    box-shadow: 0px 4px 28px 0px #1A408921;
+}
+
+.contr-graph h2 {
+    color: #222529;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 15px;
+    margin-bottom: 0px;
+    padding: 17px 15px;
+    border-bottom: solid 1px rgb(217 217 217 / 56%);
+}
+
+.contr-graph img{
+    padding: 17px;
+}
+.payment-tag {
+    display: flex;
+    align-items: self-start;
+    padding: 9px 18px;
+    justify-content: start;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+.grah-details-tag h6 {
+    color: #8C97A7;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 12px;
+    margin-bottom: 0px;
+    padding: 7px 20px;
+    position: relative;
+}
+
+.inves h6:after{
+    position: absolute;
+    left: 0px;
+    content: "";
+    background: #0047AB;
+    border-radius: 100%;
+    height: 7px;
+    width: 7px;
+}
+
+
+.rec h6:after{
+    position: absolute;
+    left: 0px;
+    content: "";
+    background: #05E02D;
+    border-radius: 100%;
+    height: 7px;
+    width: 7px;
+}
+
+.your-inves h6:after{
+    position: absolute;
+    left: 0px;
+    content: "";
+    background: #001C93;
+    border-radius: 100%;
+    height: 7px;
+    width: 7px;
+}
+.total-rec h6:after{
+    position: absolute;
+    left: 0px;
+    content: "";
+    background: #356EBE;
+    border-radius: 100%;
+    height: 7px;
+    width: 7px;
+}
 /************************************************** Responsive **************************************************/
 @media(max-width:1440px){
     .notification-data a i{
