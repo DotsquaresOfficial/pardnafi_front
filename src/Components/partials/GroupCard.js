@@ -12,7 +12,7 @@ import { useAuth } from "../../AuthContext";
 
 const GroupCard = () => {
   const { data: record } = useGetGroupQuery();
-  const {connectWallet}= useAuth();
+  const { connectWallet } = useAuth();
   const [selectedGroup, setSelectedGroup] = useState("public");
   const [pricingData, setPricingData] = useState([]);
   const [search, setSearch] = useState("");
@@ -21,14 +21,14 @@ const GroupCard = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const [selectedGroupId, setSelectedGroupId] = useState(
     record?.length > 0 ? record[0]?.groupId : null
-);
+  );
 
   // const filteredGroups = record.filter((group) => {
   //   // return (
   //   //   group.name.toLowerCase().includes(search.toLowerCase())
   //   // );
   // });
- 
+
 
 
 
@@ -48,7 +48,7 @@ const GroupCard = () => {
 
   useEffect(() => {
     const initialize = async () => {
-    //  await connectWallet();
+      //  await connectWallet();
       // await getGroupsList();
     };
 
@@ -92,11 +92,11 @@ const GroupCard = () => {
 
 
 
-useEffect(() => {
+  useEffect(() => {
     if (record?.length > 0) {
-        setSelectedGroupId(record[0]?.groupId); // Set first item active by default
+      setSelectedGroupId(record[0]?.groupId); // Set first item active by default
     }
-}, [record]);
+  }, [record]);
 
   const handleTabClick = (groupId) => {
     setSelectedGroupId(groupId);
@@ -180,8 +180,8 @@ useEffect(() => {
                     )} */}
 
                     {record && record.filter((item) =>
-    item.groupName.toLowerCase().includes(search.toLowerCase())
-  ).map((item, index) => (
+                      item.groupName.toLowerCase().includes(search.toLowerCase())
+                    ).map((item, index) => (
                       <a
                         key={item?.groupId}
                         href="#"
@@ -211,10 +211,10 @@ useEffect(() => {
                 <div className="tab-content" id="v-pills-tabContent">
 
                   <div className="tab-content" id="v-pills-tabContent">
-                    {record && record.filter((item) =>
-    item.groupName.toLowerCase().includes(search.toLowerCase())
-  ).map((item, index) => (
-                      <GroupDetails key={item?.groupId} item={item} index={index} selectedGroupId={selectedGroupId} />
+                    {record && record?.filter((item) =>
+                      item?.groupName.toLowerCase().includes(search.toLowerCase())
+                    ).map((item, index) => (
+                      <GroupDetails  item={item} index={index} selectedGroupId={selectedGroupId} />
                     ))}
 
                   </div>

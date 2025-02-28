@@ -4,11 +4,13 @@ import { getWeb3AuthEVMInstance } from '../auth/web3auth';
 import { getAccounts } from '../auth/web3RPC';
 import { factoryContract, factoryContractAbi, groupAbi } from '../constent';
 import { toast } from 'react-toastify';
+import { useSetGroupDetailsMutation } from '../../redux/groupApi';
+
 
 function GroupDetails({ item, index, selectedGroupId }) {
     const [isJoined, setIsJoined] = useState(null);
     const [walletAddress, setWalletAddress] = useState("");
-
+    const [setGroupDetails] = useSetGroupDetailsMutation()
 
     useEffect(() => {
 
@@ -22,7 +24,7 @@ function GroupDetails({ item, index, selectedGroupId }) {
     const handleJoinGroup = async (group_address) => {
         try {
 
-           
+
 
             // console.log("call00=============")
             const provider = getWeb3AuthEVMInstance();
@@ -38,7 +40,7 @@ function GroupDetails({ item, index, selectedGroupId }) {
             const accounts = await web3.eth.getAccounts();
 
             setWalletAddress(accounts[0])
-            const transaction = contract.methods.isJoined(group_address, accounts   );
+            const transaction = contract.methods.isJoined(group_address, accounts);
 
             const isJoined = await transaction.call();
 
@@ -62,13 +64,13 @@ function GroupDetails({ item, index, selectedGroupId }) {
         const contract = new web3.eth.Contract(groupAbi, item?.groupAddress);
 
         const transaction = contract.methods.joinGroup(
-            
+
         );
 
 
         transaction.send({ from: walletAddress })
             .on('transactionHash', function (hash) {
-console.log(hash,"hash\========")
+                console.log(hash, "hash\========")
 
                 const datas = {
 
@@ -119,7 +121,7 @@ console.log(hash,"hash\========")
                 <li><i className="fa-solid fa-check"></i> <strong>Created At: </strong> <span>{new Date(item?.createdAt).toLocaleString()}</span></li>
             </ul>
 
-            <p><strong>Group Members:</strong></p>
+            {/* <p><strong>Group Members:</strong></p>
             {item?.members?.length > 0 ? (
                 <ul>
                     {item?.members?.map((member, i) => (
@@ -128,10 +130,11 @@ console.log(hash,"hash\========")
                 </ul>
             ) : (
                 <p>No members yet.</p>
-            )}
+            )} */}
 
             <p className="text-justify"><strong>Group Rules: </strong>{item?.description || "No description available."}</p>
-            <button className="trk-btn trk-btn--border trk-btn--primary d-block mt-4" onClick={() => isJoined ?joinGroupHandler():""}>{isJoined ? "Already Joined" : "Join Group"}</button>
+            {/* <button className="trk-btn trk-btn--border trk-btn--primary d-block mt-4" onClick={() => isJoined ?joinGroupHandler():""}>{isJoined ? "Already Joined" : "Join Group"}</button> */}
+            <a href={`/group-details/${item && item._id}`}><button className="trk-btn trk-btn--border trk-btn--primary d-block mt-4" >More Details</button></a>
         </div>
     );
 }

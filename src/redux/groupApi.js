@@ -1,6 +1,6 @@
 import {
   createGroupApi,
-  getAllGroupApi, getGroupAnalyticsApi
+  getAllGroupApi, getGroupAnalyticsApi,myGroupApi,getGroupDetailsByIdApi
 
 } from "../Components/constent/Api";
 import { myApi } from "./api";
@@ -37,6 +37,22 @@ export const groupApi = myApi.injectEndpoints({
       }),
       invalidatesTags: (_) => ["group", "dashboard"],
     }),
+    setMyGroup: builder.mutation({
+      query: (post) => ({
+        url: myGroupApi,
+        method: "POST",
+        body: post,
+      }),
+      invalidatesTags: (_) => ["group", "dashboard"],
+    }),
+    setGroupDetails: builder.mutation({
+      query: (post) => ({
+        url: getGroupDetailsByIdApi,
+        method: "POST",
+        body: post,
+      }),
+      invalidatesTags: (_) => ["group", "dashboard"],
+    }),
 
 
   }),
@@ -44,7 +60,7 @@ export const groupApi = myApi.injectEndpoints({
 
 export const {
   useGetGroupQuery,
-  useSetGroupMutation, useSetGroupAnalyticsMutation
+  useSetGroupMutation, useSetGroupAnalyticsMutation,useSetMyGroupMutation,useSetGroupDetailsMutation
 } = groupApi;
 
 

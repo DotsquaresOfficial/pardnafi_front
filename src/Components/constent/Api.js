@@ -39,7 +39,15 @@ export const searchQueryGroupApi = baseUrl + "/group/query-group";
 export const updateGroupApi = baseUrl + "/group/update-group";
 export const getGroupByIdApi = baseUrl + "/group/get-group-by-id";
 export const getGroupAnalyticsApi = baseUrl + "/group/groups-analytics";
+export const myGroupApi = baseUrl + "/group/my-groups";
+export const getGroupDetailsByIdApi = baseUrl + "/group/get-group-by-id";
+
 
 // ===============group =======================
+
+// ================== user profile ======================
+
+export const getUserProfileApi = baseUrl + "/user/get-user-detail";
+export const updateUserProfileApi = baseUrl + "/user/user-update";
 
 

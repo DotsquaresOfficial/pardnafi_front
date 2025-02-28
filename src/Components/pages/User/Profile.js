@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 
 import Footer from '../../Widgets/Footer'
@@ -8,13 +8,26 @@ import { Link } from 'react-router-dom'
 import { LoginValid } from '../../validations/LoginValid';
 import { uploadImage } from '../../services/User';
 import { toast } from 'react-toastify';
+import { useGetProfileQuery, useSetProfileMutation } from '../../../redux/profileApi';
+
 
 const Profile = () => {
-  const [profileField, setProfileField] = useState({ firstName: "", email: "", contactNumber: "" });
+  const {data}= useGetProfileQuery()
+ const [setProfile, { isLoading }] = useSetProfileMutation();
+  
+  const [profileField, setProfileField] = useState({ firstName: "",lastName:"", email: "", contactNumber: "" });
   const [imagePreview, setImagePreview] = useState(null);
 
+
+  useEffect(() => { 
+    if (data?.user&&data?.user) { 
+    setProfileField({ firstName: data?.user.firstName,lastName:data?.user.lastName, email: data?.user.email});
+    setImagePreview(data?.user.avatar)
+  }
+  },[data])
   const [profileFieldErr, setProfileFieldErr] = useState({
     firstName: "",
+    lastName: "",
     email: "",
     contactNumber: ""
 
@@ -38,6 +51,15 @@ const Profile = () => {
         return false;
       }
     }
+    setProfile({
+      firstName: profileField.firstName,
+      lastName: profileField.lastName,
+      avatar: imagePreview}).then((res) => {
+   
+        
+        toast.success(res.data.message)
+        
+      })
   }
 
   const handleImageUploadHandler = async (e) => {
@@ -84,8 +106,8 @@ const Profile = () => {
                           <img className="dark" src={imagePreview ? imagePreview : "/images/header/user-img.svg"} alt="logo" />
                         </div>
                         <div className='username-heading'>
-                          <h6>User</h6>
-                          <p>John doe</p>
+                          {/* <h6>User</h6>
+                          <p>John doe</p> */}
                         </div>
 
                       </div>
@@ -119,6 +141,29 @@ const Profile = () => {
                         </div>
                       </div>
                       <div className="col-6">
+                      <div>
+                          <label htmlFor="account-email" className="form-label">
+                           Last Name
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={profileField.lastName}
+                            onChange={handleChange}
+                            placeholder="Last Name"
+                            name="lastName"
+
+                          />
+                          {profileFieldErr && <span className='text-danger'>{profileFieldErr?.lastName}</span>}
+
+
+                        </div>
+                      </div>
+                    </div>
+                    <div className='row g-4'>
+                      <div className="col-12 mt-5">
+                       
+
                         <div>
                           <label htmlFor="account-email" className="form-label">
                             Email Address
@@ -130,30 +175,10 @@ const Profile = () => {
                             onChange={handleChange}
                             placeholder="Email address"
                             name="email"
+                            disabled
 
                           />
                           {profileFieldErr && <span className='text-danger'>{profileFieldErr?.email}</span>}
-                        </div>
-                      </div>
-                    </div>
-                    <div className='row g-4'>
-                      <div className="col-12 mt-5">
-                        <div>
-                          <label htmlFor="account-email" className="form-label">
-                            Phone Number
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={profileField.contactNumber}
-                            onChange={handleChange}
-                            placeholder="Phone number"
-                            name="contactNumber"
-
-                          />
-                          {profileFieldErr && <span className='text-danger'>{profileFieldErr?.contactNumber}</span>}
-
-
                         </div>
 
 

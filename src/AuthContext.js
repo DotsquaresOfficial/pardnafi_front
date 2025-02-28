@@ -28,6 +28,8 @@ export const AuthProvider = ({ children }) => {
 
               const web3 = new Web3(provider);
               const accounts = await web3.eth.getAccounts();
+              console.log(accounts,"accounts000==")
+
                if(accounts.length>0){
                 setProvider(provider);
                 const balanceWei = await web3.eth.getBalance(accounts[0]);
@@ -37,7 +39,7 @@ export const AuthProvider = ({ children }) => {
                 setAuthenticated(true);
                }
         } catch (error) {
-          console.log(error, "error")
+          console.log(error, "error==")
         }
       }
 

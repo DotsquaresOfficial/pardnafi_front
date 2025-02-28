@@ -76,7 +76,9 @@ function App() {
           <Route path={register} element={<SignUp />} />
           <Route path={forgot_password} element={<ForgotPassword />} />
           <Route path={contact_us} element={<ContactUs />} />
-          <Route path={group_details} element={<GroupDetails />} />
+          {/* <Route path={group_details} element={<GroupDetails />} /> */}
+
+
 
           {/*============== protect route========================== */}
           <Route path={onfidoKyc} element={<ProtectedRoute component={<OnfidoKyc />} />} />
@@ -89,7 +91,7 @@ function App() {
           <Route path={my_group} element={<ProtectedRoute component={<MyGroups />} />} />
           <Route path={active_groups} element={<ProtectedRoute component={<ActiveGroups />} />} />
 
-          {/* <Route path={group_details} element={<ProtectedRoute component={<GroupDetails />} />} /> */}
+          <Route path={group_details} element={<ProtectedRoute component={<GroupDetails />} />} />
           <Route path={polling_page} element={<ProtectedRoute component={<PollingPage />} />} />
         </Routes>
         </Layout>

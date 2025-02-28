@@ -136,14 +136,15 @@ const CreateGroup = () => {
             }
 
             setIsLoading(true);
+            const groupdurationInseconds = Number(groupData.duration) * 24 * 60 * 60*30;
+            const groupfrequencyInseconds = Number(groupData.frequency) * 24 * 60 * 60;
             const transaction = data.methods.createGroup(
                 String(groupData.name),
-                web3.utils.toWei(groupData.contribution.toString(groupData.frequency), "ether"),
+                groupfrequencyInseconds.toString(),
                 String("panely are applicable"),
                 web3.utils.toWei(groupData.contribution.toString(), "ether"),
-                web3.utils.toWei(groupData.groupSize.toString(), "ether"),
-                web3.utils.toWei(groupData.duration.toString(), "ether"),
-
+                groupData.groupSize.toString(),
+                groupdurationInseconds.toString(),
                 Boolean(groupData.daoDepositSupport),
                 Boolean(true), "0x2ca55E00C6c9CA06890aa0cE53050A48FDCA07F2",
                 uniqueId,
@@ -298,10 +299,10 @@ const CreateGroup = () => {
                                             <div className="col-12">
                                                 <div className="form-pass">
                                                     <label htmlFor="account-pass" className="form-label">
-                                                        Payout Frequency
+                                                        Contribution Frequency
                                                     </label>
 
-                                                    <select
+                                                    {/* <select
                                                         className="form-select" aria-label="Default select example"
                                                         name="frequency"
                                                         value={groupData.frequency}
@@ -311,7 +312,18 @@ const CreateGroup = () => {
                                                         <option value="Weekly">Weekly</option>
                                                         <option value="Bi-weekly">Bi-weekly</option>
                                                         <option value="Monthly">Monthly</option>
-                                                    </select>
+                                                    </select> */}
+                                                    <input
+
+                                                        className="form-control"
+                                                        id="account-email"
+                                                        placeholder="Contribution Amount frequency"
+                                                        type="text"
+                                                        name="frequency"
+                                                        value={groupData.frequency}
+                                                        onKeyDown={handleKeyDown}
+                                                        onChange={handleChange}
+                                                    />
                                                     {groupDataErr.frequency && <span style={{ color: 'red' }}>{groupDataErr.frequency}</span>}
 
 
@@ -360,18 +372,18 @@ const CreateGroup = () => {
                                             </div>
 
                                             {/* <div className="account__check"> */}
-                                                <div className="account__check-remember">
-                                                    <input
-                                                        type="checkbox"
-                                                        className="form-check-input"
-                                                        value=""
-                                                        id="terms-check"
-                                                        checked={groupData.daoDepositSupport}
-                                                        onChange={handleDaoSupportChange}
-                                                    />
-                                                    <label htmlFor="terms-check" className="form-check-label">
-                                                        Enable DAO Deposit Support
-                                                    </label>
+                                            <div className="account__check-remember">
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-check-input"
+                                                    value=""
+                                                    id="terms-check"
+                                                    checked={groupData.daoDepositSupport}
+                                                    onChange={handleDaoSupportChange}
+                                                />
+                                                <label htmlFor="terms-check" className="form-check-label">
+                                                    Enable DAO Deposit Support
+                                                </label>
 
                                                 {/* </div> */}
 

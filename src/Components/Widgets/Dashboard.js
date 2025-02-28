@@ -13,6 +13,7 @@ const Dashboard = () => {
   const [setGroupAnalytics] = useSetGroupAnalyticsMutation();
   const [dashboardData, setDashboardData] = useState([])
   const { wallet_address } = useAuth()
+  console.log(wallet_address,"wallet_address===")
   useEffect(() => {
     const style = document.createElement('style');
     style.innerHTML = `
@@ -34,24 +35,32 @@ const Dashboard = () => {
   console.log(dashboardData, "dashboardData==")
 
   useEffect(() => {
-    groupAnalytics()
-  }, [wallet_address])
+    groupAnalytics();
+  
+    
+  }, [wallet_address]);
+  
 
   const groupAnalytics = async () => {
-    setGroupAnalytics({ groupOwnerAddress: wallet_address }).then((result) => {
+    debugger
+      if(wallet_address){
+    
+        setGroupAnalytics({ groupOwnerAddress: wallet_address }).then((result) => {
 
-      if (result?.data
-        ?.success) {
-        setDashboardData(result.data?.data)
-
-
-        //  setIsLoading(false);
-        //  navigate(browse_groups)
-      } else {
-        //  setIsLoading(false);
-        toast.error(result.data?.message);
+          if (result?.data
+            ?.success) {
+            setDashboardData(result.data?.data)
+    
+    
+            //  setIsLoading(false);
+            //  navigate(browse_groups)
+          } else {
+            //  setIsLoading(false);
+            toast.error(result.data?.message);
+          }
+        });
       }
-    });
+      
   }
 
   return (

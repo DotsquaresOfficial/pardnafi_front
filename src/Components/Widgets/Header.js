@@ -6,6 +6,7 @@ import { getWalletServicesPluginInstance, initWeb3Auth } from "../auth/web3auth"
 import Web3 from "web3";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
+import { useGetProfileQuery } from "../../redux/profileApi";
 
 const Header=memo(
   ({ headerClass = null }) =>{
@@ -13,7 +14,7 @@ const Header=memo(
   const [menu, setMenu] = useState(false);
   const [isWalletLoading, setIsWalletLoading] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
-
+ const {data}= useGetProfileQuery()
   const [isLoading, setIsLoading] = useState(false);
 
   // Simulate refreshing balance (in your real-world scenario, fetch data here)
@@ -117,7 +118,8 @@ const Header=memo(
                     <span></span>
                   </div>
                 <a href={register}>
-                  <img className="dark" src="/images/logo/logo.svg" alt="logo" />
+                {/* data&&data.user?data.user.avatar: */}
+                  <img className="dark" src={"/images/logo/logo.svg"} alt="logo" />
                 </a>
               </div>
               <div className="menu-area">
@@ -164,7 +166,7 @@ const Header=memo(
                           }
                         }
                       }}>
-                        <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet" />
+                        <img src={data&&data.user?data.user.avatar:"/images/header/wallet.svg"}  className="img-fluid" alt="wallet" />
                       </div> : (
                         <div style={{
                           padding: '10px',
