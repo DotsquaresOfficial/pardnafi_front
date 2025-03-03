@@ -1,6 +1,6 @@
 import {
   createGroupApi,
-  getAllGroupApi, getGroupAnalyticsApi,myGroupApi,getGroupDetailsByIdApi
+  getAllGroupApi, getGroupAnalyticsApi,myGroupApi,getGroupDetailsByIdApi,isGroupUniqueApi
 
 } from "../Components/constent/Api";
 import { myApi } from "./api";
@@ -18,6 +18,15 @@ export const groupApi = myApi.injectEndpoints({
       providesTags: (_) => ["group"],
     }),
 
+    
+    setUniqueGroup: builder.mutation({
+      query: (post) => ({
+        url: isGroupUniqueApi,
+        method: "POST",
+        body: post,
+      }),
+      invalidatesTags: (_) => ["uniqueGroup"],
+    }),
 
     setGroupAnalytics: builder.mutation({
       query: (post) => ({
@@ -59,7 +68,7 @@ export const groupApi = myApi.injectEndpoints({
 });
 
 export const {
-  useGetGroupQuery,
+  useGetGroupQuery,useSetUniqueGroupMutation,
   useSetGroupMutation, useSetGroupAnalyticsMutation,useSetMyGroupMutation,useSetGroupDetailsMutation
 } = groupApi;
 

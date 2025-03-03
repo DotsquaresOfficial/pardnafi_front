@@ -58,8 +58,8 @@ const GroupDetails = () => {
                   <div className='upcoming-payment'>
                     <div className='payment-simble'>
                       <div className='up-box'>
-                        <h2>{data && data?.data?.upcomingPayments.amount
-                        }£</h2>
+                        <h2>£{data && data?.data?.upcomingPayments.amount
+                        }</h2>
                       </div>
                       <div className='payment-date'>
                         <h3>Upcoming Payment</h3>
@@ -76,9 +76,9 @@ const GroupDetails = () => {
                   <div className='upcoming-payment'>
                     <div className='payment-simble'>
                       <div className='up-box'>
-                        <h2>{data && data?.data?.lastPayment
+                        <h2>£{data && data?.data?.lastPayment
                           .amount
-                        }£</h2>
+                        }</h2>
                       </div>
                       <div className='payment-date'>
                         <h3>Last Payment</h3>
@@ -95,11 +95,11 @@ const GroupDetails = () => {
                   <div className='upcoming-payment'>
                     <div className='payment-simble'>
                       <div className='up-box'>
-                        <h2>{data && data?.data?.penalties.amount
-                        }£</h2>
+                        <h2>£{data && data?.data?.penalties.amount
+                        }</h2>
                       </div>
                       <div className='payment-date'>
-                        <h3>Total Paneilty</h3>
+                        <h3>Total Penalty</h3>
                         {/* <p>Date: 26-02-2025</p> */}
                       </div>
                     </div>
@@ -113,6 +113,9 @@ const GroupDetails = () => {
               </div>
               <div className='group-contrutbution'>
                 <ul>
+                <li> <strong>{data && data.data.isPublic?"Public":"Private"}  </strong>  </li>
+                
+
                   <li> <span>Group Contribution Per Cycle: </span> {data && data.data.frequencyPrice}£</li>
                   <li> <span>Group Payout Frequency: </span> {data && data.data.frequencyTime
                   } Days</li>

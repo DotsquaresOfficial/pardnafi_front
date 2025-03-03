@@ -21,7 +21,7 @@ export const GroupValidation = (name, value) => {
         if (name === "name") return "Group name is required";
         if (name === "contribution") return "Contribution amount per cycle is required";
         if (name === "frequency") return "Contribution frequency is required";
-        if (name === "duration") return "Group duration is required";
+        if (name === "payoutFrequency") return "Payout frequency is required";
         if (name === "description") return "Group description is required";
         return `${fieldName} is required`;
     }
@@ -52,12 +52,22 @@ export const GroupValidation = (name, value) => {
             return ""; 
 
         case "contribution":
+            // const contributionFrequency = Number(value);
             return isNaN(value) || value <= 0 ? "Contribution must be a positive number." : "";
             case "frequency":
                 return isNaN(value) || value <= 0 ? "Contribution frequency must be a positive number." : "";
             
-        case "duration":
-            return isNaN(value) || value <= 0 ? "Duration must be a valid number." : "";
+        case "payoutFrequency":
+            if (isNaN(value) || value <= 0) return "Payout frequency must be a valid number.";
+
+           
+            // const payoutDays = Number(value) * 30;
+
+            // if (payoutDays < contributionFrequency) {
+            //     return "Payout frequency is too low. Increase the months.";
+            // }
+
+            return "";
 
         case "description":
             if (!isValidText(val)) return "Group description cannot contain excessive whitespace.";

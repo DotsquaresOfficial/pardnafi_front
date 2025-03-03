@@ -8,13 +8,16 @@ import { toast } from 'react-toastify';
 import { factoryContract, factoryContractAbi } from '../../constent';
 import Web3 from 'web3';
 import { GroupValidation } from '../../validations/GroupValidation';
-import { useSetGroupMutation } from "../../../redux/groupApi";
+import { useSetGroupMutation, useSetUniqueGroupMutation } from "../../../redux/groupApi";
 import { CircularProgress } from '@mui/material';
 import { browse_groups } from '../../constent/Routes';
 import { useAuth } from '../../../AuthContext';
 
 const CreateGroup = () => {
+
+    const [setUniqueGroup, { data, isLoading: loading, isError }] = useSetUniqueGroupMutation()
     const { walletAddress, walletBalance, provider } = useAuth()
+    const [isUnique, setIsUnique] = useState(null);
     const [setGroup] = useSetGroupMutation();
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false);
@@ -22,8 +25,8 @@ const CreateGroup = () => {
         name: '',
         groupSize: '',
         contribution: '',
-        frequency: '30',
-        duration: '',
+        frequency: '',
+        payoutFrequency: '',
         description: "",
         daoDepositSupport: false,
         isPublic: false
@@ -33,14 +36,41 @@ const CreateGroup = () => {
         groupSize: '',
         contribution: '',
         frequency: '',
-        duration: '',
+        payoutFrequency: '',
         description: "",
 
     });
 
+
     const handleChange = (e) => {
         const { name, value } = e.target;
 
+        if (name === "name") {
+
+            setIsUnique("Loading");
+            setUniqueGroup({ groupName: value }).then((res) => {
+                console.log(res.data.isGroupIsUnique, "res.data.isGroupIsUnique")
+                if (res.data.isGroupIsUnique) {
+                    setTimeout(() => {
+                        setIsUnique(true);
+                    }, 1000);
+                    // setGroupDataErr((prevErr) => ({
+                    //     ...prevErr,
+                    //     [name]: "",
+                    // }));
+                } else {
+                    setTimeout(() => {
+                        setIsUnique(false);
+                    }, 1000);
+                    // setGroupDataErr((prevErr) => ({
+                    //     ...prevErr,
+                    //     [name]: "Group name already exist",
+                    // }));
+                }
+            })
+
+
+        }
 
         setGroupData((prevData) => ({
             ...prevData,
@@ -73,7 +103,7 @@ const CreateGroup = () => {
         setGroupData((prevData) => {
             return {
                 ...prevData,
-                isPublic: !prevData.isPublic, 
+                isPublic: !prevData.isPublic,
             };
         });
     };
@@ -96,7 +126,7 @@ const CreateGroup = () => {
             }
         }
 
-console.log(errors,"errors===")
+        console.log(errors, "errors===")
         setGroupDataErr(errors);
 
         if (hasError) {
@@ -116,12 +146,9 @@ console.log(errors,"errors===")
 
 
     const createGroups = async () => {
-
-
         if (!provider) {
             toast.success("provider not ready, please wait...");
         }
-
         try {
 
             const web3 = new Web3(provider);
@@ -137,7 +164,7 @@ console.log(errors,"errors===")
             }
 
             setIsLoading(true);
-            const groupdurationInseconds = Number(groupData.duration) * 24 * 60 * 60 * 30;
+            const groupdurationInseconds = Number(groupData.payoutFrequency) * 24 * 60 * 60 * 30;
             const groupfrequencyInseconds = Number(groupData.frequency) * 24 * 60 * 60;
             const transaction = data.methods.createGroup(
                 String(groupData.name),
@@ -180,7 +207,7 @@ console.log(errors,"errors===")
                                 groupSize: 0,
                                 contribution: 0,
                                 frequency: '',
-                                duration: 0,
+                                payoutFrequency: 0,
                                 daoDepositSupport: false
                             });
                             setIsLoading(false);
@@ -245,10 +272,56 @@ console.log(errors,"errors===")
                                                         id="Group Name"
                                                         placeholder="Group Name"
                                                         name="name"
+                                                    
                                                         // onKeyDown={handleKeyDown}
                                                         value={groupData.name}
                                                         onChange={handleChange}
                                                     />
+                                                    {isUnique !== null && isUnique !== "Loading" && (
+                                                        <span style={{ color: isUnique ? "green" : "red", display: 'flex', alignItems: 'center' }}>
+                                                            {/* Conditionally render the icon and text */}
+                                                            {!isUnique ? (
+                                                                <>
+                                                                    <span style={{ marginRight: '8px' }}>✖</span> {/* Cross symbol */}
+                                                                    {"Group name is not unique"}
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <span style={{ marginRight: '8px' }}>✔</span> {/* Checkmark symbol */}
+                                                                    {"Group name is unique"}
+                                                                </>
+                                                            )}
+                                                        </span>
+                                                    )}
+
+                                                    {isUnique === "Loading" && (
+                                                        <div style={{
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center',
+                                                            gap: '8px'
+                                                        }}>
+                                                            <CircularProgress size={16} />
+                                                            <span style={{
+                                                                fontSize: '14px',
+                                                                marginLeft: '8px'
+                                                            }}>
+                                                                {"Checking your group name..."}
+                                                            </span>
+                                                        </div>
+                                                    )}
+
+                                                    {/* {!setIsUnique ? (
+                                                        <>
+                                                            <span style={{ marginRight: '8px' }}>✖</span> 
+                                                            {"Group name is unique"}
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <span style={{ marginRight: '8px' }}>✔</span> 
+                                                            {"Group name is not unique"}
+                                                        </>
+                                                    )} */}
                                                 </div>
                                                 {groupDataErr.name && <span style={{ color: 'red' }}>{groupDataErr.name}</span>}
                                             </div>
@@ -333,9 +406,20 @@ console.log(errors,"errors===")
                                             <div className="col-12">
                                                 <div className="form-pass">
                                                     <label htmlFor="account-cpass" className="form-label">
-                                                        Group Duration (months)
+                                                        Payout frequency (Months)
                                                     </label>
-                                                    <select
+                                                    <input
+
+                                                        className="form-control"
+                                                        id="account-email"
+                                                        placeholder="Payout frequency (months)"
+                                                        type="text"
+                                                        name="payoutFrequency"
+                                                        value={groupData.payoutFrequency}
+                                                        onKeyDown={handleKeyDown}
+                                                        onChange={handleChange}
+                                                    />
+                                                    {/* <select
                                                         className="form-select" aria-label="Default select example"
                                                         name="duration"
                                                         value={groupData.duration}
@@ -345,9 +429,9 @@ console.log(errors,"errors===")
                                                         <option value="3">3 Months</option>
                                                         <option value="6">6 Months</option>
                                                         <option value="12">12 Months</option>
-                                                    </select>
+                                                    </select> */}
 
-                                                    {groupDataErr.duration && <span style={{ color: 'red' }}>{groupDataErr.duration}</span>}
+                                                    {groupDataErr.payoutFrequency && <span style={{ color: 'red' }}>{groupDataErr.payoutFrequency}</span>}
 
                                                 </div>
 

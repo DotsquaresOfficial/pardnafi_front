@@ -85,7 +85,7 @@ const Dashboard = () => {
                     <img src='/images/icon/add-icon.svg' alt='add' />
                   </div>
                   <h2>Create a New group</h2>
-                  <p>Lorem ipsum dolor sit amet consectetur.</p>
+                  
                   <div
                     style={{
                       position: 'absolute',

@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-
+import { useState } from "react";
+import { Modal, Button } from "react-bootstrap";
 
 const PageHeader = ({ title, text, data }) => {
 
@@ -7,7 +7,14 @@ const PageHeader = ({ title, text, data }) => {
     if (!address) return "";
     return `${address.slice(0, 4)}....${address.slice(-4)}`;
   }
+  const [showModal, setShowModal] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(true);
 
+  // Function to shorten the description to 3 lines
+  const truncateText = (text, maxLength) => {
+      if (!text) return "";
+      return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
   return (
 
     <>
@@ -17,11 +24,49 @@ const PageHeader = ({ title, text, data }) => {
             <div className="joined-user-graph">
               <div className="group-details-title">
                 <h2>{title}</h2>
-                {title === "Group Details" ? <><p>{data?.description
+                {/* {title === "Group Details" ? <><p>{data?.description
                 } </p>
                   <div className="address-hyperlink">
                     <h6><span>Address :</span> {shortenAddress(data?.groupAddress)}</h6>
-                  </div></> : ""}
+                  </div></> : ""} */}
+                   {title === "Group Details" && (
+                <>
+                    <p style={{ whiteSpace: "pre-line" }}>
+                        {isTruncated ? truncateText(data?.description, 200) : data?.description}
+                    </p>
+
+                    {data?.description.length > 120 && (
+                        <Button 
+                            variant="link" 
+                            onClick={() => setShowModal(true)} 
+                            style={{ padding: 0, textDecoration: "underline", color: "#fff" }}
+                        >
+                            View More
+                        </Button>
+                    )}
+
+                    <div className="address-hyperlink">
+                        <h6>
+                            <span>Address :</span> {shortenAddress(data?.groupAddress)}
+                        </h6>
+                    </div>
+
+                    {/* React Bootstrap Modal */}
+                    <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Group Description</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p style={{ whiteSpace: "pre-line" }}>{data?.description}</p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={() => setShowModal(false)}>
+                                Close
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </>
+            )}
               </div>
 
               <div className="user-status-graph">

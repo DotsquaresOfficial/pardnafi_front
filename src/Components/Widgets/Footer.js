@@ -14,7 +14,7 @@ function Footer() {
                             <div className="row gy-5 gx-4">
                                 <div className="col-md-6">
                                     <div className="footer__about">
-                                        <Link href="/" className="footer__about-logo"><img src="images/logo/f-logo.svg"
+                                        <Link href="/" className="footer__about-logo"><img src="/images/logo/f-logo.svg"
                                             alt="Logo" /></Link>
                                         <p className="footer__about-moto ">Welcome to our trading site! We offer the best, most
                                             affordable products and services around. Shop now and start finding great deals!</p>
