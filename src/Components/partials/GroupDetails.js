@@ -113,12 +113,12 @@ function GroupDetails({ item, index, selectedGroupId }) {
             <br />
             <p><strong>Group Details :</strong></p>
             <ul>
-                <li><i className="fa-solid fa-check"></i> <strong>Group Contribution Per Cycle: </strong> <span>{item?.frequencyPrice}£</span></li>
-                <li><i className="fa-solid fa-check"></i> <strong>Group Payout Frequency: </strong> <span>{item?.frequencyTime} Days</span></li>
-                <li><i className="fa-solid fa-check"></i> <strong>Group Duration: </strong> <span>{item?.duration} Months</span></li>
-                <li><i className="fa-solid fa-check"></i> <strong>Group Created By: </strong> <span>{item?.owner}</span></li>
-                <li><i className="fa-solid fa-check"></i> <strong>Max Group Members: </strong> <span>{item?.groupSize}</span></li>
-                <li><i className="fa-solid fa-check"></i> <strong>Created At: </strong> <span>{new Date(item?.createdAt).toLocaleString()}</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>Group Contribution Per Cycle: </strong> &nbsp;<span>£{item?.frequencyPrice}</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>Group Payout Frequency: </strong>&nbsp; <span>{item?.frequencyTime} Days</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>Group Duration: </strong> &nbsp;<span>{item?.duration}    Days</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>Group Created By: </strong> &nbsp;<span>{item?.owner}</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>Max Group Members: </strong>&nbsp; <span>{item?.groupSize}</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>Created At: </strong>&nbsp; <span>{new Date(item?.createdAt).toLocaleString()}</span></li>
             </ul>
 
             {/* <p><strong>Group Members:</strong></p>
@@ -132,7 +132,7 @@ function GroupDetails({ item, index, selectedGroupId }) {
                 <p>No members yet.</p>
             )} */}
 
-            <p className="text-justify"><strong>Group Rules: </strong>{item?.description || "No description available."}</p>
+            <p className="text-justify"><strong>Group Rules: </strong>&nbsp;{item?.description || "No description available."}</p>
             {/* <button className="trk-btn trk-btn--border trk-btn--primary d-block mt-4" onClick={() => isJoined ?joinGroupHandler():""}>{isJoined ? "Already Joined" : "Join Group"}</button> */}
             <a href={`/group-details/${item && item._id}`}><button className="trk-btn trk-btn--border trk-btn--primary d-block mt-4" >More Details</button></a>
         </div>

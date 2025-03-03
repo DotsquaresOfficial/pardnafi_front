@@ -73,7 +73,7 @@ const CreateGroup = () => {
         setGroupData((prevData) => {
             return {
                 ...prevData,
-                isPublic: !prevData.isPublic, // Toggle value
+                isPublic: !prevData.isPublic, 
             };
         });
     };
@@ -86,6 +86,7 @@ const CreateGroup = () => {
 
         for (let key in groupData) {
             if (key === "daoDepositSupport") continue;
+            if (key === "isPublic") continue;
 
             let checkGroup = GroupValidation(key, groupData[key]);
             errors[key] = checkGroup;
@@ -95,7 +96,7 @@ const CreateGroup = () => {
             }
         }
 
-
+console.log(errors,"errors===")
         setGroupDataErr(errors);
 
         if (hasError) {
@@ -136,7 +137,7 @@ const CreateGroup = () => {
             }
 
             setIsLoading(true);
-            const groupdurationInseconds = Number(groupData.duration) * 24 * 60 * 60*30;
+            const groupdurationInseconds = Number(groupData.duration) * 24 * 60 * 60 * 30;
             const groupfrequencyInseconds = Number(groupData.frequency) * 24 * 60 * 60;
             const transaction = data.methods.createGroup(
                 String(groupData.name),
@@ -299,7 +300,7 @@ const CreateGroup = () => {
                                             <div className="col-12">
                                                 <div className="form-pass">
                                                     <label htmlFor="account-pass" className="form-label">
-                                                        Contribution Frequency
+                                                        Contribution Frequency (Days)
                                                     </label>
 
                                                     {/* <select
@@ -317,7 +318,7 @@ const CreateGroup = () => {
 
                                                         className="form-control"
                                                         id="account-email"
-                                                        placeholder="Contribution Amount frequency"
+                                                        placeholder="Contribution frequency (days)"
                                                         type="text"
                                                         name="frequency"
                                                         value={groupData.frequency}

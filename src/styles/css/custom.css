@@ -241,13 +241,14 @@ background: #28A745;
 
 
 
-
 .user-dropdown .dropdown button img {
     filter: inherit;
-    max-width: 68px;
+    /* max-width: 68px; */
     border-radius: 100%;
     border: solid 2px #ffffff;
     margin-left: -2px;
+    width: 40px;
+    height: 40px;
 }
 
 .header .dropdown button span {
@@ -836,7 +837,7 @@ color-mix(in srgb, var(--default-color), transparent 20%);
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-size: 19px;
+    font-size: 14px;
     font-weight: bold;
     line-height: 0px;
     margin-bottom: 0px;
@@ -1127,3 +1128,7 @@ color-mix(in srgb, var(--default-color), transparent 20%);
     100% { transform: rotate(360deg); }
 }
 
+.wc-list ul li a span {
+    color: #001f89;
+    font-weight: 600;
+}

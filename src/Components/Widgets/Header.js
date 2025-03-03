@@ -166,7 +166,7 @@ const Header=memo(
                           }
                         }
                       }}>
-                        <img src={data&&data.user?data.user.avatar:"/images/header/wallet.svg"}  className="img-fluid" alt="wallet" />
+                        <img src="/images/header/wallet.svg" className="img-fluid" alt="wallet" />
                       </div> : (
                         <div style={{
                           padding: '10px',
@@ -262,7 +262,7 @@ const Header=memo(
                   <div className="user-dropdown">
                     {authenticated ? <div class="dropdown">
                       <button class="btn dropdown-toggle" type="button" style={{ background: 'none', border: 'none' }} data-bs-toggle="dropdown" aria-expanded="false">
-                        <img alt="user" class="img-fluid" src="/images/header/user.jpg" />
+                        <img alt="user" class="img-fluid" src={data?.user?.avatar || "/images/header/user.jpg"}  />
                       </button>
                       <ul className="dropdown-menu">
                         <li><a className="dropdown-item" href="/user-profile"  >User Profile</a></li>
