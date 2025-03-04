@@ -27,15 +27,24 @@ export const groupApi = myApi.injectEndpoints({
       }),
       invalidatesTags: (_) => ["uniqueGroup"],
     }),
-
-    setGroupAnalytics: builder.mutation({
-      query: (post) => ({
+    getGroupAnalytics: builder.query({
+      query: () => ({
         url: getGroupAnalyticsApi,
-        method: "POST",
-        body: post,
+        method: "GET",
       }),
-      invalidatesTags: (_) => ["group", "groupAnalytics"],
+      transformResponse: (response, meta, arg) => {
+        return response.status ? response?.data ?? "" : "";
+      },
+      providesTags: (_) => ["groupAnalytics"],
     }),
+    // setGroupAnalytics: builder.mutation({
+    //   query: (post) => ({
+    //     url: getGroupAnalyticsApi,
+    //     method: "POST",
+    //     body: post,
+    //   }),
+    //   invalidatesTags: (_) => ["group", "groupAnalytics"],
+    // }),
 
 
     setGroup: builder.mutation({
@@ -69,7 +78,7 @@ export const groupApi = myApi.injectEndpoints({
 
 export const {
   useGetGroupQuery,useSetUniqueGroupMutation,
-  useSetGroupMutation, useSetGroupAnalyticsMutation,useSetMyGroupMutation,useSetGroupDetailsMutation
+  useSetGroupMutation, useGetGroupAnalyticsQuery,useSetMyGroupMutation,useSetGroupDetailsMutation
 } = groupApi;
 
 

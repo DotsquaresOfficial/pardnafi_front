@@ -167,7 +167,6 @@ const CreateGroup = () => {
             const groupdurationInseconds = Number(groupData.payoutFrequency) * 24 * 60 * 60 * 30;
             const groupfrequencyInseconds = Number(groupData.frequency) * 24 * 60 * 60;
             const transaction = data.methods.createGroup(
-                String(groupData.name),
                 groupfrequencyInseconds.toString(),
                 String("panely are applicable"),
                 web3.utils.toWei(groupData.contribution.toString(), "ether"),

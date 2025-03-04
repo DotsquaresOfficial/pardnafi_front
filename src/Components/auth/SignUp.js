@@ -14,9 +14,10 @@ import { role } from "../constent/Enum"
 import { getWeb3AuthEVMInstance } from './web3auth';
 import { useAuth } from '../../AuthContext';
 import { CircularProgress } from '@mui/material';
+import Web3 from 'web3';
 const SignUp = () => {
 
-  const { authenticated, login, connectWallet } = useAuth();
+  const { authenticated, login, connectWallet ,logout} = useAuth();
   const navigate = useNavigate()
   const [isEmailExist, setIsEmailExist] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,14 +40,7 @@ const SignUp = () => {
     password: '', cPassword: ''
   });
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    if (authenticated) {
-      navigate(dashboard, { replace: true });
-    } else {
 
-    }
-  }, [authenticated, navigate]);
 
 
   const showcurrentPassword = () => {
@@ -83,7 +77,7 @@ const SignUp = () => {
     // Set is Verified Null
     if (name == "email") {
       try {
-        debugger;
+    
         let data = { email: value }
         setIsEmailExist("Loading");
         const resp = await fetchIsEmailExist(data)
@@ -110,8 +104,7 @@ const SignUp = () => {
     // Prevents Default
     e.preventDefault();
 
-    // Turn on debugger
-    debugger;
+
 
     // Start the lader
     setIsLoading(true);
@@ -154,8 +147,7 @@ const SignUp = () => {
         // Connect the wallet with web3auth
         await  connectWallet(formData.email.trim().toLowerCase());
 
-        // If wallet is not connected then revert the error message
- 
+
         if(!getWeb3AuthEVMInstance()?.connected){
          toast.error("Failed to verify user.");
          setIsLoading(false);
@@ -172,7 +164,7 @@ const SignUp = () => {
       try {
         // get users information
         const user = await getWeb3AuthEVMInstance().getUserInfo()
-        await getWeb3AuthEVMInstance().logout();
+       
   
         if (!user?.verifierId) {
           setIsLoading(false);
@@ -189,8 +181,17 @@ const SignUp = () => {
         setIsLoading(false);
   
         console.log("User authenticated successfully:", user);
+        const provider = getWeb3AuthEVMInstance().provider;
+        if(!provider){
+          await logout();
+          return;
+        }
 
-        const result = await register(userData);
+        const web3 = new Web3(provider);
+        const accounts = await web3.eth.getAccounts();
+
+        await logout();
+        const result = await register({...userData,walletAddress:accounts[0]});
         if (result?.success) {
           toast.success(result.message);
           setIsLoading(false);

@@ -4,16 +4,18 @@ import PageHeader from './PageHeader'
 import Footer from './Footer'
 import { Link } from "react-router-dom"
 import { browse_groups, create_group, my_group, wallet_access } from '../constent/Routes'
-import { useSetGroupAnalyticsMutation } from '../../redux/groupApi'
+import { useGetGroupAnalyticsQuery } from '../../redux/groupApi'
 import { useAuth } from '../../AuthContext'
 import { toast } from 'react-toastify'
 
 const Dashboard = () => {
 
-  const [setGroupAnalytics] = useSetGroupAnalyticsMutation();
+  const {data} = useGetGroupAnalyticsQuery();
   const [dashboardData, setDashboardData] = useState([])
   const { wallet_address } = useAuth()
-  console.log(wallet_address,"wallet_address===")
+
+  console.log(data&&data,"data==")
+
   useEffect(() => {
     const style = document.createElement('style');
     style.innerHTML = `
@@ -32,36 +34,35 @@ const Dashboard = () => {
       document.head.removeChild(style);
     };
   }, []);
-  console.log(dashboardData, "dashboardData==")
+ 
 
-  useEffect(() => {
-    groupAnalytics();
+  // useEffect(() => {
+  //   groupAnalytics();
   
     
-  }, [wallet_address]);
+  // }, [wallet_address]);
   
 
-  const groupAnalytics = async () => {
-    debugger
-      if(wallet_address){
+  // const groupAnalytics = async () => {
     
-        setGroupAnalytics({ groupOwnerAddress: wallet_address }).then((result) => {
+    
+  //       setGroupAnalytics({ groupOwnerAddress: wallet_address }).then((result) => {
 
-          if (result?.data
-            ?.success) {
-            setDashboardData(result.data?.data)
+  //         if (result?.data
+  //           ?.success) {
+  //           setDashboardData(result.data?.data)
     
     
-            //  setIsLoading(false);
-            //  navigate(browse_groups)
-          } else {
-            //  setIsLoading(false);
-            toast.error(result.data?.message);
-          }
-        });
-      }
+  //           //  setIsLoading(false);
+  //           //  navigate(browse_groups)
+  //         } else {
+  //           //  setIsLoading(false);
+  //           toast.error(result.data?.message);
+  //         }
+  //       });
+   
       
-  }
+  // }
 
   return (
     <>
@@ -85,8 +86,8 @@ const Dashboard = () => {
                     <img src='/images/icon/add-icon.svg' alt='add' />
                   </div>
                   <h2>Create a New group</h2>
-                  <h1 style={{visibility:'hidden'}}>{dashboardData.
-                    browseGroups ? dashboardData.browseGroups : "0"}</h1>
+                  <h1 style={{visibility:'hidden'}}>{data&&data.
+                    browseGroups ? data.browseGroups : "0"}</h1>
                   <div
                     style={{
                       position: 'absolute',
@@ -122,8 +123,8 @@ const Dashboard = () => {
                     <img src='/images/icon/world.svg' alt='add' />
                   </div>
                   <h2>Browse Groups</h2>
-                  <h1>{dashboardData.
-                    browseGroups ? dashboardData.browseGroups : "0"}</h1>
+                  <h1>{data&&data.
+                    browseGroups ? data&&data.browseGroups : "0"}</h1>
                   <div
                     style={{
                       position: 'absolute',
@@ -159,8 +160,8 @@ const Dashboard = () => {
                   <img src='/images/icon/user-active.svg' alt='add' />
                 </div>
                 <h2>Active Groups</h2>
-                <h1>{dashboardData.activeGroups ?
-                  dashboardData.activeGroups : "0"}</h1>
+                <h1>{data&&data.activeGroups ?
+                  data&&data.activeGroups : "0"}</h1>
                 <div
                   style={{
                     position: 'absolute',
@@ -194,9 +195,11 @@ const Dashboard = () => {
                   <img src='/assets/images/mygroup.svg' alt='add' />
                 </div>
                 <h2>My Groups</h2>
-                <h1>{dashboardData.createdGroups
+                <h1>{data&&data.myGroups
+
                   ?
-                  dashboardData.createdGroups
+                  data&&data.myGroups
+
                   : "0"}</h1>
                 <div
                   style={{

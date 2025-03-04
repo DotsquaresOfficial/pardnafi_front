@@ -21,15 +21,7 @@ const GroupDetails = () => {
       try {
 
         setGroupDetails({ id })
-        // const response = await fetch(`https://your-api.com/groups/${id}`);
-        // if (!response.ok) throw new Error("Failed to fetch group details");
-        // const data = await response.json();
 
-        // if (data.success) {
-        //   setGroupDetails(data.data[0]); // Assuming the response contains an array
-        // } else {
-        //   throw new Error(data.message || "Error fetching group details");
-        // }
       } catch (error) {
         console.error("Error fetching group details:", error);
       } finally {
@@ -40,11 +32,16 @@ const GroupDetails = () => {
     fetchGroupDetails();
   }, [id]);
 
-  console.log(data && data.data, "huihyuhy")
+
 
   const createdAt = data && data.data.createdAt
     ;
   const localTime = new Date(createdAt).toLocaleString();
+
+  function shortenAddress(address) {
+    if (!address) return "";
+    return `${address.slice(0, 4)}....${address.slice(-4)}`;
+  }
   return (
     <>
 
@@ -113,8 +110,8 @@ const GroupDetails = () => {
               </div>
               <div className='group-contrutbution'>
                 <ul>
-                <li> <strong>{data && data.data.isPublic?"Public":"Private"}  </strong>  </li>
-                
+                  <li> <strong>{data && data.data.isPublic ? "Public" : "Private"}  </strong>  </li>
+
 
                   <li> <span>Group Contribution Per Cycle: </span> {data && data.data.frequencyPrice}£</li>
                   <li> <span>Group Payout Frequency: </span> {data && data.data.frequencyTime
@@ -149,6 +146,51 @@ const GroupDetails = () => {
           </div>
         </div>
       </section>
+      <section class="active-usertable">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="user-datajoin">
+                <div class="member-user">
+                  <h2>All Members</h2>
+                  <p class="active-members">Active Members</p>
+                </div>
+                <div class="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Member Name</th>
+                        <th>Wallet Address</th>
+                        <th>Total Contribution</th>
+                        <th>Email</th>
+                        <th>Last Contribution</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      {data && data.data.members.map((item, i) => {
+                        return <tr>
+                          <td>{item.name}</td>
+                          <td>{shortenAddress(item?.memberAddress)}</td>
+                          <td>€ {item?.contribution
+                          }</td>
+                          <td>{item?.
+                            email
+                          }</td>
+                          <td>€ {item?.lastPayment
+                          }</td>
+                        </tr>
+                      })}
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
 
 
 

@@ -1132,3 +1132,78 @@ color-mix(in srgb, var(--default-color), transparent 20%);
     color: #001f89;
     font-weight: 600;
 }
+
+.joined-user-graph {
+    display: flex
+;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.active-user .join-memeberdata{
+    background: #fff;
+    border-bottom: solid 4px #0047AB;
+    border-radius: 10px;
+    padding: 20px 20px;
+    margin-top: 23px;
+    box-shadow: 0px 4px 28px 0px #1A408921;
+}
+section.active-user {
+    padding: 35px 0px;
+}
+
+.user-datajoin{
+    background: #fff;
+border-bottom: solid 4px #0047AB;
+border-radius: 10px;
+padding: 0px;
+margin-top: 23px;
+box-shadow: 0px 4px 28px 0px #1A408921;
+  }
+    .user-datajoin .active-members {
+        color: #0047AB;
+        font-size: 14px;
+        cursor: pointer;
+        font-weight: 300;
+    }
+    .user-datajoin table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    .user-datajoin th, td {
+            padding: 17px 0px;
+            text-align: center;
+            color: #292D32;
+            font-weight: 500;
+            font-size: 14px;
+        }
+    .user-datajoin th {
+        color: #B5B7C0;
+        font-weight: 500;
+        font-size: 14px;
+    }
+   
+    .user-datajoin .table-container {
+        border-radius: 10px;
+        overflow: hidden;
+       
+    }
+    .user-datajoin h2{
+        color: #000;
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 22px;
+        margin-bottom: 0px;
+    }
+
+    .user-datajoin .table-container tr{
+        border-bottom: solid 1px #EEEEEE;
+    }
+   .member-user {
+            padding: 15px 30px;
+        }
+
+    .active-usertable{
+        padding: 40px 0px;
+    }
