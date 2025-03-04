@@ -85,7 +85,8 @@ const Dashboard = () => {
                     <img src='/images/icon/add-icon.svg' alt='add' />
                   </div>
                   <h2>Create a New group</h2>
-                  
+                  <h1 style={{visibility:'hidden'}}>{dashboardData.
+                    browseGroups ? dashboardData.browseGroups : "0"}</h1>
                   <div
                     style={{
                       position: 'absolute',
@@ -190,7 +191,7 @@ const Dashboard = () => {
                 }}
               >
                 <div className='creategroup-img'>
-                  <img src='/images/icon/user-active.svg' alt='add' />
+                  <img src='/assets/images/mygroup.svg' alt='add' />
                 </div>
                 <h2>My Groups</h2>
                 <h1>{dashboardData.createdGroups
