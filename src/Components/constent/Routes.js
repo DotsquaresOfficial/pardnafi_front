@@ -22,6 +22,7 @@ export const my_group =  "/my-group";
 export const active_groups =  "/active-groups";
 
 export const polling_page =  "/polling-page";
+export const add_member =  "/add-member";
 
 export const wallet_access =  "/wallet-access";
 export const notification =  "/notification";

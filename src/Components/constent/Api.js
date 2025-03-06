@@ -42,6 +42,8 @@ export const getGroupAnalyticsApi = baseUrl + "/group/groups-analytics";
 export const myGroupApi = baseUrl + "/group/my-groups";
 export const getGroupDetailsByIdApi = baseUrl + "/group/get-group-by-id";
 export const isGroupUniqueApi = baseUrl + "/group/is-group-unique"
+export const groupManagementApi = baseUrl + "/group/get-group-management-data"
+export const inviteGroupApi = baseUrl + "/group/invite-member"
 
 // ===============group =======================
 

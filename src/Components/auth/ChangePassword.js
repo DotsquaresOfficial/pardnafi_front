@@ -16,9 +16,12 @@ import { getWeb3AuthNearInstance } from './web3auth';
 import { toast } from 'react-toastify';
 import { ChangePasswordValid } from '../validations/ChangePasswordValid';
 import SignUp from './SignUp';
+import SignIn from './SignIn';
+import { useAuth } from '../../AuthContext';
 
 
 const ChangePassword = () => {
+  const {logout} = useAuth()
 
     const navigate = useNavigate();
     const [passwordShow, setPasswordShow] = useState({
@@ -89,8 +92,10 @@ const ChangePassword = () => {
       const token = localStorage.getItem("jwtToken");
       const response = await changePassword(formData,token); 
       if (response.success) {
+        logout()
         toast.success(response.message);
-        navigate(signup); 
+
+        navigate(SignIn); 
       } else {
         toast.error(response.message);
       }

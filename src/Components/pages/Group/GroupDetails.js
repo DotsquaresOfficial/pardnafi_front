@@ -22,6 +22,8 @@ const GroupDetails = () => {
 
         setGroupDetails({ id })
 
+        localStorage.setItem("groupId",id)
+
       } catch (error) {
         console.error("Error fetching group details:", error);
       } finally {
@@ -113,7 +115,7 @@ const GroupDetails = () => {
                   <li> <strong>{data && data.data.isPublic ? "Public" : "Private"}  </strong>  </li>
 
 
-                  <li> <span>Group Contribution Per Cycle: </span> {data && data.data.frequencyPrice}£</li>
+                  <li> <span>Group Contribution Per Cycle: </span> £{data && data.data.frequencyPrice}</li>
                   <li> <span>Group Payout Frequency: </span> {data && data.data.frequencyTime
                   } Days</li>
                   <li> <span>Group Duration: </span> {data && data.data.duration} Days</li>
@@ -123,7 +125,7 @@ const GroupDetails = () => {
                 </ul>
               </div>
             </div>
-            <div className='col-md-3'>
+            {/* <div className='col-md-3'>
               <div className='contr-graph'>
                 <h2>Contributions </h2>
                 <img src='/images/contr-graph.svg' />
@@ -142,7 +144,7 @@ const GroupDetails = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -172,12 +174,12 @@ const GroupDetails = () => {
                         return <tr>
                           <td>{item.name}</td>
                           <td>{shortenAddress(item?.memberAddress)}</td>
-                          <td>€ {item?.contribution
+                          <td>£ {item?.contribution
                           }</td>
                           <td>{item?.
                             email
                           }</td>
-                          <td>€ {item?.lastPayment
+                          <td>£ {item?.lastPayment
                           }</td>
                         </tr>
                       })}

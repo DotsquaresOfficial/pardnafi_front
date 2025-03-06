@@ -4,8 +4,12 @@ import Web3 from 'web3';
 import { getWeb3AuthEVMInstance } from '../auth/web3auth';
 import { factoryContract, factoryContractAbi, groupAbi } from "../constent";
 import { toast } from "react-toastify";
+import CircularProgress from "./CircularProgress";
+import { add_member } from "../constent/Routes";
+
 
 const PageHeader = ({ title, text, data }) => {
+
   const [walletAddress, setWalletAddress] = useState("");
   const [isJoined, setIsJoined] = useState(null);
   function shortenAddress(address) {
@@ -20,38 +24,38 @@ const PageHeader = ({ title, text, data }) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
 
- 
-  useEffect(() => {
 
-    handleJoinGroup();
+  // useEffect(() => {
 
-  }, []);
-  const handleJoinGroup = async () => {
-    try {
-     
-      const provider = getWeb3AuthEVMInstance();
-      await provider.init();
+  //   handleJoinGroup();
 
-      const web3 = new Web3(provider.provider);
-      const contract = new web3.eth.Contract(factoryContractAbi, factoryContract);
-      // Get user's accounts
-      const accounts = await web3.eth.getAccounts();
-      // console.log(accounts,"accounts")
-      setWalletAddress(accounts[0])
-      const transaction = contract.methods.isJoined(data?.groupAddress, accounts[0]);
+  // }, []);
+  // const handleJoinGroup = async () => {
+  //   try {
 
-      const isJoined = await transaction.call();
-      // console.log("call111=============")
-      // console.log(isJoined, "isJoined==")
+  //     const provider = getWeb3AuthEVMInstance();
+  //     await provider.init();
 
-      setIsJoined(isJoined);
-    } catch (error) {
-      console.error("Error fetching groups list:", error);
-    }
-  };
+  //     const web3 = new Web3(provider.provider);
+  //     const contract = new web3.eth.Contract(factoryContractAbi, factoryContract);
+  //     // Get user's accounts
+  //     const accounts = await web3.eth.getAccounts();
+  //     // console.log(accounts,"accounts")
+  //     setWalletAddress(accounts[0])
+  //     const transaction = contract.methods.isJoined(data?.groupAddress, accounts[0]);
+
+  //     const isJoined = await transaction.call();
+  //     // console.log("call111=============")
+  //     // console.log(isJoined, "isJoined==")
+
+  //     setIsJoined(isJoined);
+  //   } catch (error) {
+  //     console.error("Error fetching groups list:", error);
+  //   }
+  // };
 
   const joinGroupHandler = async () => {
-
+    debugger;
     const provider = getWeb3AuthEVMInstance();
     // console.log("call1")
     // // await provider.initModal();
@@ -62,13 +66,13 @@ const PageHeader = ({ title, text, data }) => {
     const contract = new web3.eth.Contract(groupAbi, data?.groupAddress);
     const accounts = await web3.eth.getAccounts();
 
-    setWalletAddress(accounts[0])
+
     const transaction = contract.methods.joinGroup(
 
     );
     // getUserWalletBalanceAndAccount
 
-    transaction.send({ from: walletAddress })
+    transaction.send({ from: accounts[0] })
       .on('transactionHash', function (hash) {
         console.log(hash, "hash\========")
 
@@ -89,8 +93,12 @@ const PageHeader = ({ title, text, data }) => {
         // });
       })
       .on('receipt', function (receipt) {
+        toast.success("Join successfully")
+        setTimeout(() => {
+          window.location.reload()
+        }, 1500);
 
-        console.log("Transaction successful", receipt);
+
       })
       .on('error', function (error) {
         console.error("Transaction failed=========", error);
@@ -118,6 +126,7 @@ const PageHeader = ({ title, text, data }) => {
                       {isTruncated ? truncateText(data?.description, 200) : data?.description}
                     </p>
 
+
                     {data?.description.length > 120 && (
                       <Button
                         variant="link"
@@ -130,10 +139,18 @@ const PageHeader = ({ title, text, data }) => {
 
                     <div className="address-hyperlink">
                       <h6>
-                        <span>Address :</span> {shortenAddress(data?.groupAddress)}
+
+                        <span>Address :</span> <a href={`https://sepolia.basescan.org/address/${data?.groupAddress}`} target="_blank">{shortenAddress(data?.groupAddress)}</a>
+                      </h6> <br />
+
+                    </div>
+                    <div className="address-hyperlink">
+                      <h6>
+
+
+                        <span >Transaction Hash :</span> <a href={`https://sepolia.basescan.org/tx/${data?.txHash}`} target="_blank">{shortenAddress(data?.txHash)}</a>
                       </h6>
                     </div>
-
                     {/* React Bootstrap Modal */}
                     <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                       <Modal.Header closeButton>
@@ -153,10 +170,20 @@ const PageHeader = ({ title, text, data }) => {
               </div>
 
               <div className="user-status-graph">
-              {title === "Group Details" && ( <a href="#" className="trk-btn trk-btn--border trk-join">
+                {/* 70% filled */}
 
-                 <span onClick={() => isJoined ? joinGroupHandler() : ""}>{data.isJoined ? "Already Joined" : "Join Group"}</span>
-                </a>)}
+                {title == "Group Details" ? <><CircularProgress value={data && data.members.length
+                } total={data && data.groupSize} />
+                  <div className="join-userdata"><a href="#" className="trk-btn trk-btn--border trk-join">
+
+                    <span onClick={() => (!data?.isJoined) ? joinGroupHandler() : ""}>{data?.isJoined ? "Already Joined" : "Join Group"}</span>
+
+                  </a>
+                    {data?.isOwner && <a href={add_member} className="trk-btn trk-btn--border trk-join">
+
+                      <span onClick={() => (!data?.isOwner) ? joinGroupHandler() : ""}>{data?.isOwner
+                        && "Group Management"}</span>
+                    </a>}</div> </> : ""}
               </div>
 
             </div>

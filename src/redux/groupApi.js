@@ -1,6 +1,6 @@
 import {
   createGroupApi,
-  getAllGroupApi, getGroupAnalyticsApi,myGroupApi,getGroupDetailsByIdApi,isGroupUniqueApi
+  getAllGroupApi,inviteGroupApi,groupManagementApi, getGroupAnalyticsApi,myGroupApi,getGroupDetailsByIdApi,isGroupUniqueApi
 
 } from "../Components/constent/Api";
 import { myApi } from "./api";
@@ -27,6 +27,15 @@ export const groupApi = myApi.injectEndpoints({
       }),
       invalidatesTags: (_) => ["uniqueGroup"],
     }),
+    setGroupManagement: builder.mutation({
+      query: (post) => ({
+        url: groupManagementApi,
+        method: "POST",
+        body: post,
+      }),
+      providesTags: (_) => ["groupManagement"],
+      
+    }),
     getGroupAnalytics: builder.query({
       query: () => ({
         url: getGroupAnalyticsApi,
@@ -37,15 +46,7 @@ export const groupApi = myApi.injectEndpoints({
       },
       providesTags: (_) => ["groupAnalytics"],
     }),
-    // setGroupAnalytics: builder.mutation({
-    //   query: (post) => ({
-    //     url: getGroupAnalyticsApi,
-    //     method: "POST",
-    //     body: post,
-    //   }),
-    //   invalidatesTags: (_) => ["group", "groupAnalytics"],
-    // }),
-
+ 
 
     setGroup: builder.mutation({
       query: (post) => ({
@@ -70,15 +71,25 @@ export const groupApi = myApi.injectEndpoints({
         body: post,
       }),
       invalidatesTags: (_) => ["group", "dashboard"],
+    }),  setInviteGroupMember: builder.mutation({
+      query: (post) => ({
+        url: inviteGroupApi,
+        method: "POST",
+        body: post,
+      }),
+      providesTags: (_) => ["groupManagement"],
+      invalidatesTags: (_) => ["groupManagement"],
     }),
+
+    
 
 
   }),
 });
 
 export const {
-  useGetGroupQuery,useSetUniqueGroupMutation,
-  useSetGroupMutation, useGetGroupAnalyticsQuery,useSetMyGroupMutation,useSetGroupDetailsMutation
+  useGetGroupQuery,useSetUniqueGroupMutation,useSetInviteGroupMemberMutation,
+  useSetGroupMutation, useGetGroupAnalyticsQuery,useSetMyGroupMutation,useSetGroupDetailsMutation,useSetGroupManagementMutation
 } = groupApi;
 
 
