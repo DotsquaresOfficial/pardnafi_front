@@ -23,7 +23,7 @@ const MyGroups = () => {
     <>
       <PageHeader title="My Groups" text="My Groups" />
       {/* <a href={`/group-details/${item && item._id}`}></a> */}
-      <section className="account padding-top padding-bottom sec-bg-color2">
+      <section className="account  sec-bg-color2">
         <div className='container'>
           <div className='row'>
             {data && data?.data?.map((group, index) => {

@@ -2,75 +2,42 @@ import { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import Web3 from 'web3';
 import { getWeb3AuthEVMInstance } from '../auth/web3auth';
-import { factoryContract, factoryContractAbi, groupAbi } from "../constent";
+import { groupAbi } from "../constent";
 import { toast } from "react-toastify";
 import CircularProgress from "./CircularProgress";
 import { add_member } from "../constent/Routes";
+import ConfirmationPopup from "../partials/modal/ConfirmationPopup";
 
 
 const PageHeader = ({ title, text, data }) => {
 
-  const [walletAddress, setWalletAddress] = useState("");
-  const [isJoined, setIsJoined] = useState(null);
   function shortenAddress(address) {
     if (!address) return "";
     return `${address.slice(0, 4)}....${address.slice(-4)}`;
   }
   const [showModal, setShowModal] = useState(false);
   const [isTruncated, setIsTruncated] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const showPopup = () => { setIsOpen(true) };
+  const closePopup = () => setIsOpen(false);
+
 
   const truncateText = (text, maxLength) => {
     if (!text) return "";
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
 
-
-  // useEffect(() => {
-
-  //   handleJoinGroup();
-
-  // }, []);
-  // const handleJoinGroup = async () => {
-  //   try {
-
-  //     const provider = getWeb3AuthEVMInstance();
-  //     await provider.init();
-
-  //     const web3 = new Web3(provider.provider);
-  //     const contract = new web3.eth.Contract(factoryContractAbi, factoryContract);
-  //     // Get user's accounts
-  //     const accounts = await web3.eth.getAccounts();
-  //     // console.log(accounts,"accounts")
-  //     setWalletAddress(accounts[0])
-  //     const transaction = contract.methods.isJoined(data?.groupAddress, accounts[0]);
-
-  //     const isJoined = await transaction.call();
-  //     // console.log("call111=============")
-  //     // console.log(isJoined, "isJoined==")
-
-  //     setIsJoined(isJoined);
-  //   } catch (error) {
-  //     console.error("Error fetching groups list:", error);
-  //   }
-  // };
-
   const joinGroupHandler = async () => {
     debugger;
     const provider = getWeb3AuthEVMInstance();
-    // console.log("call1")
-    // // await provider.initModal();
-    // console.log("call2")
-    // // await provider.connect();
-    // console.log("call3")
+
     const web3 = new Web3(provider.provider);
     const contract = new web3.eth.Contract(groupAbi, data?.groupAddress);
     const accounts = await web3.eth.getAccounts();
-
-
     const transaction = contract.methods.joinGroup(
 
     );
-    // getUserWalletBalanceAndAccount
 
     transaction.send({ from: accounts[0] })
       .on('transactionHash', function (hash) {
@@ -80,17 +47,6 @@ const PageHeader = ({ title, text, data }) => {
 
         };
 
-        // setGroup(datas).then((result) => {
-
-        //     if (result?.data
-        //         ?.success) {
-        //         toast.success(result.data?.message);
-
-        //         // navigate(browse_groups)
-        //     } else {
-        //         toast.error(result.data?.message);
-        //     }
-        // });
       })
       .on('receipt', function (receipt) {
         toast.success("Join successfully")
@@ -115,11 +71,7 @@ const PageHeader = ({ title, text, data }) => {
             <div className="joined-user-graph">
               <div className="group-details-title">
                 <h2>{title}</h2>
-                {/* {title === "Group Details" ? <><p>{data?.description
-                } </p>
-                  <div className="address-hyperlink">
-                    <h6><span>Address :</span> {shortenAddress(data?.groupAddress)}</h6>
-                  </div></> : ""} */}
+
                 {title === "Group Details" && (
                   <>
                     <p style={{ whiteSpace: "pre-line" }}>
@@ -131,7 +83,7 @@ const PageHeader = ({ title, text, data }) => {
                       <Button
                         variant="link"
                         onClick={() => setShowModal(true)}
-                        style={{ padding: 0, textDecoration: "underline", color: "#fff" }}
+                       
                       >
                         View More
                       </Button>
@@ -151,7 +103,7 @@ const PageHeader = ({ title, text, data }) => {
                         <span >Transaction Hash :</span> <a href={`https://sepolia.basescan.org/tx/${data?.txHash}`} target="_blank">{shortenAddress(data?.txHash)}</a>
                       </h6>
                     </div>
-                    {/* React Bootstrap Modal */}
+
                     <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                       <Modal.Header closeButton>
                         <Modal.Title>Group Description</Modal.Title>
@@ -176,12 +128,12 @@ const PageHeader = ({ title, text, data }) => {
                 } total={data && data.groupSize} />
                   <div className="join-userdata"><a href="#" className="trk-btn trk-btn--border trk-join">
 
-                    <span onClick={() => (!data?.isJoined) ? joinGroupHandler() : ""}>{data?.isJoined ? "Already Joined" : "Join Group"}</span>
+                    <span onClick={() => (!data?.isJoined) ? showPopup : ""}>{data?.isJoined ? "Already Joined" : "Join Group"}</span>
 
                   </a>
                     {data?.isOwner && <a href={add_member} className="trk-btn trk-btn--border trk-join">
 
-                      <span onClick={() => (!data?.isOwner) ? joinGroupHandler() : ""}>{data?.isOwner
+                      <span onClick={() => (!data?.isOwner) ? showPopup : ""}>{data?.isOwner
                         && "Group Management"}</span>
                     </a>}</div> </> : ""}
               </div>
@@ -194,7 +146,18 @@ const PageHeader = ({ title, text, data }) => {
           </div>
         </div>
       </section>
-
+      {isOpen && (
+                <div className="popup-overlay">
+                    <div className="popup">
+                        <h2>Are you sure?</h2>
+                        <p>Do you really want to proceed?</p>
+                        <div className="popup-buttons">
+                            <button className="confirm-btn" onClick={joinGroupHandler}>Yes</button>
+                            <button className="cancel-btn" onClick={closePopup}>No</button>
+                        </div>
+                    </div>
+                </div>
+            )}
       <section className="details-grouppage">
         <div className="container">
 

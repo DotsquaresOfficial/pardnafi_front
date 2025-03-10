@@ -808,8 +808,8 @@ color-mix(in srgb, var(--default-color), transparent 20%);
     font-weight: 500;
     margin-bottom: 0px;
 }
-.payment-method{
-    padding: 50px 0px;
+.payment-method {
+    padding: 50px 0px 20px;
 }
 .upcoming-payment {
     background: #fff;
@@ -1129,8 +1129,9 @@ color-mix(in srgb, var(--default-color), transparent 20%);
 }
 
 .wc-list ul li a span {
-    color: #001f89;
-    font-weight: 600;
+    color: #0047ab;
+    font-weight: 700;
+    font-size: 18px;
 }
 
 .joined-user-graph {
@@ -1287,13 +1288,13 @@ box-shadow: 0px 4px 28px 0px #1A408921;
         .user-datajoin .table-container tr{
             border-bottom: solid 1px #EEEEEE;
         }
-       .member-user {
-                padding: 15px 30px;
-            }
-
-        .active-usertable{
-            padding: 40px 0px;
+        .member-user {
+            padding: 24px 30px 0px;
         }
+
+            .active-usertable {
+                padding: 0px 0px 50px;
+            }
         
         .addmember-user{
           display: flex;
@@ -1320,18 +1321,18 @@ box-shadow: 0px 4px 28px 0px #1A408921;
     align-items: center;
     justify-content: space-between;
 }
-
-        .addmember-user button i{
-            border: solid 1px #fff;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 100%;
-            font-size: 14px;
-
-        }
+.addmember-user button i {
+    border: solid 1px #fff;
+    width: 25px;
+    height: 25px;
+    display: flex
+;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    font-size: 14px;
+    line-height: 0px;
+}
         .addmember-user {
     display: flex;
     justify-content: start;
@@ -1378,3 +1379,111 @@ box-shadow: 0px 4px 28px 0px #1A408921;
     align-items: center;
     column-gap: 10px;
 }
+
+
+/* ===========popup================= */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.popup {
+    background: white;
+    padding: 20px;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.popup h2 {
+    margin: 0 0 10px;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.popup button {
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.confirm-btn {
+    background: #28a745;
+    color: white;
+}
+
+.cancel-btn {
+    background: #dc3545;
+    color: white;
+}
+
+/* Show Popup */
+.popup-overlay.active {
+    visibility: visible;
+    opacity: 100;
+}
+
+.group-details-title button.btn.btn-link {
+    background: #28a745;
+    padding: 5px 10px;
+    display: block;
+    text-decoration: none;
+    margin: 14px 0px;
+    color: #fff;
+}
+
+.account{
+    padding: 50px 0px;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 517px;
+    margin: 0px auto;
+    background: #fff;
+    box-shadow: 0px 3px 8px 1px rgba(182, 182, 182, 0.22);
+    border: none;
+    border-radius: 10px;
+}
+
+.modal-header .btn-close {
+    position: absolute;
+    right: 15px;
+    top: 22px;
+    /* background: none; */
+    border-radius: 100%;
+    width: 24px;
+    height: 24px;
+    opacity: 1;
+    display: flex
+;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-title h4{
+    color: #000;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 22px;
+    margin-bottom: 0px;
+}
+

@@ -124,6 +124,7 @@ const AddMember = () => {
                     </div>
                 </div>
             </section>
+            <div className='modalcontainer'>
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Enter Your Email</Modal.Title>
@@ -146,6 +147,8 @@ const AddMember = () => {
                     </Form>
                 </Modal.Body>
             </Modal>
+            </div>
+
 
         </>
     )

@@ -155,7 +155,7 @@ const GroupDetails = () => {
               <div class="user-datajoin">
                 <div class="member-user">
                   <h2>All Members</h2>
-                  <p class="active-members">Active Members</p>
+                  
                 </div>
                 <div class="table-container">
                   <table>
