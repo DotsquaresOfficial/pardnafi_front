@@ -54,7 +54,7 @@ export const groupApi = myApi.injectEndpoints({
         method: "POST",
         body: post,
       }),
-      invalidatesTags: (_) => ["group", "dashboard"],
+      invalidatesTags: (_) => ["group", "dashboard","groupAnalytics"],
     }),
     setMyGroup: builder.mutation({
       query: (post) => ({
