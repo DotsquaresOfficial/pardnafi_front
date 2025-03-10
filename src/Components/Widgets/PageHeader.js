@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import CircularProgress from "./CircularProgress";
 import { add_member } from "../constent/Routes";
 import ConfirmationPopup from "../partials/modal/ConfirmationPopup";
+import ConfirmationModal from "../modal/ConfirmationModal";
 
 
 const PageHeader = ({ title, text, data }) => {
@@ -21,7 +22,12 @@ const PageHeader = ({ title, text, data }) => {
 
   const showPopup = () => { setIsOpen(true) };
   const closePopup = () => setIsOpen(false);
+ 
 
+  const handleJoin = () => {
+    joinGroupHandler()
+    setShowModal(false);
+  };
 
   const truncateText = (text, maxLength) => {
     if (!text) return "";
@@ -29,7 +35,7 @@ const PageHeader = ({ title, text, data }) => {
   };
 
   const joinGroupHandler = async () => {
-    debugger;
+
     const provider = getWeb3AuthEVMInstance();
 
     const web3 = new Web3(provider.provider);
@@ -72,7 +78,7 @@ const PageHeader = ({ title, text, data }) => {
       setIsOverflowing(textRef.current.scrollHeight > textRef.current.clientHeight);
     }
   }, [data?.description]);
-  console.log(data, "data?.isJoined==")
+
   return (
 
     <>
@@ -146,7 +152,6 @@ const PageHeader = ({ title, text, data }) => {
 
                   </a>
                     {data?.isOwner && <a href={add_member} className="trk-btn trk-btn--border trk-join">
-
                       <span onClick={() => (!data?.isOwner) ? showPopup : ""}>{data?.isOwner
                         && "Group Management"}</span>
                     </a>}</div> </> : ""}
@@ -167,7 +172,13 @@ const PageHeader = ({ title, text, data }) => {
         </div>
       </section>
 
-
+      <ConfirmationModal
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        handleConfirm={handleJoin}
+        title="Group Join Confirmation"
+        message="Are you sure you want to Join this Group?"
+      />
 
 
     </>

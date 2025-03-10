@@ -3,11 +3,12 @@ import PageHeader from '../Widgets/PageHeader'
 import { useSetGroupManagementMutation, useSetInviteGroupMemberMutation } from '../../redux/groupApi'
 import { Modal, Button, Form } from "react-bootstrap";
 import { toast } from 'react-toastify';
+import FullPageLoader from '../loader/FullPageLoader';
 
 const AddMember = () => {
-    const [setGroupManagement, { data }] = useSetGroupManagementMutation()
+    const [setGroupManagement, { data,isLoading }] = useSetGroupManagementMutation()
 
-    const [setInviteGroupMember] = useSetInviteGroupMemberMutation()
+    const [setInviteGroupMember, { data: inviteData,isLoading: inviteLoading }] = useSetInviteGroupMemberMutation()
 
 
     const [show, setShow] = useState(false);
@@ -58,7 +59,7 @@ const AddMember = () => {
 
     return (
         <>
-            <PageHeader title="Group Management" text="Group Management" />
+        <>{isLoading&&inviteLoading?<FullPageLoader />:<><PageHeader title="Group Management" text="Group Management" />
             <section className="Invitations-sentuser">
                 <div className="container">
                     <div className="row">
@@ -149,7 +150,8 @@ const AddMember = () => {
             </Modal>
             </div>
 
-
+</>}</>
+            
         </>
     )
 }

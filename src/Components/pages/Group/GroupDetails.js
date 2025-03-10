@@ -4,6 +4,7 @@ import PageHeader from '../../Widgets/PageHeader'
 import Footer from '../../Widgets/Footer'
 import { useParams } from "react-router-dom";
 import { useSetGroupDetailsMutation } from '../../../redux/groupApi';
+import FullPageLoader from '../../loader/FullPageLoader';
 const GroupDetails = () => {
   const { id } = useParams();
 
@@ -45,86 +46,85 @@ const GroupDetails = () => {
   });
   return (
     <>
-
-      <PageHeader title="Group Details" text="Group Details" data={data && data.data} />
-      <section className='payment-method'>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-md-9'>
-              <div className='row'>
-                <div className='col-md-4'>
-                  <div className='upcoming-payment'>
-                    <div className='payment-simble'>
-                      <div className='up-box'>
-                        <h2>£{data && data?.data?.upcomingPayments.amount
-                        }</h2>
+      <>{isLoading ? <FullPageLoader /> : <><PageHeader title="Group Details" text="Group Details" data={data && data.data} />
+        <section className='payment-method'>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-md-9'>
+                <div className='row'>
+                  <div className='col-md-4'>
+                    <div className='upcoming-payment'>
+                      <div className='payment-simble'>
+                        <div className='up-box'>
+                          <h2>£{data && data?.data?.upcomingPayments.amount
+                          }</h2>
+                        </div>
+                        <div className='payment-date'>
+                          <h3>Upcoming Payment</h3>
+                          {/* <p>Date: 26-02-2025</p> */}
+                        </div>
                       </div>
-                      <div className='payment-date'>
-                        <h3>Upcoming Payment</h3>
-                        {/* <p>Date: 26-02-2025</p> */}
+                      <div className='payment-card'>
+                        <img src='/images/card-sp 1.svg' />
                       </div>
-                    </div>
-                    <div className='payment-card'>
-                      <img src='/images/card-sp 1.svg' />
                     </div>
                   </div>
-                </div>
 
-                <div className='col-md-4'>
-                  <div className='upcoming-payment'>
-                    <div className='payment-simble'>
-                      <div className='up-box'>
-                        <h2>£{data && data?.data?.lastPayment
-                          .amount
-                        }</h2>
+                  <div className='col-md-4'>
+                    <div className='upcoming-payment'>
+                      <div className='payment-simble'>
+                        <div className='up-box'>
+                          <h2>£{data && data?.data?.lastPayment
+                            .amount
+                          }</h2>
+                        </div>
+                        <div className='payment-date'>
+                          <h3>Last Payment</h3>
+                          {/* <p>Date: 26-01-2025</p> */}
+                        </div>
                       </div>
-                      <div className='payment-date'>
-                        <h3>Last Payment</h3>
-                        {/* <p>Date: 26-01-2025</p> */}
+                      <div className='payment-card'>
+                        <img src='/images/card-sp 2.svg' />
                       </div>
-                    </div>
-                    <div className='payment-card'>
-                      <img src='/images/card-sp 2.svg' />
                     </div>
                   </div>
-                </div>
 
-                <div className='col-md-4'>
-                  <div className='upcoming-payment'>
-                    <div className='payment-simble'>
-                      <div className='up-box'>
-                        <h2>£{data && data?.data?.penalties.amount
-                        }</h2>
+                  <div className='col-md-4'>
+                    <div className='upcoming-payment'>
+                      <div className='payment-simble'>
+                        <div className='up-box'>
+                          <h2>£{data && data?.data?.penalties.amount
+                          }</h2>
+                        </div>
+                        <div className='payment-date'>
+                          <h3>Total Penalty</h3>
+                          {/* <p>Date: 26-02-2025</p> */}
+                        </div>
                       </div>
-                      <div className='payment-date'>
-                        <h3>Total Penalty</h3>
-                        {/* <p>Date: 26-02-2025</p> */}
+                      <div className='payment-card'>
+                        <img src='/images/time-watch.svg' />
                       </div>
-                    </div>
-                    <div className='payment-card'>
-                      <img src='/images/time-watch.svg' />
                     </div>
                   </div>
+
+
                 </div>
+                <div className='group-contrutbution'>
+                  <ul>
+                    <li> <strong>{data && data.data.isPublic ? "Public" : "Private"}  </strong>  </li>
 
 
+                    <li> <span>Group Contribution Per Cycle: </span> £{data && data.data.frequencyPrice}</li>
+                    <li> <span>Contribution Frequency (Days): </span> {data && data.data.frequencyTime
+                    } Days</li>
+                    <li> <span>Payout frequency (Days): </span> {data && data.data.duration} Days</li>
+                    <li> <span>Group Created By: </span>  {shortenAddress(data && data.data && data.data.groupAddress)} {data && data.data && data.data.groupowner
+                    }</li>
+                    <li> <span>Created At: </span> {formattedDate}</li>
+                  </ul>
+                </div>
               </div>
-              <div className='group-contrutbution'>
-                <ul>
-                  <li> <strong>{data && data.data.isPublic ? "Public" : "Private"}  </strong>  </li>
-
-
-                  <li> <span>Group Contribution Per Cycle: </span> £{data && data.data.frequencyPrice}</li>
-                  <li> <span>Contribution Frequency (Days): </span> {data && data.data.frequencyTime
-                  } Days</li>
-                  <li> <span>Payout frequency (Days): </span> {data && data.data.duration} Days</li>
-                  <li> <span>Group Created By: </span>  {shortenAddress(data && data.data && data.data.groupAddress)} {data && data.data && data.data.groupowner
-                  }</li>
-                  <li> <span>Created At: </span> {formattedDate}</li>
-                </ul>
-              </div>
-            </div>
-            {/* <div className='col-md-3'>
+              {/* <div className='col-md-3'>
               <div className='contr-graph'>
                 <h2>Contributions </h2>
                 <img src='/images/contr-graph.svg' />
@@ -144,53 +144,55 @@ const GroupDetails = () => {
                 </div>
               </div>
             </div> */}
+            </div>
           </div>
-        </div>
-      </section>
-      <section class="active-usertable">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="user-datajoin">
-                <div class="member-user">
-                  <h2>All Members</h2>
+        </section>
+        <section class="active-usertable">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="user-datajoin">
+                  <div class="member-user">
+                    <h2>All Members</h2>
 
-                </div>
-                <div class="table-container">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Member Name</th>
-                        <th>Wallet Address</th>
-                        <th>Total Contribution</th>
-                        <th>Email</th>
-                        <th>Last Contribution</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-
-                      {data && data.data.members.map((item, i) => {
-                        return <tr>
-                          <td>{item.name}</td>
-                          <td>{shortenAddress(item?.memberAddress)}</td>
-                          <td>£ {item?.contribution
-                          }</td>
-                          <td>{item?.
-                            email
-                          }</td>
-                          <td>£ {item?.lastPayment
-                          }</td>
+                  </div>
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Member Name</th>
+                          <th>Wallet Address</th>
+                          <th>Total Contribution</th>
+                          <th>Email</th>
+                          <th>Last Contribution</th>
                         </tr>
-                      })}
+                      </thead>
+                      <tbody>
 
-                    </tbody>
-                  </table>
+                        {data && data.data.members.map((item, i) => {
+                          return <tr>
+                            <td>{item.name}</td>
+                            <td>{shortenAddress(item?.memberAddress)}</td>
+                            <td>£ {item?.contribution
+                            }</td>
+                            <td>{item?.
+                              email
+                            }</td>
+                            <td>£ {item?.lastPayment
+                            }</td>
+                          </tr>
+                        })}
+
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section></>}</>
+
+
 
 
 

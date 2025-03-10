@@ -210,6 +210,7 @@ const CreateGroup = () => {
                                 daoDepositSupport: false
                             });
                             setIsLoading(false);
+                            return
                             navigate(browse_groups)
                         } else {
                             setIsLoading(false);

@@ -9,9 +9,10 @@ import { useGetGroupQuery } from "../../redux/groupApi"
 import { getAccounts } from "../auth/web3RPC";
 import GroupDetails from "./GroupDetails";
 import { useAuth } from "../../AuthContext";
+import FullPageLoader from "../loader/FullPageLoader";
 
 const GroupCard = () => {
-  const { data: record } = useGetGroupQuery();
+  const { data: record,isLoading } = useGetGroupQuery();
   const { connectWallet } = useAuth();
   const [selectedGroup, setSelectedGroup] = useState("public");
   const [pricingData, setPricingData] = useState([]);
@@ -104,7 +105,7 @@ const GroupCard = () => {
 
   return (
     <>
-      <section className="pricing padding-top padding-bottom dash-sec">
+    {isLoading ? <FullPageLoader />:<section className="pricing padding-top padding-bottom dash-sec">
         <div class="container">
           <div className="section-header ">
             {/* <h2 className="mb-15 mt-minus-5">Browse Group</h2> */}
@@ -225,7 +226,8 @@ const GroupCard = () => {
           </div>
         </div>
 
-      </section>
+      </section> }
+      
 
 
 

@@ -5,17 +5,18 @@ import { getAccounts } from '../auth/web3RPC';
 import { factoryContract, factoryContractAbi, groupAbi } from '../constent';
 import { toast } from 'react-toastify';
 import { useSetGroupDetailsMutation } from '../../redux/groupApi';
+import FullPageLoader from '../loader/FullPageLoader';
 
 
 function GroupDetails({ item, index, selectedGroupId }) {
     const [isJoined, setIsJoined] = useState(null);
     const [walletAddress, setWalletAddress] = useState("");
-    const [setGroupDetails] = useSetGroupDetailsMutation()
+    const [setGroupDetails, { data, isLoading, error }] = useSetGroupDetailsMutation()
     const formattedDate = new Date(item?.createdAt).toLocaleDateString('en-US', {
         day: '2-digit',
         month: 'long',
         year: 'numeric'
-      });
+    });
     useEffect(() => {
 
         if (selectedGroupId === item?.groupId) {
@@ -104,7 +105,7 @@ function GroupDetails({ item, index, selectedGroupId }) {
     }
 
     return (
-        <div
+        <> {isLoading ? <FullPageLoader /> : <>  <div
             key={item?.groupId}
             className={`tab-pane fade ${selectedGroupId === item?.groupId ? "show active" : ""}`}
             id={`v-pills-${index}`}
@@ -123,25 +124,26 @@ function GroupDetails({ item, index, selectedGroupId }) {
                 <li><i className="fa-solid fa-check"></i> <strong>Group Created By: </strong> &nbsp;<span>{item?.owner}</span></li>
                 <li><i className="fa-solid fa-check"></i> <strong>Group Size: </strong>&nbsp; <span>{item?.groupSize}</span></li>
                 <li><i className="fa-solid fa-check"></i> <strong>Created At: </strong>&nbsp; <span>{formattedDate}</span></li>
-                <li><i className="fa-solid fa-check"></i> <strong>IsPublic: </strong>&nbsp; <span>{item?.isPublic?"Yes":"No"}</span></li>
-                
+                <li><i className="fa-solid fa-check"></i> <strong>IsPublic: </strong>&nbsp; <span>{item?.isPublic ? "Yes" : "No"}</span></li>
+
             </ul>
 
             {/* <p><strong>Group Members:</strong></p>
-            {item?.members?.length > 0 ? (
-                <ul>
-                    {item?.members?.map((member, i) => (
-                        <li key={i}><i className="fa-solid fa-user"></i> {member}</li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No members yet.</p>
-            )} */}
+        {item?.members?.length > 0 ? (
+            <ul>
+                {item?.members?.map((member, i) => (
+                    <li key={i}><i className="fa-solid fa-user"></i> {member}</li>
+                ))}
+            </ul>
+        ) : (
+            <p>No members yet.</p>
+        )} */}
 
             <p className="text-justify"><strong>Group Rules: </strong>&nbsp;{item?.description || "No description available."}</p>
             {/* <button className="trk-btn trk-btn--border trk-btn--primary d-block mt-4" onClick={() => isJoined ?joinGroupHandler():""}>{isJoined ? "Already Joined" : "Join Group"}</button> */}
             <a href={`/group-details/${item && item._id}`}><button className="trk-btn trk-btn--border trk-btn--primary d-block mt-4" >More Details</button></a>
-        </div>
+        </div></>}</>
+
     );
 }
 
