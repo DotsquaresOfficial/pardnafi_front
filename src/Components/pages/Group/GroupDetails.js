@@ -118,7 +118,7 @@ const GroupDetails = () => {
                     <li> <span>Contribution Frequency (Days): </span> {data && data.data.frequencyTime
                     } Days</li>
                     <li> <span>Payout frequency (Days): </span> {data && data.data.duration} Days</li>
-                    <li> <span>Group Created By: </span>  {shortenAddress(data && data.data && data.data.groupAddress)} {data && data.data && data.data.groupowner
+                    <li> <span>Group Created By: </span>  {shortenAddress(data && data.data && data.data.owner)} {data && data.data && data.data.groupowner
                     }</li>
                     <li> <span>Created At: </span> {formattedDate}</li>
                   </ul>
