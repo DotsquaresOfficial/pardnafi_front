@@ -209,9 +209,13 @@ const CreateGroup = () => {
                                 payoutFrequency: 0,
                                 daoDepositSupport: false
                             });
-                            setIsLoading(false);
+                           
                             
-                            navigate(dashboard)
+                            setTimeout(() => {
+                                setIsLoading(false);
+                                navigate(dashboard)
+                            }, 3000);
+                            
                         } else {
                             setIsLoading(false);
                             toast.error(result.data?.message);
