@@ -3,7 +3,7 @@ import Header from './Header'
 import PageHeader from './PageHeader'
 import Footer from './Footer'
 import { Link } from "react-router-dom"
-import { browse_groups, create_group, my_group, wallet_access } from '../constent/Routes'
+import { active_group, browse_groups, create_group, my_group, wallet_access } from '../constent/Routes'
 import { useGetGroupAnalyticsQuery } from '../../redux/groupApi'
 import { useAuth } from '../../AuthContext'
 import { toast } from 'react-toastify'
@@ -146,7 +146,7 @@ const Dashboard = () => {
               </div>
 
               <div className='col-md-3'>
-                <a href={my_group}>
+                <a href={active_group}>
                   <div
                     className='createnew-group'
                     style={{

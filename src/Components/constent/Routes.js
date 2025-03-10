@@ -19,6 +19,7 @@ export const browse_groups =  "/browse-groups";
 export const create_group =  "/create-group";
 export const group_details =  "/group-details/:id";
 export const my_group =  "/my-group";
+export const active_group =  "/active-group";
 export const active_groups =  "/active-groups";
 
 export const polling_page =  "/polling-page";

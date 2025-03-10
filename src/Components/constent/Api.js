@@ -40,6 +40,7 @@ export const updateGroupApi = baseUrl + "/group/update-group";
 export const getGroupByIdApi = baseUrl + "/group/get-group-by-id";
 export const getGroupAnalyticsApi = baseUrl + "/group/groups-analytics";
 export const myGroupApi = baseUrl + "/group/my-groups";
+export const activeGroupApi = baseUrl + "/group/active-groups";
 export const getGroupDetailsByIdApi = baseUrl + "/group/get-group-by-id";
 export const isGroupUniqueApi = baseUrl + "/group/is-group-unique"
 export const groupManagementApi = baseUrl + "/group/get-group-management-data"

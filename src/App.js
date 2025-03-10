@@ -21,7 +21,7 @@ import CreateGroup from "./Components/pages/Group/CreateGroup";
 import PollingPage from "./Components/pages/Group/PollingPage";
 import BrowseGroups from "./Components/pages/Group/BrowseGroups";
 import ContactUs from "./Components/pages/ContactUs";
-import { browse_groups,my_group,active_groups, change_password, contact_us, create_group, dashboard, forgot_password, group_details, home, loginRoute, onfidoKyc, polling_page, register, user_profile, add_member } from "./Components/constent/Routes";
+import { browse_groups,my_group,active_groups, change_password, contact_us, create_group, dashboard, forgot_password, group_details, home, loginRoute, onfidoKyc, polling_page, register, user_profile, add_member, active_group } from "./Components/constent/Routes";
 import ForgotPassword from "./Components/auth/ForgotPassword";
 import ChangePassword from "./Components/auth/ChangePassword";
 import Profile from "./Components/pages/User/Profile";
@@ -90,6 +90,7 @@ function App() {
           <Route path={create_group} element={<ProtectedRoute component={<CreateGroup />} />} />
 
           <Route path={my_group} element={<ProtectedRoute component={<MyGroups />} />} />
+          <Route path={active_group} element={<ProtectedRoute component={<ActiveGroups />} />} />
           <Route path={active_groups} element={<ProtectedRoute component={<ActiveGroups />} />} />
 
           <Route path={group_details} element={<ProtectedRoute component={<GroupDetails />} />} />

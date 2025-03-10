@@ -8,6 +8,7 @@ import CircularProgress from "./CircularProgress";
 import { add_member } from "../constent/Routes";
 import ConfirmationPopup from "../partials/modal/ConfirmationPopup";
 import ConfirmationModal from "../modal/ConfirmationModal";
+import FullPageLoader from "../loader/FullPageLoader";
 
 
 const PageHeader = ({ title, text, data }) => {
@@ -16,17 +17,21 @@ const PageHeader = ({ title, text, data }) => {
     if (!address) return "";
     return `${address.slice(0, 4)}....${address.slice(-4)}`;
   }
-  const [showModal, setShowModal] = useState(false);
+  const [showModalView, setShowModalView] = useState(false);
+  const [show, setShow] = useState(false);
   const [isTruncated, setIsTruncated] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
   const showPopup = () => { setIsOpen(true) };
   const closePopup = () => setIsOpen(false);
- 
 
-  const handleJoin = () => {
-    joinGroupHandler()
-    setShowModal(false);
+  // ================for confirmation join group =========
+  const [isLoading, setIsLoading] = useState(null);
+  const showConfirmationPopup = () => { setShow(true) };
+
+  const handleJoin = async () => {
+    await joinGroupHandler()
+    setShow(false);
   };
 
   const truncateText = (text, maxLength) => {
@@ -35,7 +40,7 @@ const PageHeader = ({ title, text, data }) => {
   };
 
   const joinGroupHandler = async () => {
-
+    setIsLoading(true);
     const provider = getWeb3AuthEVMInstance();
 
     const web3 = new Web3(provider.provider);
@@ -56,13 +61,15 @@ const PageHeader = ({ title, text, data }) => {
       })
       .on('receipt', function (receipt) {
         toast.success("Join successfully")
-        setTimeout(() => {
+        setIsLoading(false);
+        
           window.location.reload()
-        }, 1500);
+        
 
 
       })
       .on('error', function (error) {
+        setIsLoading(false);
         console.error("Transaction failed=========", error);
         toast.error(error.message);
       });
@@ -82,7 +89,7 @@ const PageHeader = ({ title, text, data }) => {
   return (
 
     <>
-      <section className="header-slider">
+      <>{isLoading ? <FullPageLoader /> : <> <section className="header-slider">
         <div className="container">
           <div className="page-header__content" data-aos="fade-right" data-aos-duration="1000">
             <div className="joined-user-graph">
@@ -102,7 +109,7 @@ const PageHeader = ({ title, text, data }) => {
                     {data?.description.length > 100 && (
                       <Button
                         variant="link"
-                        onClick={() => setShowModal(true)}
+                        onClick={() => setShowModalView(true)}
 
                       >
                         View More
@@ -124,7 +131,7 @@ const PageHeader = ({ title, text, data }) => {
                       </h6>
                     </div>
 
-                    <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+                    <Modal show={showModalView} onHide={() => setShowModalView(false)} centered>
                       <Modal.Header closeButton>
                         <Modal.Title>Group Description</Modal.Title>
                       </Modal.Header>
@@ -132,7 +139,7 @@ const PageHeader = ({ title, text, data }) => {
                         <p style={{ whiteSpace: "pre-line" }}>{data?.description}</p>
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="secondary" onClick={() => setShowModal(false)}>
+                        <Button variant="secondary" onClick={() => setShowModalView(false)}>
                           Close
                         </Button>
                       </Modal.Footer>
@@ -148,7 +155,7 @@ const PageHeader = ({ title, text, data }) => {
                 } total={data && data.groupSize} />
                   <div className="join-userdata"><a href="#" className="trk-btn trk-btn--border trk-join">
 
-                    <span onClick={!data?.isJoined ? joinGroupHandler : ""}>{data?.isJoined ? "Already Joined" : "Join Group"}</span>
+                    <span onClick={!data?.isJoined ? showConfirmationPopup : ""}>{data?.isJoined ? "Already Joined" : "Join Group"}</span>
 
                   </a>
                     {data?.isOwner && <a href={add_member} className="trk-btn trk-btn--border trk-join">
@@ -166,15 +173,16 @@ const PageHeader = ({ title, text, data }) => {
         </div>
       </section>
 
-      <section className="details-grouppage">
-        <div className="container">
+        <section className="details-grouppage">
+          <div className="container">
 
-        </div>
-      </section>
+          </div>
+        </section></>}</>
+
 
       <ConfirmationModal
-        show={showModal}
-        handleClose={() => setShowModal(false)}
+        show={show}
+        handleClose={() => setShow(false)}
         handleConfirm={handleJoin}
         title="Group Join Confirmation"
         message="Are you sure you want to Join this Group?"

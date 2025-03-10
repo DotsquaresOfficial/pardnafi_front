@@ -73,7 +73,7 @@ const MyGroups = () => {
                                   <span>{localTime}</span>
                                 </li>
                                 <li>
-                                  <strong>Group Duration:</strong>
+                                  <strong>Payout frequency:</strong>
                                   <span>{group?.duration} Days</span>
                                 </li>
                                 <li>

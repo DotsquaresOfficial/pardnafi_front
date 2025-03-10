@@ -103,7 +103,7 @@ const Profile = () => {
                     <div className='userprofile-img'>
                       <div className='dark-subject'>
                         <div className='img-user'>
-                          <img className="dark" src={imagePreview ? imagePreview : "/images/header/user-img.svg"} alt="logo" />
+                          <img className="dark" src={imagePreview ? imagePreview : "/images/header/user.jpg"} alt="logo" />
                         </div>
                         <div className='username-heading'>
                           {/* <h6>User</h6>

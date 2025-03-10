@@ -10,7 +10,7 @@ import Web3 from 'web3';
 import { GroupValidation } from '../../validations/GroupValidation';
 import { useSetGroupMutation, useSetUniqueGroupMutation } from "../../../redux/groupApi";
 import { CircularProgress } from '@mui/material';
-import { browse_groups } from '../../constent/Routes';
+import { browse_groups, dashboard } from '../../constent/Routes';
 import { useAuth } from '../../../AuthContext';
 
 const CreateGroup = () => {
@@ -173,7 +173,7 @@ const CreateGroup = () => {
                 groupData.groupSize.toString(),
                 groupdurationInseconds.toString(),
                 Boolean(groupData.daoDepositSupport),
-                Boolean(true), "0x2ca55E00C6c9CA06890aa0cE53050A48FDCA07F2",
+                Boolean(groupData.isPublic), "0x2ca55E00C6c9CA06890aa0cE53050A48FDCA07F2",
                 uniqueId,
 
             );
@@ -210,8 +210,8 @@ const CreateGroup = () => {
                                 daoDepositSupport: false
                             });
                             setIsLoading(false);
-                            return
-                            navigate(browse_groups)
+                            
+                            navigate(dashboard)
                         } else {
                             setIsLoading(false);
                             toast.error(result.data?.message);
@@ -272,7 +272,7 @@ const CreateGroup = () => {
                                                         id="Group Name"
                                                         placeholder="Group Name"
                                                         name="name"
-                                                    
+
                                                         // onKeyDown={handleKeyDown}
                                                         value={groupData.name}
                                                         onChange={handleChange}
@@ -406,13 +406,13 @@ const CreateGroup = () => {
                                             <div className="col-12">
                                                 <div className="form-pass">
                                                     <label htmlFor="account-cpass" className="form-label">
-                                                        Payout frequency (Months)
+                                                        Payout frequency (Days)
                                                     </label>
                                                     <input
 
                                                         className="form-control"
                                                         id="account-email"
-                                                        placeholder="Payout frequency (months)"
+                                                        placeholder="Payout frequency (days)"
                                                         type="text"
                                                         name="payoutFrequency"
                                                         value={groupData.payoutFrequency}
