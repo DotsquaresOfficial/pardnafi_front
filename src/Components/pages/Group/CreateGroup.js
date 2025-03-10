@@ -164,7 +164,7 @@ const CreateGroup = () => {
             }
 
             setIsLoading(true);
-            const groupdurationInseconds = Number(groupData.payoutFrequency) * 24 * 60 * 60 * 30;
+            const groupdurationInseconds = Number(groupData.payoutFrequency) * 24 * 60 * 60 ;
             const groupfrequencyInseconds = Number(groupData.frequency) * 24 * 60 * 60;
             const transaction = data.methods.createGroup(
                 groupfrequencyInseconds.toString(),
