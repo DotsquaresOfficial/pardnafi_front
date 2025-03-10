@@ -11,7 +11,11 @@ function GroupDetails({ item, index, selectedGroupId }) {
     const [isJoined, setIsJoined] = useState(null);
     const [walletAddress, setWalletAddress] = useState("");
     const [setGroupDetails] = useSetGroupDetailsMutation()
-
+    const formattedDate = new Date(item?.createdAt).toLocaleDateString('en-US', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      });
     useEffect(() => {
 
         if (selectedGroupId === item?.groupId) {
@@ -113,12 +117,14 @@ function GroupDetails({ item, index, selectedGroupId }) {
             <br />
             <p><strong>Group Details :</strong></p>
             <ul>
-                <li><i className="fa-solid fa-check"></i> <strong>Group Contribution Per Cycle: </strong> &nbsp;<span>£{item?.frequencyPrice}</span></li>
-                <li><i className="fa-solid fa-check"></i> <strong>Group Payout Frequency: </strong>&nbsp; <span>{item?.frequencyTime} Days</span></li>
-                <li><i className="fa-solid fa-check"></i> <strong>Group Duration: </strong> &nbsp;<span>{item?.duration}    Days</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>Contribution Amount per Cycle: </strong> &nbsp;<span>£{item?.frequencyPrice}</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>Contribution Frequency (Days): </strong>&nbsp; <span>{item?.frequencyTime} Days</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>Payout frequency (Days): </strong> &nbsp;<span>{Number(item?.duration)}    Days</span></li>
                 <li><i className="fa-solid fa-check"></i> <strong>Group Created By: </strong> &nbsp;<span>{item?.owner}</span></li>
-                <li><i className="fa-solid fa-check"></i> <strong>Max Group Members: </strong>&nbsp; <span>{item?.groupSize}</span></li>
-                <li><i className="fa-solid fa-check"></i> <strong>Created At: </strong>&nbsp; <span>{new Date(item?.createdAt).toLocaleString()}</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>Group Size: </strong>&nbsp; <span>{item?.groupSize}</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>Created At: </strong>&nbsp; <span>{formattedDate}</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>IsPublic: </strong>&nbsp; <span>{item?.isPublic?"Yes":"No"}</span></li>
+                
             </ul>
 
             {/* <p><strong>Group Members:</strong></p>

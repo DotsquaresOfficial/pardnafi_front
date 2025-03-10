@@ -13,7 +13,6 @@ const GroupDetails = () => {
     return `${address.slice(0, 4)}....${address.slice(-4)}`;
   }
 
-
   useEffect(() => {
     if (!id) return;
 
@@ -22,7 +21,7 @@ const GroupDetails = () => {
 
         setGroupDetails({ id })
 
-        localStorage.setItem("groupId",id)
+        localStorage.setItem("groupId", id)
 
       } catch (error) {
         console.error("Error fetching group details:", error);
@@ -34,16 +33,16 @@ const GroupDetails = () => {
     fetchGroupDetails();
   }, [id]);
 
-
-
-  const createdAt = data && data.data.createdAt
-    ;
-  const localTime = new Date(createdAt).toLocaleString();
-
   function shortenAddress(address) {
     if (!address) return "";
     return `${address.slice(0, 4)}....${address.slice(-4)}`;
   }
+
+  const formattedDate = new Date(data && data.data.createdAt).toLocaleDateString('en-US', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  });
   return (
     <>
 
@@ -116,12 +115,12 @@ const GroupDetails = () => {
 
 
                   <li> <span>Group Contribution Per Cycle: </span> £{data && data.data.frequencyPrice}</li>
-                  <li> <span>Group Payout Frequency: </span> {data && data.data.frequencyTime
+                  <li> <span>Contribution Frequency (Days): </span> {data && data.data.frequencyTime
                   } Days</li>
-                  <li> <span>Group Duration: </span> {data && data.data.duration} Days</li>
+                  <li> <span>Payout frequency (Days): </span> {data && data.data.duration} Days</li>
                   <li> <span>Group Created By: </span>  {shortenAddress(data && data.data && data.data.groupAddress)} {data && data.data && data.data.groupowner
                   }</li>
-                  <li> <span>Created At: </span> {localTime}</li>
+                  <li> <span>Created At: </span> {formattedDate}</li>
                 </ul>
               </div>
             </div>
@@ -155,7 +154,7 @@ const GroupDetails = () => {
               <div class="user-datajoin">
                 <div class="member-user">
                   <h2>All Members</h2>
-                  
+
                 </div>
                 <div class="table-container">
                   <table>

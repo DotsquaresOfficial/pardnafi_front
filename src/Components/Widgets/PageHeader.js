@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import Web3 from 'web3';
 import { getWeb3AuthEVMInstance } from '../auth/web3auth';
@@ -62,6 +62,17 @@ const PageHeader = ({ title, text, data }) => {
       });
 
   }
+
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  const textRef = useRef < HTMLDivElement > (null);
+
+  useEffect(() => {
+    if (textRef.current) {
+      setIsOverflowing(textRef.current.scrollHeight > textRef.current.clientHeight);
+    }
+  }, [data?.description]);
+  console.log(data, "data?.isJoined==")
   return (
 
     <>
@@ -70,20 +81,23 @@ const PageHeader = ({ title, text, data }) => {
           <div className="page-header__content" data-aos="fade-right" data-aos-duration="1000">
             <div className="joined-user-graph">
               <div className="group-details-title">
-                <h2>{title}</h2>
+                <h2>{
+                  data?.groupName
+                }</h2>
 
                 {title === "Group Details" && (
                   <>
+
                     <p style={{ whiteSpace: "pre-line" }}>
                       {isTruncated ? truncateText(data?.description, 200) : data?.description}
                     </p>
 
 
-                    {data?.description.length > 120 && (
+                    {data?.description.length > 100 && (
                       <Button
                         variant="link"
                         onClick={() => setShowModal(true)}
-                       
+
                       >
                         View More
                       </Button>
@@ -128,7 +142,7 @@ const PageHeader = ({ title, text, data }) => {
                 } total={data && data.groupSize} />
                   <div className="join-userdata"><a href="#" className="trk-btn trk-btn--border trk-join">
 
-                    <span onClick={() => (!data?.isJoined) ? showPopup : ""}>{data?.isJoined ? "Already Joined" : "Join Group"}</span>
+                    <span onClick={!data?.isJoined ? joinGroupHandler : ""}>{data?.isJoined ? "Already Joined" : "Join Group"}</span>
 
                   </a>
                     {data?.isOwner && <a href={add_member} className="trk-btn trk-btn--border trk-join">
@@ -146,18 +160,7 @@ const PageHeader = ({ title, text, data }) => {
           </div>
         </div>
       </section>
-      {isOpen && (
-                <div className="popup-overlay">
-                    <div className="popup">
-                        <h2>Are you sure?</h2>
-                        <p>Do you really want to proceed?</p>
-                        <div className="popup-buttons">
-                            <button className="confirm-btn" onClick={joinGroupHandler}>Yes</button>
-                            <button className="cancel-btn" onClick={closePopup}>No</button>
-                        </div>
-                    </div>
-                </div>
-            )}
+
       <section className="details-grouppage">
         <div className="container">
 

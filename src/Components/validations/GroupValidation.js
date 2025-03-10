@@ -70,7 +70,7 @@ export const GroupValidation = (name, value) => {
             return "";
 
         case "description":
-            if (!isValidText(val)) return "Group description cannot contain excessive whitespace.";
+            if (!isValidText(val)) return "Group description cannot contain excessive whitespace or HTML tags.";
             return value.length < 10
                 ? "Group description must be at least 10 characters."
                 : value.length > 1000
