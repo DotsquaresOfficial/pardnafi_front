@@ -114,10 +114,10 @@ const GroupDetails = () => {
                     <li> <strong>{data && data.data.isPublic ? "Public" : "Private"}  </strong>  </li>
 
 
-                    <li> <span>Group Contribution Per Cycle: </span> £{data && data.data.frequencyPrice}</li>
-                    <li> <span>Contribution Frequency (Days): </span> {data && data.data.frequencyTime
+                    <li> <span>Contribution Per Cycle: </span> £{data && data.data.frequencyPrice}</li>
+                    <li> <span>Contribution Frequency: </span> {data && data.data.frequencyTime
                     } Days</li>
-                    <li> <span>Payout frequency (Days): </span> {data && data.data.duration} Days</li>
+                    <li> <span>Payout frequency: </span> {data && data.data.duration} Days</li>
                     <li> <span>Group Created By: </span>  {shortenAddress(data && data.data && data.data.owner)} {data && data.data && data.data.groupowner
                     }</li>
                     <li> <span>Created At: </span> {formattedDate}</li>
