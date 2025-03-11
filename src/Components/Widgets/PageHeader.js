@@ -86,6 +86,7 @@ const PageHeader = ({ title, text, data }) => {
     }
   }, [data?.description]);
 
+  console.log(data?.description.length,"jjj")
   return (
 
     <>
@@ -106,7 +107,7 @@ const PageHeader = ({ title, text, data }) => {
                     </p>
 
 
-                    {data?.description.length > 100 && (
+                    {data?.description.length >= 200 && (
                       <Button
                         variant="link"
                         onClick={() => setShowModalView(true)}
