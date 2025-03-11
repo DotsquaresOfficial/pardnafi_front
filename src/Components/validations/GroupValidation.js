@@ -11,11 +11,17 @@ function isValidText(input) {
 }
 
 
-export const GroupValidation = (name, value) => {
+
+export const GroupValidation = (name, value,freq) => {
     let val = value ? String(value).trim() : "";
     const fieldName = formatFieldName(name);
     const number = Number(val);
-
+   
+    // if(name =="frequency"){
+    //     freq = value
+    // }
+    let contributionFrequency = isNaN(Number(freq)) ? 1 : Number(freq);
+    console.log(contributionFrequency,"contributionFrequency",freq)
 
     if (!val) {
         if (name === "name") return "Group name is required";
@@ -51,21 +57,45 @@ export const GroupValidation = (name, value) => {
 
             return ""; 
 
+        // case "contribution":
+        //     // const contributionFrequency = Number(value);
+        //     return isNaN(value) || value <= 0 ? "Contribution must be a positive number." : "";
         case "contribution":
-            // const contributionFrequency = Number(value);
-            return isNaN(value) || value <= 0 ? "Contribution must be a positive number." : "";
+            if (isNaN(value) || value <= 0) {
+                return "Contribution must be a positive number.";
+            }
+            
+            if (!/^\d+(\.\d{1,2})?$/.test(val)) {
+                return "Contribution must be a number with up to 2 decimal places.";
+            }
+            return "";
+            
             case "frequency":
                 return isNaN(value) || value <= 0 ? "Contribution frequency must be a positive number." : "";
             
-        case "payoutFrequency":
-            if (isNaN(value) || value <= 0) return "Payout frequency must be a valid number.";
+        // case "payoutFrequency":
+        //     if (isNaN(value) || value <= 0) return "Payout frequency must be a valid number.";
 
            
-            // const payoutDays = Number(value) * 30;
+        //     // const payoutDays = Number(value) * 30;
 
-            // if (payoutDays < contributionFrequency) {
-            //     return "Payout frequency is too low. Increase the months.";
-            // }
+        //     // if (payoutDays < contributionFrequency) {
+        //     //     return "Payout frequency is too low. Increase the months.";
+        //     // }
+
+        //     return "";
+
+        case "payoutFrequency":
+            if (!/^\d+$/.test(val) || value <= 0) {
+                return "Payout frequency must be a positive whole number.";
+            }
+
+            
+            const contributionFrequency = Number(freq); 
+            console.log(Number(value) ,  contributionFrequency,"jj00",Number(freq),Number(value) % contributionFrequency)
+            if (Number(value) % contributionFrequency != 0) {
+                return "Payout frequency must be a multiple of Contribution Frequency.";
+            }
 
             return "";
 

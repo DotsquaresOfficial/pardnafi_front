@@ -77,8 +77,8 @@ const CreateGroup = () => {
             [name]: value,
         }));
 
-
-        let error = GroupValidation(name, value);
+        let freq = groupData.frequency;
+        let error = GroupValidation(name, value,freq);
 
         setGroupDataErr((prevErr) => ({
             ...prevErr,
@@ -113,12 +113,13 @@ const CreateGroup = () => {
 
         let errors = {};
         let hasError = false;
-
+       
+       
         for (let key in groupData) {
             if (key === "daoDepositSupport") continue;
             if (key === "isPublic") continue;
 
-            let checkGroup = GroupValidation(key, groupData[key]);
+            let checkGroup = GroupValidation(key, groupData[key],groupData.frequency);
             errors[key] = checkGroup;
 
             if (checkGroup) {
