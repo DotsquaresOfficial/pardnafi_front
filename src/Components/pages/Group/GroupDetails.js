@@ -115,12 +115,13 @@ const GroupDetails = () => {
                     <li> <span>IsDao: </span>{data && data.data.isDao ? "Yes" : "No"}    </li>
 
 
-                    <li> <span>Contribution Per Cycle: </span> £{data && data.data.frequencyPrice}</li>
+                    <li> <span>Contribution Amount Per Cycle: </span> £{data && data.data.frequencyPrice}</li>
                     <li> <span>Contribution Frequency: </span> {data && data.data.frequencyTime
                     } Days</li>
+                     <li> <span>Payout frequency: </span> {data && data.data.duration} Days</li>
                     <li> <span>Group Size: </span> {data && data.data.groupSize} </li>
 
-                    <li> <span>Payout frequency: </span> {data && data.data.duration} Days</li>
+                   
                     <li> <span>Group Created By: </span>  {shortenAddress(data && data.data && data.data.owner)} {data && data.data && data.data.groupowner
                     }</li>
                     <li> <span>Created At: </span> {formattedDate}</li>
