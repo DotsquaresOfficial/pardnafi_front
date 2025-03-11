@@ -39,6 +39,8 @@ const GroupDetails = () => {
     return `${address.slice(0, 4)}....${address.slice(-4)}`;
   }
 
+
+
   const formattedDate = new Date(data && data.data.createdAt).toLocaleDateString('en-US', {
     day: '2-digit',
     month: 'long',
@@ -118,12 +120,11 @@ const GroupDetails = () => {
                     <li> <span>Contribution Amount Per Cycle: </span> £{data && data.data.frequencyPrice}</li>
                     <li> <span>Contribution Frequency: </span> {data && data.data.frequencyTime
                     } Days</li>
-                     <li> <span>Payout frequency: </span> {data && data.data.duration} Days</li>
+                    <li> <span>Payout frequency: </span> {data && data.data.duration} Days</li>
                     <li> <span>Group Size: </span> {data && data.data.groupSize} </li>
 
-                   
-                    <li> <span>Group Created By: </span>  {shortenAddress(data && data.data && data.data.owner)} {data && data.data && data.data.groupowner
-                    }</li>
+
+                    <li> <span>Group Created By: </span> <a href={`https://sepolia.basescan.org/address/${data?.data && data.data.owner}`} target='_blank'> {shortenAddress(data && data.data && data.data.owner)}</a>  </li>
                     <li> <span>Created At: </span> {formattedDate}</li>
                   </ul>
                 </div>
@@ -176,7 +177,7 @@ const GroupDetails = () => {
                         {data && data.data.members.map((item, i) => {
                           return <tr>
                             <td>{item.name}</td>
-                            <td>{shortenAddress(item?.memberAddress)}</td>
+                            <td><a href={`https://sepolia.basescan.org/address/${item?.memberAddress}`} target='_blank'> {shortenAddress(item?.memberAddress)}</a> </td>
                             <td>£ {item?.contribution
                             }</td>
                             <td>{item?.

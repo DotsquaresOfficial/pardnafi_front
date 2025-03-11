@@ -118,16 +118,16 @@ function GroupDetails({ item, index, selectedGroupId }) {
             <br />
             <p><strong>Group Details :</strong></p>
             <ul>
-            <li><i className="fa-solid fa-check"></i> <strong>IsPublic: </strong>&nbsp; <span>{item?.isPublic ? "Yes" : "No"}</span></li>
-            <li><i className="fa-solid fa-check"></i> <strong>IsDao: </strong>&nbsp; <span>{item?.isDao ? "Yes" : "No"}</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>IsPublic: </strong>&nbsp; <span>{item?.isPublic ? "Yes" : "No"}</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>IsDao: </strong>&nbsp; <span>{item?.isDao ? "Yes" : "No"}</span></li>
                 <li><i className="fa-solid fa-check"></i> <strong>Contribution Amount per Cycle: </strong> &nbsp;<span>£{item?.frequencyPrice}</span></li>
                 <li><i className="fa-solid fa-check"></i> <strong>Contribution Frequency: </strong>&nbsp; <span>{item?.frequencyTime} Days</span></li>
                 <li><i className="fa-solid fa-check"></i> <strong>Payout frequency: </strong> &nbsp;<span>{Number(item?.duration)}    Days</span></li>
-                
+
                 <li><i className="fa-solid fa-check"></i> <strong>Group Size: </strong>&nbsp; <span>{item?.groupSize}</span></li>
-                <li><i className="fa-solid fa-check"></i> <strong>Group Created By: </strong> &nbsp;<span>{item?.owner}</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>Group Created By: </strong> &nbsp;<a href={`https://sepolia.basescan.org/address/${item?.owner}`} target='_blank'><span>{item?.owner}</span></a></li>
                 <li><i className="fa-solid fa-check"></i> <strong>Created At: </strong>&nbsp; <span>{formattedDate}</span></li>
-               
+
             </ul>
 
             {/* <p><strong>Group Members:</strong></p>
