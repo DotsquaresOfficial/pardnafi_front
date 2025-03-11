@@ -39,22 +39,22 @@ export const LoginValid = (name, value) => {
    }
 
    if (name === "firstName") {
-
-      if (value === "") {
-         error = "First name is required"
-         return error
+      if (value.trim() === "") {
+         error = "First name is required.";
+      } else if (value.length > 50) {
+         error = "First name cannot exceed 50 characters.";
       }
-
-      return error
+      return error;
    }
+
+ 
    if (name === "lastName") {
-
-      if (value === "") {
-         error = "Last name is required"
-         return error
+      if (value.trim() === "") {
+         error = "Last name is required.";
+      } else if (value.length > 50) {
+         error = "Last name cannot exceed 50 characters.";
       }
-
-      return error
+      return error;
    }
     if (name === 'contactNumber' && !Mobilepattern.test(value)) {
        error = "Please enter a valid mobile number";

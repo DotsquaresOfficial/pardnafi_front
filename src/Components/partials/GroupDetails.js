@@ -125,7 +125,7 @@ function GroupDetails({ item, index, selectedGroupId }) {
                 <li><i className="fa-solid fa-check"></i> <strong>Group Size: </strong>&nbsp; <span>{item?.groupSize}</span></li>
                 <li><i className="fa-solid fa-check"></i> <strong>Created At: </strong>&nbsp; <span>{formattedDate}</span></li>
                 <li><i className="fa-solid fa-check"></i> <strong>IsPublic: </strong>&nbsp; <span>{item?.isPublic ? "Yes" : "No"}</span></li>
-                <li><i className="fa-solid fa-check"></i> <strong>IsDao: </strong>&nbsp; <span>{item?.isPublic ? "Yes" : "No"}</span></li>
+                <li><i className="fa-solid fa-check"></i> <strong>IsDao: </strong>&nbsp; <span>{item?.isDao ? "Yes" : "No"}</span></li>
             </ul>
 
             {/* <p><strong>Group Members:</strong></p>
