@@ -62,9 +62,9 @@ const PageHeader = ({ title, text, data }) => {
       .on('receipt', function (receipt) {
         toast.success("Join successfully")
         setIsLoading(false);
-        
-          window.location.reload()
-        
+
+        window.location.reload()
+
 
 
       })
@@ -149,8 +149,6 @@ const PageHeader = ({ title, text, data }) => {
               </div>
 
               <div className="user-status-graph">
-                {/* 70% filled */}
-
                 {title == "Group Details" ? <><CircularProgress value={data && data.members.length
                 } total={data && data.groupSize} />
                   <div className="join-userdata"><a href="#" className="trk-btn trk-btn--border trk-join">

@@ -51,7 +51,8 @@ const CircularProgress = ({ value =0, total = 0, size = 120, strokeWidth = 10 })
         fontWeight="bold"
         fill="#fff"
       >
-        {Math.round(progress)}%
+        {value}/{total}
+        {/* {Math.round(progress)}% */}
       </text>
     </svg>
   );
