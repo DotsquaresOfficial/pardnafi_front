@@ -52,6 +52,13 @@ const SignUp = () => {
   };
 
 
+  useEffect(() => {
+      if (authenticated) {
+          navigate(dashboard, { replace: true });
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [authenticated, navigate]);
+
   const handleChange = async (e) => {
 
     const { name, value } = e.target;
