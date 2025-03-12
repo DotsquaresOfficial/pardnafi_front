@@ -72,6 +72,7 @@ const AddMember = () => {
     if (isLoading || loading) {
         return <FullPageLoader />;
     }
+    console.log(data&&data,"gggg",inviteData)
 
     return (
         <>
@@ -145,7 +146,7 @@ const AddMember = () => {
                 <div className='modalcontainer'>
                     <Modal show={show} onHide={handleClose} centered>
                         <Modal.Header closeButton>
-                            <Modal.Title>Enter Your Email</Modal.Title>
+                            <Modal.Title>Enter Invitation Email</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <Form onSubmit={inviteGroupMemberHandler}>
@@ -153,7 +154,7 @@ const AddMember = () => {
                                     <Form.Label>Email address</Form.Label>
                                     <Form.Control
                                         type="email"
-                                        placeholder="Enter email"
+                                        placeholder="Enter email address"
                                         value={email}
                                         onChange={handleChange}
 
