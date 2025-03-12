@@ -8,6 +8,7 @@ export const loginApi = baseUrl + "/auth/login";
 export const forgotPasswordApi = baseUrl + "/auth/forgot-password";
 export const isEmailExistApi = baseUrl + "/auth/is-email-exists";
 export const changePasswordApi = baseUrl + "/auth/change-password";
+export const resetPasswordApi = baseUrl + "/auth/reset-password";
 
 
 // ================auth api ===============

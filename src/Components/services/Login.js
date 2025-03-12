@@ -1,4 +1,4 @@
-import { loginApi, registerApi,forgotPasswordApi,isEmailExistApi,changePasswordApi } from "../constent/Api";
+import { loginApi, registerApi,forgotPasswordApi,isEmailExistApi,changePasswordApi, resetPasswordApi } from "../constent/Api";
 import * as opsService from "./Ops";
 import config from "../constent/Config";
 
@@ -32,4 +32,10 @@ export const changePassword = async(data,token)=>{
   let result = await opsService.postdata(changePasswordApi, data,token);
   return result;
 }
+export const resetPassword = async(data)=>{
+  let result = await opsService.postdata(resetPasswordApi, data);
+  return result;
+}
+
+
 

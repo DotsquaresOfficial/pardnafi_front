@@ -39,42 +39,85 @@ const PageHeader = ({ title, text, data }) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
 
+  // const joinGroupHandler = async () => {
+  //   setIsLoading(true);
+  //   const provider = getWeb3AuthEVMInstance();
+
+  //   const web3 = new Web3(provider.provider);
+  //   const contract = new web3.eth.Contract(groupAbi, data?.groupAddress);
+  //   const accounts = await web3.eth.getAccounts();
+  //   const transaction = contract.methods.joinGroup(
+
+  //   );
+
+  //   transaction.send({ from: accounts[0] })
+  //     .on('transactionHash', function (hash) {
+  //       console.log(hash, "hash\========")
+
+  //       const datas = {
+
+  //       };
+
+  //     })
+  //     .on('receipt', function (receipt) {
+  //       toast.success("Join successfully")
+  //       setIsLoading(false);
+
+  //       window.location.reload()
+
+
+
+  //     })
+  //     .on('error', function (error) {
+  //       setIsLoading(false);
+  //       console.error("Transaction failed=========", error);
+  //       toast.error(error.message);
+  //     });
+
+  // }
   const joinGroupHandler = async () => {
-    setIsLoading(true);
-    const provider = getWeb3AuthEVMInstance();
+    try {
+        setIsLoading(true);
+        const provider = getWeb3AuthEVMInstance();
+        const web3 = new Web3(provider.provider);
+        const contract = new web3.eth.Contract(groupAbi, data?.groupAddress);
+        const accounts = await web3.eth.getAccounts();
+        
+        const transaction = contract.methods.joinGroup();
 
-    const web3 = new Web3(provider.provider);
-    const contract = new web3.eth.Contract(groupAbi, data?.groupAddress);
-    const accounts = await web3.eth.getAccounts();
-    const transaction = contract.methods.joinGroup(
 
-    );
+        const gasEstimate = await transaction.estimateGas({ from: accounts[0] });
 
-    transaction.send({ from: accounts[0] })
-      .on('transactionHash', function (hash) {
-        console.log(hash, "hash\========")
+        transaction.send({ from: accounts[0], gas: gasEstimate })
+            .on("transactionHash", function (hash) {
+                console.log(hash, "Transaction Hash");
+            })
+            .on("receipt", function (receipt) {
+                toast.success("Joined successfully");
+                setIsLoading(false);
+                window.location.reload();
+            })
+            .on("error", function (error) {
+                setIsLoading(false);
+                console.error("Transaction failed:", error);
+                if (error.message.includes("insufficient funds")) {
+                    toast.error("You have insufficient funds to complete this transaction.");
+                } else {
+                    toast.error(error.message);
+                }
+            });
 
-        const datas = {
-
-        };
-
-      })
-      .on('receipt', function (receipt) {
-        toast.success("Join successfully")
+    } catch (error) {
         setIsLoading(false);
+        console.error("Error joining group:", error);
+        if (error.message.includes("insufficient funds")) {
+            toast.error("You have insufficient funds to join this group.");
+        } else {
+            toast.error(error.message);
+        }
+    }
+};
 
-        window.location.reload()
-
-
-
-      })
-      .on('error', function (error) {
-        setIsLoading(false);
-        console.error("Transaction failed=========", error);
-        toast.error(error.message);
-      });
-
-  }
 
   const [isOverflowing, setIsOverflowing] = useState(false);
 

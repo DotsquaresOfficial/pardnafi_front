@@ -30,7 +30,7 @@ const Header = memo(
     };
 
 
-
+console.log(authenticated,"authenticated")
 
     const changeImage = useCallback((themeMode = 'light') => {
       const icon = document.querySelector('#btnSwitch img');

@@ -33,6 +33,7 @@ import Layout from "./layout/layout";
 import MyGroups from "./Components/pages/Group/MyGroups";
 import ActiveGroups from "./Components/pages/Group/ActiveGroups";
 import AddMember from "./Components/partials/AddMember";
+import ResetPassword from "./Components/auth/ResetPassword";
 
 function App() {
   const { login ,walletAddress } = useAuth();
@@ -77,6 +78,7 @@ function App() {
           <Route path={register} element={<SignUp />} />
           <Route path={forgot_password} element={<ForgotPassword />} />
           <Route path={contact_us} element={<ContactUs />} />
+          <Route path="/reset-password/:otp" element={<ResetPassword />} />
           {/* <Route path={group_details} element={<GroupDetails />} /> */}
 
 
