@@ -9,10 +9,11 @@ import { add_member } from "../constent/Routes";
 import ConfirmationPopup from "../partials/modal/ConfirmationPopup";
 import ConfirmationModal from "../modal/ConfirmationModal";
 import FullPageLoader from "../loader/FullPageLoader";
+import { useAuth } from "../../AuthContext";
 
 
 const PageHeader = ({ title, text, data }) => {
-
+  const { walletBalance } = useAuth();
   function shortenAddress(address) {
     if (!address) return "";
     return `${address.slice(0, 4)}....${address.slice(-4)}`;
@@ -77,46 +78,51 @@ const PageHeader = ({ title, text, data }) => {
   // }
   const joinGroupHandler = async () => {
     try {
-        setIsLoading(true);
-        const provider = getWeb3AuthEVMInstance();
-        const web3 = new Web3(provider.provider);
-        const contract = new web3.eth.Contract(groupAbi, data?.groupAddress);
-        const accounts = await web3.eth.getAccounts();
-        
-        const transaction = contract.methods.joinGroup();
+      setIsLoading(true);
+      const provider = getWeb3AuthEVMInstance();
+      const web3 = new Web3(provider.provider);
+      const contract = new web3.eth.Contract(groupAbi, data?.groupAddress);
+      const accounts = await web3.eth.getAccounts();
+
+      const transaction = contract.methods.joinGroup();
 
 
-        const gasEstimate = await transaction.estimateGas({ from: accounts[0] });
+      const gasEstimate = await transaction.estimateGas({ from: accounts[0] });
+      if (walletBalance === null || walletBalance < 0.01) {
+        setIsLoading(false);
+        toast.error("insufficient balance, Please topup your wallet.");
+        return;
+      }
 
-        transaction.send({ from: accounts[0], gas: gasEstimate })
-            .on("transactionHash", function (hash) {
-                console.log(hash, "Transaction Hash");
-            })
-            .on("receipt", function (receipt) {
-                toast.success("Joined successfully");
-                setIsLoading(false);
-                window.location.reload();
-            })
-            .on("error", function (error) {
-                setIsLoading(false);
-                console.error("Transaction failed:", error);
-                if (error.message.includes("insufficient funds")) {
-                    toast.error("You have insufficient funds to complete this transaction.");
-                } else {
-                    toast.error(error.message);
-                }
-            });
+      transaction.send({ from: accounts[0], gas: gasEstimate })
+        .on("transactionHash", function (hash) {
+          console.log(hash, "Transaction Hash");
+        })
+        .on("receipt", function (receipt) {
+          toast.success("Joined successfully");
+          setIsLoading(false);
+          window.location.reload();
+        })
+        .on("error", function (error) {
+          setIsLoading(false);
+
+          if (error.message.includes("insufficient funds")) {
+            toast.error("You have insufficient funds to complete this transaction.");
+          } else {
+            toast.error(error.message);
+          }
+        });
 
     } catch (error) {
-        setIsLoading(false);
-        console.error("Error joining group:", error);
-        if (error.message.includes("insufficient funds")) {
-            toast.error("You have insufficient funds to join this group.");
-        } else {
-            toast.error(error.message);
-        }
+      setIsLoading(false);
+      console.error("Error joining group:", error);
+      if (error.message.includes("insufficient funds")) {
+        toast.error("You have insufficient funds to join this group.");
+      } else {
+        toast.error(error.message);
+      }
     }
-};
+  };
 
 
   const [isOverflowing, setIsOverflowing] = useState(false);

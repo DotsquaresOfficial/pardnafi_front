@@ -56,14 +56,14 @@ const AddMember = () => {
         }
 
         const data = await setInviteGroupMember({ id: groupId, email });
-        console.log(data.data, "data===")
-        if (data.data.success) {
-            toast.success(data.message)
+        console.log(data, "data===00")
+        if (data?.data?.success) {
+            toast.success(data?.data?.message)
             handleClose()
 
         } else {
             console.log("cll")
-            toast.error(data.data.message)
+            toast.error(data?.data?.message)
             handleClose()
         }
 
@@ -72,7 +72,7 @@ const AddMember = () => {
     if (isLoading || loading) {
         return <FullPageLoader />;
     }
-    console.log(data&&data,"gggg",inviteData)
+   
 
     return (
         <>
