@@ -42,7 +42,7 @@ const ActiveGroups = () => {
         <>
             {data?.data?.length > 0 ? (
                 <>
-                    <PageHeader title="My Groups" text="My Groups" />
+                    <PageHeader title="Active Groups" text="Active groups" />
                     <section className="account sec-bg-color2">
                         <div className="container">
                             <div className="row">
