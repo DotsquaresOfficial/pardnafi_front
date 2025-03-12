@@ -59,7 +59,7 @@ const MyGroups = () => {
                           <div className="img-content">
                             <h3>{group?.groupName}</h3>
                           </div>
-                          <img src="/assets/images/mygroup.png" alt="" className="img-fluid" />
+                          <img src={group?.groupImage || "/images/team/group-23.png"} alt="" className="img-fluid" />
                         </div>
                         <div className="wc-content mb-3">
                           <div className="wc-price">

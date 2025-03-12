@@ -4,7 +4,7 @@ export const ChangePasswordValid = (name, value, nPassword, cPassword) => {
   let error = "";
   if (name === "new_password") {
     if (value === "") {
-      error = "This field is required";
+      error = "New password is required";
       return {name:"new_password",error:error};
     }
     if (!Passwordpattern.test(value)) {
@@ -22,7 +22,7 @@ export const ChangePasswordValid = (name, value, nPassword, cPassword) => {
   }
   if (name === "confirm_new_password") {
     if (value === "") {
-      error = "This field is required";
+      error = "Confirm new password is required";
       return {name:"confirm_new_password",error:error};
     }
     if (nPassword !== "") {
@@ -37,7 +37,7 @@ export const ChangePasswordValid = (name, value, nPassword, cPassword) => {
 
   if (name === "current_password") {
     if (value === "") {
-      error = "This field is required";
+      error = "Current password is required";
       return {name:"current_password",error:error};
     }
 

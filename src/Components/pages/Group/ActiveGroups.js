@@ -33,7 +33,7 @@ const ActiveGroups = () => {
 
 
 
-   
+
     if (isLoading || loading) {
         return <FullPageLoader />;
     }
@@ -63,7 +63,7 @@ const ActiveGroups = () => {
                                                         <h3>{group?.groupName}</h3>
                                                     </div>
                                                     <img
-                                                        src="/assets/images/mygroup.png"
+                                                        src={group?.groupImage || "/images/team/group-23.png"}
                                                         alt=""
                                                         className="img-fluid"
                                                     />

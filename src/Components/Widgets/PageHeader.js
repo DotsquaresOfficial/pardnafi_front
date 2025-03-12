@@ -86,7 +86,7 @@ const PageHeader = ({ title, text, data }) => {
     }
   }, [data?.description]);
 
-  console.log(data?.description.length,"jjj")
+  console.log(data?.description.length, "jjj")
   return (
 
     <>
@@ -157,10 +157,9 @@ const PageHeader = ({ title, text, data }) => {
                     <span onClick={!data?.isJoined ? showConfirmationPopup : ""}>{data?.isJoined ? "Already Joined" : "Join Group"}</span>
 
                   </a>
-                    {data?.isOwner && <a href={add_member} className="trk-btn trk-btn--border trk-join">
-                      <span onClick={() => (!data?.isOwner) ? showPopup : ""}>{data?.isOwner
-                        && "Group Management"}</span>
-                    </a>}</div> </> : ""}
+                    <a href={add_member} className="trk-btn trk-btn--border trk-join">
+                      <span onClick={() => (!data?.isOwner) ? showPopup : ""}>{"Group Settings"}</span>
+                    </a></div> </> : ""}
               </div>
 
             </div>
