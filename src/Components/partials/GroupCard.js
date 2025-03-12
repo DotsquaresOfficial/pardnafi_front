@@ -12,7 +12,7 @@ import { useAuth } from "../../AuthContext";
 import FullPageLoader from "../loader/FullPageLoader";
 
 const GroupCard = () => {
-  const { data: record,isLoading } = useGetGroupQuery();
+  const { data: record, isLoading } = useGetGroupQuery();
   const { connectWallet } = useAuth();
   const [selectedGroup, setSelectedGroup] = useState("public");
   const [pricingData, setPricingData] = useState([]);
@@ -24,28 +24,6 @@ const GroupCard = () => {
     record?.length > 0 ? record[0]?.groupId : null
   );
 
-  // const filteredGroups = record.filter((group) => {
-  //   // return (
-  //   //   group.name.toLowerCase().includes(search.toLowerCase())
-  //   // );
-  // });
-
-
-
-
-  // ================contract integration=====================
-  // const connectWallet = async () => {
-  //   try {
-  //     if (window.ethereum) {
-  //       await window.ethereum.request({ method: "eth_requestAccounts" });
-  //       console.log("Wallet connected");
-  //     } else {
-  //       console.error("Ethereum provider not found. Please install MetaMask.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error connecting wallet:", error);
-  //   }
-  // };
 
   useEffect(() => {
     const initialize = async () => {
@@ -76,23 +54,6 @@ const GroupCard = () => {
   }
 
 
-
-
-  // useEffect(() => {
-  //   isJoinCheck();
-  // }, []);
-
-
-  // useEffect(() => {
-  //   if (selectedGroup === "public") {
-  //     setPricingData(publicGroupData);
-  //   } else {
-  //     setPricingData(privateGroupData);
-  //   }
-  // }, [selectedGroup]);
-
-
-
   useEffect(() => {
     if (record?.length > 0) {
       setSelectedGroupId(record[0]?.groupId); // Set first item active by default
@@ -105,7 +66,7 @@ const GroupCard = () => {
 
   return (
     <>
-    {isLoading ? <FullPageLoader />:<section className="pricing padding-top padding-bottom dash-sec">
+      {isLoading ? <FullPageLoader /> : <section className="pricing padding-top padding-bottom dash-sec">
         <div class="container">
           <div className="section-header ">
             {/* <h2 className="mb-15 mt-minus-5">Browse Group</h2> */}
@@ -159,26 +120,6 @@ const GroupCard = () => {
                   <div className="services-list" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
 
-                    {/* {record && record.map((item, index) => {
-                      console.log()
-                      return <> <a
-                        key={item?.groupId}
-                        href="#"
-                        className={`nav-link ${index === 0 ? "active" : ""}`}
-                        id={`v-pills-${index}-tab`}
-                        data-bs-toggle="pill"
-                        data-bs-target={`#v-pills-${index}`}
-                        type="button"
-                        role="tab"
-                        aria-controls={`v-pills-${index}`}
-                        aria-selected={index === 0 ? "true" : "false"}
-                      >
-                        <i className="fa-solid fa-arrow-right" />
-                        <span>{item?.groupName}</span>
-                      </a></>
-                    }
-
-                    )} */}
 
                     {record && record.filter((item) =>
                       item.groupName.toLowerCase().includes(search.toLowerCase())
@@ -215,7 +156,7 @@ const GroupCard = () => {
                     {record && record?.filter((item) =>
                       item?.groupName.toLowerCase().includes(search.toLowerCase())
                     ).map((item, index) => (
-                      <GroupDetails  item={item} index={index} selectedGroupId={selectedGroupId} />
+                      <GroupDetails item={item} index={index} selectedGroupId={selectedGroupId} />
                     ))}
 
                   </div>
@@ -226,8 +167,8 @@ const GroupCard = () => {
           </div>
         </div>
 
-      </section> }
-      
+      </section>}
+
 
 
 

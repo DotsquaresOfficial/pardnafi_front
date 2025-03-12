@@ -7,7 +7,7 @@ import FullPageLoader from '../loader/FullPageLoader';
 
 const AddMember = () => {
     const [setGroupManagement, { data,isLoading }] = useSetGroupManagementMutation()
-
+const [loading, setLoading] = useState(true);
     const [setInviteGroupMember, { data: inviteData,isLoading: inviteLoading }] = useSetInviteGroupMemberMutation()
 
 
@@ -19,6 +19,7 @@ const AddMember = () => {
 
     useEffect(() => {
         const fetchGroupManagement = async () => {
+            setLoading(true)
             const groupId = localStorage.getItem("groupId");
 
             if (groupId) {
@@ -26,6 +27,8 @@ const AddMember = () => {
                     const data = await setGroupManagement({ id: groupId });
                     // setGroupData(data);
                     console.log(data, "Fetched Group Data");
+                    setLoading(false)
+                    setLoading(false)
                 } catch (error) {
                     console.error("Error fetching group data:", error);
                 }
@@ -55,6 +58,9 @@ const AddMember = () => {
 
     }
 
+    if (isLoading || loading) {
+        return <FullPageLoader />;
+    }
 
 
     return (

@@ -29,19 +29,11 @@ function GroupDetails({ item, index, selectedGroupId }) {
     const handleJoinGroup = async (group_address) => {
         try {
 
-
-
-            // console.log("call00=============")
             const provider = getWeb3AuthEVMInstance();
             await provider.init();
-            // console.log("call1")
-            // // await provider.initModal();
-            // console.log("call2")
-            // // await provider.connect();
-            // console.log("call3")
+
             const web3 = new Web3(provider.provider);
             const contract = new web3.eth.Contract(factoryContractAbi, factoryContract);
-            // Get user's accounts
             const accounts = await web3.eth.getAccounts();
 
             setWalletAddress(accounts[0])
@@ -56,53 +48,6 @@ function GroupDetails({ item, index, selectedGroupId }) {
             console.error("Error fetching groups list:", error);
         }
     };
-
-    const joinGroupHandler = async () => {
-
-        const provider = getWeb3AuthEVMInstance();
-        // console.log("call1")
-        // // await provider.initModal();
-        // console.log("call2")
-        // // await provider.connect();
-        // console.log("call3")
-        const web3 = new Web3(provider.provider);
-        const contract = new web3.eth.Contract(groupAbi, item?.groupAddress);
-
-        const transaction = contract.methods.joinGroup(
-
-        );
-
-
-        transaction.send({ from: walletAddress })
-            .on('transactionHash', function (hash) {
-                console.log(hash, "hash\========")
-
-                const datas = {
-
-                };
-
-                // setGroup(datas).then((result) => {
-
-                //     if (result?.data
-                //         ?.success) {
-                //         toast.success(result.data?.message);
-
-                //         // navigate(browse_groups)
-                //     } else {
-                //         toast.error(result.data?.message);
-                //     }
-                // });
-            })
-            .on('receipt', function (receipt) {
-
-                console.log("Transaction successful", receipt);
-            })
-            .on('error', function (error) {
-                console.error("Transaction failed=========", error);
-                toast.error(error.message);
-            });
-
-    }
 
     return (
         <> {isLoading ? <FullPageLoader /> : <>  <div

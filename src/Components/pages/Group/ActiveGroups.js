@@ -10,16 +10,12 @@ const ActiveGroups = () => {
     const [setActiveGroup, { data, isLoading, error }] = useSetActiveGroupMutation();
 
     useEffect(() => {
+        if (!walletAddress) return;
+
         const fetchActiveGroup = async () => {
-            setTimeout(() => {
-                
-                setLoading(false); 
-              }, 2000);
             setLoading(true);
             try {
-                if (walletAddress) {
-                    await setActiveGroup({ groupOwnerAddress: walletAddress });
-                }
+                await setActiveGroup({ groupOwnerAddress: walletAddress });
             } catch (error) {
                 console.error("Error setting active group:", error);
             } finally {
@@ -35,7 +31,8 @@ const ActiveGroups = () => {
         return `${address.slice(0, 4)}....${address.slice(-4)}`;
     }
 
-    console.log(isLoading, "isLoading",loading,"loading");
+
+
    
     if (isLoading || loading) {
         return <FullPageLoader />;
@@ -43,7 +40,7 @@ const ActiveGroups = () => {
 
     return (
         <>
-            {data && data?.data?.length > 0 ? (
+            {data?.data?.length > 0 ? (
                 <>
                     <PageHeader title="My Groups" text="My Groups" />
                     <section className="account sec-bg-color2">
@@ -125,3 +122,4 @@ const ActiveGroups = () => {
 };
 
 export default ActiveGroups;
+
