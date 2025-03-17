@@ -262,7 +262,7 @@ const Header = memo(
                     <div className="user-dropdown">
                       {authenticated ? <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" style={{ background: 'none', border: 'none' }} data-bs-toggle="dropdown" aria-expanded="false">
-                          <img alt="user" class="img-fluid" src={data?.user?.avatar || "/images/header/user.jpg"} />
+                          <img alt="user" class="img-fluid" src={data?.user?.avatar || "/images/header/user.png"} />
                         </button>
                         <ul className="dropdown-menu">
                           <li><a className="dropdown-item" href="/user-profile"  >User Profile</a></li>

@@ -77,7 +77,7 @@ const AddMember = () => {
     return (
         <>
             <>{isLoading && inviteLoading ? <FullPageLoader /> : <><PageHeader title="Group Management" text="Group Management" />
-                <section className="Invitations-sentuser">
+               <div className='tjgk-main'>  <section className="Invitations-sentuser">
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12">
@@ -169,7 +169,7 @@ const AddMember = () => {
                     </Modal>
                 </div>
 
-            </>}</>
+                </div></>}</>
 
         </>
     )

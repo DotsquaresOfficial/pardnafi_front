@@ -17,7 +17,7 @@
   margin: -75px 0 0 -75px;
   border-radius: 50%;
   border: 3px solid transparent;
-  border-top-color: #ff007a;
+  border-top-color: #0047ab;
   animation: spin 2s linear infinite;
 }
 #loader {
@@ -33,7 +33,7 @@
   bottom: 5px;
   border-radius: 50%;
   border: 3px solid transparent;
-  border-top-color: #12b6b3;
+  border-top-color: #fff;
   -webkit-animation: spin 3s linear infinite;
   animation: spin 3s linear infinite;
 }
@@ -46,7 +46,7 @@
   bottom: 15px;
   border-radius: 50%;
   border: 3px solid transparent;
-  border-top-color: #ffffff;
+  border-top-color: #183e72;
   -webkit-animation: spin 1.5s linear infinite;
   animation: spin 1.5s linear infinite;
 }

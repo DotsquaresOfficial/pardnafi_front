@@ -153,18 +153,19 @@ const PageHeader = ({ title, text, data }) => {
 
                     <p style={{ whiteSpace: "pre-line" }}>
                       {isTruncated ? truncateText(data?.description, 200) : data?.description}
-                    </p>
-
-
+                      
                     {data?.description.length >= 200 && (
-                      <Button
-                        variant="link"
+                      <a
+                        href="#"
                         onClick={() => setShowModalView(true)}
 
                       >
                         View More
-                      </Button>
+                      </a>
                     )}
+                    </p>
+
+
 
                     <div className="address-hyperlink">
                       <h6>
@@ -181,7 +182,7 @@ const PageHeader = ({ title, text, data }) => {
                       </h6>
                     </div>
 
-                    <Modal show={showModalView} onHide={() => setShowModalView(false)} centered>
+                   <div className="group-descrption-popup"> <Modal show={showModalView} onHide={() => setShowModalView(false)} centered>
                       <Modal.Header closeButton>
                         <Modal.Title>Group Description</Modal.Title>
                       </Modal.Header>
@@ -194,7 +195,7 @@ const PageHeader = ({ title, text, data }) => {
                         </Button>
                       </Modal.Footer>
                     </Modal>
-                  </>
+                    </div></>
                 )}
               </div>
 

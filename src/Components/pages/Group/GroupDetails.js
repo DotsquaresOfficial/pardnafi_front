@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import Header from '../../Widgets/Header'
+import React, { useEffect, useState } from 'react'
+
 import PageHeader from '../../Widgets/PageHeader'
 import Footer from '../../Widgets/Footer'
 import { useParams } from "react-router-dom";
@@ -7,7 +7,7 @@ import { useSetGroupDetailsMutation } from '../../../redux/groupApi';
 import FullPageLoader from '../../loader/FullPageLoader';
 const GroupDetails = () => {
   const { id } = useParams();
-
+  const [showTooltip, setShowTooltip] = useState(false);
   const [setGroupDetails, { data, isLoading, error }] = useSetGroupDetailsMutation();
   function shortenAddress(address) {
     if (!address) return "";
@@ -33,7 +33,13 @@ const GroupDetails = () => {
 
     fetchGroupDetails();
   }, [id]);
-
+  useEffect(() => {
+    // Initialize Bootstrap Tooltips
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipTriggerList.forEach((tooltip) => {
+      new window.bootstrap.Tooltip(tooltip);
+    });
+  }, []);
   function shortenAddress(address) {
     if (!address) return "";
     return `${address.slice(0, 4)}....${address.slice(-4)}`;
@@ -49,7 +55,7 @@ const GroupDetails = () => {
   return (
     <>
       <>{isLoading ? <FullPageLoader /> : <><PageHeader title="Group Details" text="Group Details" data={data && data.data} />
-        <section className='payment-method'>
+        <div className='main-parent'> <section className='payment-method'>
           <div className='container'>
             <div className='row'>
               <div className='col-md-9'>
@@ -65,6 +71,13 @@ const GroupDetails = () => {
                           <h3>Upcoming Payment</h3>
                           {/* <p>Date: 26-02-2025</p> */}
                         </div>
+                        <span
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Note: Please don't miss your upcoming payment"
+    >
+      <i className="fa-solid fa-circle-info text-primary"></i>
+    </span>
                       </div>
                       <div className='payment-card'>
                         <img src='/images/card-sp 1.svg' />
@@ -152,50 +165,51 @@ const GroupDetails = () => {
             </div>
           </div>
         </section>
-        <section class="active-usertable">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="user-datajoin">
-                  <div class="member-user">
-                    <h2>All Members</h2>
+          <section class="active-usertable">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="user-datajoin">
+                    <div class="member-user">
+                      <h2>All Members</h2>
 
-                  </div>
-                  <div class="table-container">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Member Name</th>
-                          <th>Wallet Address</th>
-                          <th>Total Contribution</th>
-                          <th>Email</th>
-                          <th>Last Contribution</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-
-                        {data && data.data.members.map((item, i) => {
-                          return <tr>
-                            <td>{item.name}</td>
-                            <td><a href={`https://sepolia.basescan.org/address/${item?.memberAddress}`} target='_blank'> {shortenAddress(item?.memberAddress)}</a> </td>
-                            <td>£ {item?.contribution
-                            }</td>
-                            <td>{item?.
-                              email
-                            }</td>
-                            <td>£ {item?.lastPayment
-                            }</td>
+                    </div>
+                    <div class="table-container">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Member Name</th>
+                            <th>Wallet Address</th>
+                            <th>Total Contribution</th>
+                            <th>Email</th>
+                            <th>Last Contribution</th>
                           </tr>
-                        })}
+                        </thead>
+                        <tbody>
 
-                      </tbody>
-                    </table>
+                          {data && data.data.members.map((item, i) => {
+                            return <tr>
+                              <td>{item.name}</td>
+                              <td><a href={`https://sepolia.basescan.org/address/${item?.memberAddress}`} target='_blank'> {shortenAddress(item?.memberAddress)}</a> </td>
+                              <td>£ {item?.contribution
+                              }</td>
+                              <td>{item?.
+                                email
+                              }</td>
+                              <td>£ {item?.lastPayment
+                              }</td>
+                            </tr>
+                          })}
+
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section></>}</>
+          </section>
+        </div> </>}</>
 
 
 
