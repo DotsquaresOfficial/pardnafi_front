@@ -10,5 +10,5 @@ export const ImageValid = (name, value) => {
     error = "Select valid image format";
     return error;
   }
-  return error;
+  return error
 };
