@@ -145,7 +145,7 @@ const PageHeader = ({ title, text, data }) => {
             <div className="joined-user-graph">
               <div className="group-details-title">
                 <h2>{
-                  data?.groupName
+                 title === "Group Details"? data?.groupName : title
                 }</h2>
 
                 {title === "Group Details" && (
