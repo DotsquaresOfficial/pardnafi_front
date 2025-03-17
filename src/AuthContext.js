@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
           }
         };
         
-        checkProvider();
+        checkProvider()
       });
   
       const provider = await providerPromise;
