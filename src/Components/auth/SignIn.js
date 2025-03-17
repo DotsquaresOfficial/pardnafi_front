@@ -53,7 +53,7 @@ const SignIn = () => {
         setLoginFieldErr({ ...loginFieldErr, [name]: checkLogin });
         if (name == "email") {
             try {
-                debugger;
+   
                 let data = { email: value }
                 setIsEmailExist("Loading");
                 const resp = await fetchIsEmailExist(data)

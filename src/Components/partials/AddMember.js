@@ -32,7 +32,7 @@ const AddMember = () => {
             if (groupId) {
                 try {
                     const data = await setGroupManagement({ id: groupId });
-                    // setGroupData(data);
+                    
                     console.log(data, "Fetched Group Data");
                     setLoading(false)
                     setLoading(false)
@@ -56,7 +56,7 @@ const AddMember = () => {
         }
 
         const data = await setInviteGroupMember({ id: groupId, email });
-        console.log(data, "data===00")
+
         if (data?.data?.success) {
             toast.success(data?.data?.message)
             handleClose()
@@ -72,7 +72,7 @@ const AddMember = () => {
     if (isLoading || loading) {
         return <FullPageLoader />;
     }
-   
+
 
     return (
         <>
@@ -160,7 +160,7 @@ const AddMember = () => {
 
                                     /><span className='text-danger'>{emailErr}</span>
                                 </Form.Group>
-                                
+
                                 <Button variant="primary" type="submit" className="mt-3">
                                     Submit
                                 </Button>

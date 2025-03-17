@@ -267,7 +267,7 @@ const Header = memo(
                         <ul className="dropdown-menu">
                           <li><a className="dropdown-item" href="/user-profile"  >User Profile</a></li>
                           <li><a className="dropdown-item" href={change_password}>Change Password</a></li>
-                          <li><a className="dropdown-item" href="#" onClick={handleLogout}>Logout</a></li>
+                          <li><a className="dropdown-item" href="#" onClick={()=>handleLogout()}>Logout</a></li>
                         </ul>
                       </div> : ""}
 
