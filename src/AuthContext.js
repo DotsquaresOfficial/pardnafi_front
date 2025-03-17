@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
   
       const provider = await providerPromise;
       if (!provider) {
-        await logout();
+        await logout()
         return;
       }
   
