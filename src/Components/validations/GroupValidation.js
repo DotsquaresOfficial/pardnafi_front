@@ -112,5 +112,5 @@ export const GroupValidation = (name, value,freq) => {
         default:
             return "";
     }
-};
+}
 

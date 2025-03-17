@@ -72,12 +72,12 @@ const GroupDetails = () => {
                           {/* <p>Date: 26-02-2025</p> */}
                         </div>
                         <span
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Note: Please don't miss your upcoming payment"
-    >
-      <i className="fa-solid fa-circle-info text-primary"></i>
-    </span>
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="Note: Please don't miss your upcoming payment"
+                        >
+                          <i className="fa-solid fa-circle-info text-primary"></i>
+                        </span>
                       </div>
                       <div className='payment-card'>
                         <img src='/images/card-sp 1.svg' />

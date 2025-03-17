@@ -1,8 +1,8 @@
 export const ImageValid = (name, value) => {
-  console.log(name,value);
+  
   let error = "";
 
-  if (value === "" || value===undefined) {
+  if (value === "" || value === undefined) {
     error = "This field is required";
     return error;
   }
