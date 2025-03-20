@@ -31,5 +31,7 @@ export const kycRoute =  "/kyc";
 export const kycUnderReview =  "/kyc-under-review";
 export const onfidoKyc =  "/onfido-kyc";
 
+export const community_engagement =  "/community-engagement";
+
 
 

@@ -1572,3 +1572,207 @@ box-shadow: 0px 4px 28px 0px #1A408921;
     border-color: #ffffff transparent transparent transparent;
   }
   
+  .userstart-chatbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #F5F7FC;
+    padding: 29px 30px;
+    border-radius: 7px;
+}
+.userstart-chatbox h2{
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 20px;
+    margin-bottom: 0px;
+}
+
+.userstart-chatbox i {
+    font-size: 21px;
+    color: #0047ab;
+}
+
+.chatuser-search{
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 33px;
+}
+
+.chatuser-search input{
+    background-color: var(--wh-color);
+    border-color: var(--form-border);
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: var(--title-color);
+}
+
+.chatting {
+    background: #F5F7FC;
+    display: flex;
+    align-items: center;
+    padding: 15px 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+    column-gap: 15px;
+}
+
+.username-heading h6 {
+    color: #0c263a;
+    font-weight: 400;
+    font-size: 19px;
+    padding-top: 9px;
+}
+
+.userchat-images img{
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    border: solid 1px #0c263a;
+}
+
+.chatwindow-private {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 33px;
+    height: 454px;
+    overflow: auto;
+    position: relative;
+}
+
+.offer-posting-timing {
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+}
+
+.offer-posting {
+    background: #0f29990f;
+    padding: 19px 25px;
+    border-radius: 0px 20px 20px 20px;
+    width: 50%;
+}
+
+.offer-posting span {
+    color: #292524;
+    font-size: 16px;
+    font-weight: 420;
+    line-height: 24px;
+}
+
+.offer-posting ul {
+    margin: 5px 0px;
+    padding: 0px;
+}
+
+.offer-posting ul li {
+    list-style: none;
+    padding: 5px 0px;
+    font-size: 14px;
+    font-weight: 390;
+    color: #1F2024;
+    line-height: 20px;
+}
+.head-ofc span {
+    color: #78716C;
+    font-size: 10px;
+    font-weight: 420;
+    line-height: 12px;
+}
+
+.reply-chatoffer {
+    display: flex
+;
+    align-items: center;
+    justify-content: end;
+    margin: 10px 0px;
+    column-gap: 10px;
+}
+
+.reply-chatoffer-content {
+    text-align: end;
+}
+
+.reply-chatoffer-content h2 {
+    color: #162A26;
+    font-weight: 450;
+    font-size: 12px;
+    line-height: 18px;
+    margin-bottom: 0px;
+}
+
+.reply-chatoffer-content p {
+    color: #162A26;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 14px;
+    margin-bottom: 0px;
+}
+
+.reply-chatoffer-content {
+    text-align: end;
+}
+
+.reply-chatoffer-content img {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    border: 1.25px solid #BA9553;
+}
+
+.offer-posting-timing {
+    display: flex
+;
+    align-items: center;
+    column-gap: 12px;
+}
+
+.of-tyr {
+    background: #e0eedf6e;
+    border-radius: 20px 0px 20px 20px;
+}
+
+.offer-posting span {
+    color: #292524;
+    font-size: 16px;
+    font-weight: 420;
+    line-height: 24px;
+}
+
+.offer-posting ul {
+    margin: 5px 0px;
+    padding: 0px;
+}
+
+.offer-posting ul li {
+    list-style: none;
+    padding: 5px 0px;
+    font-size: 14px;
+    font-weight: 390;
+    color: #1F2024;
+    line-height: 20px;
+}
+
+.type-heresearch {
+    background: #fff;
+    padding: 10px 7px;
+    margin-top: 23px;
+}
+
+.type-heresearch input {
+    position: absolute;
+    bottom: 14px;
+    left: 7px;
+    right: 0px;
+    /* margin-left: 20px; */
+    /* margin-right: 20px; */
+    width: 98%;
+}
+
+.offer-promotiondata{
+    display: flex;
+    justify-content: end;
+}

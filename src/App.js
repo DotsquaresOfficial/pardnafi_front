@@ -21,7 +21,7 @@ import CreateGroup from "./Components/pages/Group/CreateGroup";
 import PollingPage from "./Components/pages/Group/PollingPage";
 import BrowseGroups from "./Components/pages/Group/BrowseGroups";
 import ContactUs from "./Components/pages/ContactUs";
-import { browse_groups,my_group,active_groups, change_password, contact_us, create_group, dashboard, forgot_password, group_details, home, loginRoute, onfidoKyc, polling_page, register, user_profile, add_member, active_group } from "./Components/constent/Routes";
+import { browse_groups,my_group,active_groups, change_password, contact_us, create_group, dashboard, forgot_password, group_details, home, loginRoute, onfidoKyc, polling_page, register, user_profile, add_member, active_group, community_engagement } from "./Components/constent/Routes";
 import ForgotPassword from "./Components/auth/ForgotPassword";
 import ChangePassword from "./Components/auth/ChangePassword";
 import Profile from "./Components/pages/User/Profile";
@@ -34,6 +34,7 @@ import MyGroups from "./Components/pages/Group/MyGroups";
 import ActiveGroups from "./Components/pages/Group/ActiveGroups";
 import AddMember from "./Components/partials/AddMember";
 import ResetPassword from "./Components/auth/ResetPassword";
+import ActiveGroupCard from "./Components/pages/Community/ActiveGroupCard";
 
 function App() {
   const { login ,walletAddress } = useAuth();
@@ -98,6 +99,10 @@ function App() {
           <Route path={group_details} element={<ProtectedRoute component={<GroupDetails />} />} />
           <Route path={polling_page} element={<ProtectedRoute component={<PollingPage />} />} />
           <Route path={add_member} element={<ProtectedRoute component={<AddMember />} />} />
+          <Route path={community_engagement} element={<ProtectedRoute component={<ActiveGroupCard />} />} />
+          {/* <Route path={community_engagement} element={<ActiveGroupCard />} /> */}
+         
+          
         </Routes>
         </Layout>
       </BrowserRouter>

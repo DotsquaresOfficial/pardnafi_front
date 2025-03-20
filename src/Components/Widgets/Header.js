@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, memo } from "react";
 import { Link, useLocation } from 'react-router-dom';
-import { change_password, register } from "../constent/Routes";
+import { change_password, community_engagement, register } from "../constent/Routes";
 import { useAuth } from "../../AuthContext";
 import { getWalletServicesPluginInstance, initWeb3Auth } from "../auth/web3auth";
 import Web3 from "web3";
@@ -267,7 +267,7 @@ const Header = memo(
                         <ul className="dropdown-menu">
                           <li><a className="dropdown-item" href="/user-profile"  >User Profile</a></li>
                           <li><a className="dropdown-item" href={change_password}>Change Password</a></li>
-                          <li><a className="dropdown-item" href="#" onClick={()=>handleLogout()}>Logout</a></li>
+                          <li><a className="dropdown-item" href="#" onClick={() => handleLogout()}>Logout</a></li>
                         </ul>
                       </div> : ""}
 
@@ -277,7 +277,7 @@ const Header = memo(
                     {authenticated ? <div class="user-dropdown notification-data">
                       <div class="dropdown">
                         <button class="btn" type="button" style={{ background: 'none', border: 'none' }}>
-                          <a class="nav-link" href="#contact"><i class="fa-regular fa-bell"></i></a>
+                          <Link class="nav-link" to={community_engagement}><i class="fa-regular fa-bell"></i></Link>
                         </button>
                       </div>
                     </div> : ""}
